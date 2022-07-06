@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B278E80E3061E36D4AC51B7 /* Pods_Capstone_CapstoneUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14CC08F12CC53C926E117423 /* Pods_Capstone_CapstoneUITests.framework */; };
+		2D2693592875F5AA0074A934 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D2693582875F5AA0074A934 /* Keys.plist */; };
+		2D26935C2876090F0074A934 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26935B2876090F0074A934 /* MapViewController.m */; };
+		2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26935E2876091B0074A934 /* CalendarViewController.m */; };
 		2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A780E2874A0A1008786BF /* AppDelegate.m */; };
 		2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78112874A0A1008786BF /* SceneDelegate.m */; };
-		2D6A78152874A0A1008786BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78142874A0A1008786BF /* ViewController.m */; };
 		2D6A78182874A0A1008786BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78162874A0A1008786BF /* Main.storyboard */; };
 		2D6A781A2874A0A3008786BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78192874A0A3008786BF /* Assets.xcassets */; };
 		2D6A781D2874A0A3008786BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A781B2874A0A3008786BF /* LaunchScreen.storyboard */; };
@@ -17,6 +20,18 @@
 		2D6A782A2874A0A3008786BF /* CapstoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78292874A0A3008786BF /* CapstoneTests.m */; };
 		2D6A78342874A0A3008786BF /* CapstoneUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78332874A0A3008786BF /* CapstoneUITests.m */; };
 		2D6A78362874A0A3008786BF /* CapstoneUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78352874A0A3008786BF /* CapstoneUITestsLaunchTests.m */; };
+		2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A784A2874F0D8008786BF /* WelcomeViewController.m */; };
+		2D6A784E2874F2B5008786BF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A784D2874F2B5008786BF /* LoginViewController.m */; };
+		2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78502874F2BF008786BF /* RegisterViewController.m */; };
+		2D6A78522874FC28008786BF /* Virtuous-Slab-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78432874BE45008786BF /* Virtuous-Slab-Bold.otf */; };
+		2D6A78532874FC2F008786BF /* Virtuous-Slab-Hairline.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78452874BE45008786BF /* Virtuous-Slab-Hairline.otf */; };
+		2D6A78542874FC33008786BF /* Virtuous-Slab-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78462874BE46008786BF /* Virtuous-Slab-Italic.otf */; };
+		2D6A78552874FC37008786BF /* Virtuous-Slab-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78442874BE45008786BF /* Virtuous-Slab-Thin.otf */; };
+		2D6A78562874FC3A008786BF /* Virtuous-Slab.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78422874BE45008786BF /* Virtuous-Slab.otf */; };
+		2D6A78572874FCDA008786BF /* Virtuous-Slab-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78442874BE45008786BF /* Virtuous-Slab-Thin.otf */; };
+		2D6A78582874FCDB008786BF /* Virtuous-Slab-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78442874BE45008786BF /* Virtuous-Slab-Thin.otf */; };
+		37003B750F267B2926F3EBF1 /* Pods_CapstoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */; };
+		F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,13 +52,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01A6752B6E0F5894EB8E0975 /* Pods-Capstone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.debug.xcconfig"; path = "Target Support Files/Pods-Capstone/Pods-Capstone.debug.xcconfig"; sourceTree = "<group>"; };
+		130FC1F3CF0454A3346C1FA9 /* Pods-Capstone-CapstoneUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone-CapstoneUITests.release.xcconfig"; path = "Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests.release.xcconfig"; sourceTree = "<group>"; };
+		14CC08F12CC53C926E117423 /* Pods_Capstone_CapstoneUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone_CapstoneUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		18155111740946251A96A560 /* Pods-CapstoneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapstoneTests.release.xcconfig"; path = "Target Support Files/Pods-CapstoneTests/Pods-CapstoneTests.release.xcconfig"; sourceTree = "<group>"; };
+		2D2693582875F5AA0074A934 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		2D26935A2876090F0074A934 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		2D26935B2876090F0074A934 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		2D26935D2876091B0074A934 /* CalendarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
+		2D26935E2876091B0074A934 /* CalendarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		2D6A780A2874A0A1008786BF /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6A780D2874A0A1008786BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2D6A780E2874A0A1008786BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2D6A78102874A0A1008786BF /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		2D6A78112874A0A1008786BF /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		2D6A78132874A0A1008786BF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2D6A78142874A0A1008786BF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2D6A78172874A0A1008786BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2D6A78192874A0A3008786BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D6A781C2874A0A3008786BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +76,22 @@
 		2D6A782F2874A0A3008786BF /* CapstoneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapstoneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6A78332874A0A3008786BF /* CapstoneUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CapstoneUITests.m; sourceTree = "<group>"; };
 		2D6A78352874A0A3008786BF /* CapstoneUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CapstoneUITestsLaunchTests.m; sourceTree = "<group>"; };
+		2D6A78422874BE45008786BF /* Virtuous-Slab.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Virtuous-Slab.otf"; sourceTree = "<group>"; };
+		2D6A78432874BE45008786BF /* Virtuous-Slab-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Virtuous-Slab-Bold.otf"; sourceTree = "<group>"; };
+		2D6A78442874BE45008786BF /* Virtuous-Slab-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Virtuous-Slab-Thin.otf"; sourceTree = "<group>"; };
+		2D6A78452874BE45008786BF /* Virtuous-Slab-Hairline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Virtuous-Slab-Hairline.otf"; sourceTree = "<group>"; };
+		2D6A78462874BE46008786BF /* Virtuous-Slab-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Virtuous-Slab-Italic.otf"; sourceTree = "<group>"; };
+		2D6A78492874F0D8008786BF /* WelcomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
+		2D6A784A2874F0D8008786BF /* WelcomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
+		2D6A784C2874F2B5008786BF /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		2D6A784D2874F2B5008786BF /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		2D6A784F2874F2BF008786BF /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		2D6A78502874F2BF008786BF /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
+		47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapstoneTests.debug.xcconfig"; path = "Target Support Files/Pods-CapstoneTests/Pods-CapstoneTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CapstoneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7B802ECD22610D5D254E79A /* Pods-Capstone-CapstoneUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone-CapstoneUITests.debug.xcconfig"; path = "Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37003B750F267B2926F3EBF1 /* Pods_CapstoneTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B278E80E3061E36D4AC51B7 /* Pods_Capstone_CapstoneUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,10 +125,13 @@
 		2D6A78012874A0A1008786BF = {
 			isa = PBXGroup;
 			children = (
+				2D6A78472874BE51008786BF /* Fonts */,
 				2D6A780C2874A0A1008786BF /* Capstone */,
 				2D6A78282874A0A3008786BF /* CapstoneTests */,
 				2D6A78322874A0A3008786BF /* CapstoneUITests */,
 				2D6A780B2874A0A1008786BF /* Products */,
+				AC6F4CC94EE5D0C0A5ACF0A9 /* Pods */,
+				E4E2320D18368F179D517A2E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,17 +148,17 @@
 		2D6A780C2874A0A1008786BF /* Capstone */ = {
 			isa = PBXGroup;
 			children = (
+				2D6A78482874C059008786BF /* ViewControllers */,
 				2D6A780D2874A0A1008786BF /* AppDelegate.h */,
 				2D6A780E2874A0A1008786BF /* AppDelegate.m */,
 				2D6A78102874A0A1008786BF /* SceneDelegate.h */,
 				2D6A78112874A0A1008786BF /* SceneDelegate.m */,
-				2D6A78132874A0A1008786BF /* ViewController.h */,
-				2D6A78142874A0A1008786BF /* ViewController.m */,
 				2D6A78162874A0A1008786BF /* Main.storyboard */,
 				2D6A78192874A0A3008786BF /* Assets.xcassets */,
 				2D6A781B2874A0A3008786BF /* LaunchScreen.storyboard */,
 				2D6A781E2874A0A3008786BF /* Info.plist */,
 				2D6A781F2874A0A3008786BF /* main.m */,
+				2D2693582875F5AA0074A934 /* Keys.plist */,
 			);
 			path = Capstone;
 			sourceTree = "<group>";
@@ -136,6 +180,58 @@
 			path = CapstoneUITests;
 			sourceTree = "<group>";
 		};
+		2D6A78472874BE51008786BF /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2D6A78432874BE45008786BF /* Virtuous-Slab-Bold.otf */,
+				2D6A78452874BE45008786BF /* Virtuous-Slab-Hairline.otf */,
+				2D6A78462874BE46008786BF /* Virtuous-Slab-Italic.otf */,
+				2D6A78442874BE45008786BF /* Virtuous-Slab-Thin.otf */,
+				2D6A78422874BE45008786BF /* Virtuous-Slab.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		2D6A78482874C059008786BF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2D6A78492874F0D8008786BF /* WelcomeViewController.h */,
+				2D6A784A2874F0D8008786BF /* WelcomeViewController.m */,
+				2D6A784C2874F2B5008786BF /* LoginViewController.h */,
+				2D6A784D2874F2B5008786BF /* LoginViewController.m */,
+				2D6A784F2874F2BF008786BF /* RegisterViewController.h */,
+				2D6A78502874F2BF008786BF /* RegisterViewController.m */,
+				2D26935A2876090F0074A934 /* MapViewController.h */,
+				2D26935B2876090F0074A934 /* MapViewController.m */,
+				2D26935D2876091B0074A934 /* CalendarViewController.h */,
+				2D26935E2876091B0074A934 /* CalendarViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		AC6F4CC94EE5D0C0A5ACF0A9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				01A6752B6E0F5894EB8E0975 /* Pods-Capstone.debug.xcconfig */,
+				31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */,
+				E7B802ECD22610D5D254E79A /* Pods-Capstone-CapstoneUITests.debug.xcconfig */,
+				130FC1F3CF0454A3346C1FA9 /* Pods-Capstone-CapstoneUITests.release.xcconfig */,
+				BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */,
+				18155111740946251A96A560 /* Pods-CapstoneTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E4E2320D18368F179D517A2E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */,
+				14CC08F12CC53C926E117423 /* Pods_Capstone_CapstoneUITests.framework */,
+				D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,9 +239,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D6A78392874A0A3008786BF /* Build configuration list for PBXNativeTarget "Capstone" */;
 			buildPhases = (
+				EE7B98F41264F2CC0B8597FC /* [CP] Check Pods Manifest.lock */,
 				2D6A78062874A0A1008786BF /* Sources */,
 				2D6A78072874A0A1008786BF /* Frameworks */,
 				2D6A78082874A0A1008786BF /* Resources */,
+				EDDECCE1671E033F6F60D127 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,6 +258,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D6A783C2874A0A3008786BF /* Build configuration list for PBXNativeTarget "CapstoneTests" */;
 			buildPhases = (
+				6C10748F68E69E7096B2AE7B /* [CP] Check Pods Manifest.lock */,
 				2D6A78212874A0A3008786BF /* Sources */,
 				2D6A78222874A0A3008786BF /* Frameworks */,
 				2D6A78232874A0A3008786BF /* Resources */,
@@ -178,9 +277,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D6A783F2874A0A3008786BF /* Build configuration list for PBXNativeTarget "CapstoneUITests" */;
 			buildPhases = (
+				85486347B5C5983F70F42CB7 /* [CP] Check Pods Manifest.lock */,
 				2D6A782B2874A0A3008786BF /* Sources */,
 				2D6A782C2874A0A3008786BF /* Frameworks */,
 				2D6A782D2874A0A3008786BF /* Resources */,
+				968CD76E79164DB19D58754C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -239,9 +340,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D2693592875F5AA0074A934 /* Keys.plist in Resources */,
+				2D6A78562874FC3A008786BF /* Virtuous-Slab.otf in Resources */,
 				2D6A781D2874A0A3008786BF /* LaunchScreen.storyboard in Resources */,
+				2D6A78552874FC37008786BF /* Virtuous-Slab-Thin.otf in Resources */,
 				2D6A781A2874A0A3008786BF /* Assets.xcassets in Resources */,
+				2D6A78542874FC33008786BF /* Virtuous-Slab-Italic.otf in Resources */,
+				2D6A78532874FC2F008786BF /* Virtuous-Slab-Hairline.otf in Resources */,
 				2D6A78182874A0A1008786BF /* Main.storyboard in Resources */,
+				2D6A78522874FC28008786BF /* Virtuous-Slab-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D6A78572874FCDA008786BF /* Virtuous-Slab-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,20 +364,128 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D6A78582874FCDB008786BF /* Virtuous-Slab-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6C10748F68E69E7096B2AE7B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CapstoneTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85486347B5C5983F70F42CB7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Capstone-CapstoneUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		968CD76E79164DB19D58754C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EDDECCE1671E033F6F60D127 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone/Pods-Capstone-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone/Pods-Capstone-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Capstone/Pods-Capstone-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE7B98F41264F2CC0B8597FC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Capstone-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2D6A78062874A0A1008786BF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D6A78152874A0A1008786BF /* ViewController.m in Sources */,
+				2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */,
+				2D6A784E2874F2B5008786BF /* LoginViewController.m in Sources */,
 				2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */,
+				2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */,
+				2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */,
 				2D6A78202874A0A3008786BF /* main.m in Sources */,
 				2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */,
+				2D26935C2876090F0074A934 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +653,7 @@
 		};
 		2D6A783A2874A0A3008786BF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01A6752B6E0F5894EB8E0975 /* Pods-Capstone.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -463,6 +680,7 @@
 		};
 		2D6A783B2874A0A3008786BF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -489,6 +707,7 @@
 		};
 		2D6A783D2874A0A3008786BF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -506,6 +725,7 @@
 		};
 		2D6A783E2874A0A3008786BF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18155111740946251A96A560 /* Pods-CapstoneTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -523,6 +743,7 @@
 		};
 		2D6A78402874A0A3008786BF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7B802ECD22610D5D254E79A /* Pods-Capstone-CapstoneUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -538,6 +759,7 @@
 		};
 		2D6A78412874A0A3008786BF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 130FC1F3CF0454A3346C1FA9 /* Pods-Capstone-CapstoneUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
