@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
+@import GoogleMaps;
 
 @interface AppDelegate ()
 
@@ -22,9 +23,12 @@
 
         NSString *ID = [dict objectForKey: @"App ID"];
         NSString *key = [dict objectForKey: @"Client Key"];
+        NSString *kMapsAPIKey = [dict objectForKey: @"API Key"];
         configuration.applicationId = ID; // <- UPDATE
         configuration.clientKey = key; // <- UPDATE
         configuration.server = @"https://parseapi.back4app.com";
+        
+        [GMSServices provideAPIKey:kMapsAPIKey];
     }];
 
     [Parse initializeWithConfiguration:config];

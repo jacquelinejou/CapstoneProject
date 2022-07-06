@@ -11,6 +11,8 @@
 		2D2693592875F5AA0074A934 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D2693582875F5AA0074A934 /* Keys.plist */; };
 		2D26935C2876090F0074A934 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26935B2876090F0074A934 /* MapViewController.m */; };
 		2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26935E2876091B0074A934 /* CalendarViewController.m */; };
+		2D269362287638810074A934 /* LocationGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D269361287638810074A934 /* LocationGenerator.m */; };
+		2D269364287639470074A934 /* custom_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D269363287639470074A934 /* custom_pin.png */; };
 		2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A780E2874A0A1008786BF /* AppDelegate.m */; };
 		2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78112874A0A1008786BF /* SceneDelegate.m */; };
 		2D6A78182874A0A1008786BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78162874A0A1008786BF /* Main.storyboard */; };
@@ -61,6 +63,9 @@
 		2D26935B2876090F0074A934 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		2D26935D2876091B0074A934 /* CalendarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
 		2D26935E2876091B0074A934 /* CalendarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
+		2D269360287638810074A934 /* LocationGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationGenerator.h; sourceTree = "<group>"; };
+		2D269361287638810074A934 /* LocationGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationGenerator.m; sourceTree = "<group>"; };
+		2D269363287639470074A934 /* custom_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = custom_pin.png; sourceTree = "<group>"; };
 		2D6A780A2874A0A1008786BF /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6A780D2874A0A1008786BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2D6A780E2874A0A1008786BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -159,6 +164,9 @@
 				2D6A781E2874A0A3008786BF /* Info.plist */,
 				2D6A781F2874A0A3008786BF /* main.m */,
 				2D2693582875F5AA0074A934 /* Keys.plist */,
+				2D269360287638810074A934 /* LocationGenerator.h */,
+				2D269361287638810074A934 /* LocationGenerator.m */,
+				2D269363287639470074A934 /* custom_pin.png */,
 			);
 			path = Capstone;
 			sourceTree = "<group>";
@@ -244,6 +252,7 @@
 				2D6A78072874A0A1008786BF /* Frameworks */,
 				2D6A78082874A0A1008786BF /* Resources */,
 				EDDECCE1671E033F6F60D127 /* [CP] Embed Pods Frameworks */,
+				1C4721101B21AADA46AA6DB7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -282,6 +291,7 @@
 				2D6A782C2874A0A3008786BF /* Frameworks */,
 				2D6A782D2874A0A3008786BF /* Resources */,
 				968CD76E79164DB19D58754C /* [CP] Embed Pods Frameworks */,
+				D3A0AAEB073CD4FEC69B6AE4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -342,6 +352,7 @@
 			files = (
 				2D2693592875F5AA0074A934 /* Keys.plist in Resources */,
 				2D6A78562874FC3A008786BF /* Virtuous-Slab.otf in Resources */,
+				2D269364287639470074A934 /* custom_pin.png in Resources */,
 				2D6A781D2874A0A3008786BF /* LaunchScreen.storyboard in Resources */,
 				2D6A78552874FC37008786BF /* Virtuous-Slab-Thin.otf in Resources */,
 				2D6A781A2874A0A3008786BF /* Assets.xcassets in Resources */,
@@ -371,6 +382,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1C4721101B21AADA46AA6DB7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone/Pods-Capstone-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone/Pods-Capstone-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Capstone/Pods-Capstone-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6C10748F68E69E7096B2AE7B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -432,6 +460,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D3A0AAEB073CD4FEC69B6AE4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Capstone-CapstoneUITests/Pods-Capstone-CapstoneUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EDDECCE1671E033F6F60D127 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -479,6 +524,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */,
+				2D269362287638810074A934 /* LocationGenerator.m in Sources */,
 				2D6A784E2874F2B5008786BF /* LoginViewController.m in Sources */,
 				2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */,
 				2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */,
@@ -659,6 +705,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7TA7S8XFUU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capstone/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -686,6 +733,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7TA7S8XFUU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Capstone/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
