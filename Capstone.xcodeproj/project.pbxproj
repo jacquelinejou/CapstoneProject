@@ -11,8 +11,11 @@
 		2D2693592875F5AA0074A934 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D2693582875F5AA0074A934 /* Keys.plist */; };
 		2D26935C2876090F0074A934 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26935B2876090F0074A934 /* MapViewController.m */; };
 		2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26935E2876091B0074A934 /* CalendarViewController.m */; };
-		2D269362287638810074A934 /* LocationGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D269361287638810074A934 /* LocationGenerator.m */; };
 		2D269364287639470074A934 /* custom_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D269363287639470074A934 /* custom_pin.png */; };
+		2D26936F287765C20074A934 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26936E287765C20074A934 /* Post.m */; };
+		2D2693722877674E0074A934 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2693712877674E0074A934 /* PostCell.m */; };
+		2D269374287769300074A934 /* InfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D269373287769300074A934 /* InfoWindow.xib */; };
+		2D2693772877752B0074A934 /* CustomInfoWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2693762877752B0074A934 /* CustomInfoWindow.m */; };
 		2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A780E2874A0A1008786BF /* AppDelegate.m */; };
 		2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78112874A0A1008786BF /* SceneDelegate.m */; };
 		2D6A78182874A0A1008786BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78162874A0A1008786BF /* Main.storyboard */; };
@@ -63,9 +66,14 @@
 		2D26935B2876090F0074A934 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		2D26935D2876091B0074A934 /* CalendarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
 		2D26935E2876091B0074A934 /* CalendarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
-		2D269360287638810074A934 /* LocationGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationGenerator.h; sourceTree = "<group>"; };
-		2D269361287638810074A934 /* LocationGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationGenerator.m; sourceTree = "<group>"; };
 		2D269363287639470074A934 /* custom_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = custom_pin.png; sourceTree = "<group>"; };
+		2D26936D287765C20074A934 /* Post.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
+		2D26936E287765C20074A934 /* Post.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
+		2D2693702877674E0074A934 /* PostCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostCell.h; sourceTree = "<group>"; };
+		2D2693712877674E0074A934 /* PostCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostCell.m; sourceTree = "<group>"; };
+		2D269373287769300074A934 /* InfoWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoWindow.xib; sourceTree = "<group>"; };
+		2D2693752877752B0074A934 /* CustomInfoWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomInfoWindow.h; sourceTree = "<group>"; };
+		2D2693762877752B0074A934 /* CustomInfoWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomInfoWindow.m; sourceTree = "<group>"; };
 		2D6A780A2874A0A1008786BF /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6A780D2874A0A1008786BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2D6A780E2874A0A1008786BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -127,6 +135,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D26936528775BDA0074A934 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2D26936D287765C20074A934 /* Post.h */,
+				2D26936E287765C20074A934 /* Post.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2D26936628775BE50074A934 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2D2693702877674E0074A934 /* PostCell.h */,
+				2D2693712877674E0074A934 /* PostCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		2D6A78012874A0A1008786BF = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +179,8 @@
 		2D6A780C2874A0A1008786BF /* Capstone */ = {
 			isa = PBXGroup;
 			children = (
+				2D26936628775BE50074A934 /* Cells */,
+				2D26936528775BDA0074A934 /* Models */,
 				2D6A78482874C059008786BF /* ViewControllers */,
 				2D6A780D2874A0A1008786BF /* AppDelegate.h */,
 				2D6A780E2874A0A1008786BF /* AppDelegate.m */,
@@ -164,9 +192,10 @@
 				2D6A781E2874A0A3008786BF /* Info.plist */,
 				2D6A781F2874A0A3008786BF /* main.m */,
 				2D2693582875F5AA0074A934 /* Keys.plist */,
-				2D269360287638810074A934 /* LocationGenerator.h */,
-				2D269361287638810074A934 /* LocationGenerator.m */,
 				2D269363287639470074A934 /* custom_pin.png */,
+				2D269373287769300074A934 /* InfoWindow.xib */,
+				2D2693752877752B0074A934 /* CustomInfoWindow.h */,
+				2D2693762877752B0074A934 /* CustomInfoWindow.m */,
 			);
 			path = Capstone;
 			sourceTree = "<group>";
@@ -355,6 +384,7 @@
 				2D269364287639470074A934 /* custom_pin.png in Resources */,
 				2D6A781D2874A0A3008786BF /* LaunchScreen.storyboard in Resources */,
 				2D6A78552874FC37008786BF /* Virtuous-Slab-Thin.otf in Resources */,
+				2D269374287769300074A934 /* InfoWindow.xib in Resources */,
 				2D6A781A2874A0A3008786BF /* Assets.xcassets in Resources */,
 				2D6A78542874FC33008786BF /* Virtuous-Slab-Italic.otf in Resources */,
 				2D6A78532874FC2F008786BF /* Virtuous-Slab-Hairline.otf in Resources */,
@@ -523,11 +553,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D2693772877752B0074A934 /* CustomInfoWindow.m in Sources */,
+				2D2693722877674E0074A934 /* PostCell.m in Sources */,
 				2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */,
-				2D269362287638810074A934 /* LocationGenerator.m in Sources */,
 				2D6A784E2874F2B5008786BF /* LoginViewController.m in Sources */,
 				2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */,
 				2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */,
+				2D26936F287765C20074A934 /* Post.m in Sources */,
 				2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */,
 				2D6A78202874A0A3008786BF /* main.m in Sources */,
 				2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */,
