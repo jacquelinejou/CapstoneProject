@@ -9,7 +9,6 @@
 #import <Parse/Parse.h>
 #import "WelcomeViewController.h"
 #import "SceneDelegate.h"
-#import "LocationGenerator.h"
 #import "CustomInfoWindow.h"
 #import "Post.h"
 @import GoogleMaps;
