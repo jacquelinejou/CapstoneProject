@@ -18,10 +18,12 @@
 }
 
 - (IBAction)registerUser:(id)sender {
+    [self resignFirstResponder];
     [self performSegueWithIdentifier:@"registerSegue" sender:nil];
 }
 
 - (IBAction)loginUser:(id)sender {
+    [self resignFirstResponder];
     [self performSegueWithIdentifier:@"loginSegue" sender:nil];
 }
 
