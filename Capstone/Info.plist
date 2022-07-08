@@ -21,5 +21,13 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Virtuous-Slab-Bold.otf</string>
+		<string>Virtuous-Slab-Hairline.otf</string>
+		<string>Virtuous-Slab-Italic.otf</string>
+		<string>Virtuous-Slab-Thin.otf</string>
+		<string>Virtuous-Slab.otf</string>
+	</array>
 </dict>
 </plist>
