@@ -40,6 +40,7 @@
     } else {
        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
            if (error == nil) {
+               [self resignFirstResponder];
                [self dismissViewControllerAnimated:YES completion:nil];
            } else {
                [self failedRegister];
