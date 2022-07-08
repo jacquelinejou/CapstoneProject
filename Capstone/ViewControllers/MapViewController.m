@@ -11,6 +11,7 @@
 #import "SceneDelegate.h"
 #import "CustomInfoWindow.h"
 #import "Post.h"
+#import <Parse/PFObject+Subclass.h>
 @import GoogleMaps;
 @import GoogleMapsUtils;
 
@@ -76,6 +77,7 @@
         GMSMarker *marker = [GMSMarker markerWithPosition:coord];
         marker.icon = [UIImage imageNamed:@"custom_pin.png"];
         marker.map = self.mapView;
+        marker.userData = post;
         [self.arrayOfMarkers addObject:marker];
     }
 }
@@ -90,7 +92,7 @@
     }
     marker.title = @"Date";
     marker.snippet = @"Post";
-    marker.map = mapView;
+    marker.map = _mapView;
 
     // Show marker
     _mapView.selectedMarker = marker;
@@ -102,13 +104,28 @@
 
 -(UIView *) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker {
     CustomInfoWindow *infoWindow = [[[NSBundle mainBundle] loadNibNamed:@"InfoWindow" owner:self options:nil] objectAtIndex:0];
-    Post *post = (Post *) marker;
-    infoWindow.usernameLabel.text = post.userID;
-    infoWindow.dateLabel.text = [self setDate:post.date];
-    NSData *data = post.image.getData;
-    infoWindow.postImage.image = [UIImage imageWithData:data];
-    infoWindow.commentLabel.text = [NSString stringWithFormat:@"%lu", post.comments.count];
-    infoWindow.reactionLabel.text = [NSString stringWithFormat:@"%lu", post.reactions.count];
+    Post *post = marker.userData;
+    infoWindow.usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:10];
+    infoWindow.usernameLabel.text = post[@"UserID"];
+    
+    // format date
+    infoWindow.dateLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:10];
+    NSDate *postTime = post.createdAt;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+    formatter.dateStyle = NSDateFormatterShortStyle;
+    formatter.timeStyle = NSDateFormatterShortStyle;
+    infoWindow.dateLabel.text = [formatter stringFromDate:postTime];
+    
+    // format image
+    [post[@"Image"] getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        infoWindow.postImage.image = [UIImage imageWithData:data];
+    }];
+    
+    infoWindow.commentLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:10];
+    infoWindow.commentLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Comments"] count]] stringByAppendingString:@" Comments"];
+    infoWindow.reactionLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:10];
+    infoWindow.reactionLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Reactions"] count]] stringByAppendingString:@" Reactions"];
     return infoWindow;
 }
 
