@@ -6,10 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@import GoogleMaps;
+@import GoogleMapsUtils;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MapViewController : UIViewController
+@interface MapViewController : UIViewController <GMSMapViewDelegate>
 
 @end
 
