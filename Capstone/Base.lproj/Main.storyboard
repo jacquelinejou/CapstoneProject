@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -243,11 +244,47 @@
         <scene sceneID="GjW-3S-9Dg">
             <objects>
                 <viewController id="v1B-st-k5c" customClass="MapViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="V8l-Wi-ES8" customClass="GMSMapView">
+                    <view key="view" contentMode="scaleToFill" id="V8l-Wi-ES8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fe2-Gz-wk4" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xof-ZP-dPs">
+                                <rect key="frame" x="0.0" y="597" width="414" height="216"/>
+                                <color key="backgroundColor" red="0.42965363290000003" green="0.75278214919999997" blue="0.96070724730000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Jmu-TJ-PNI">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Bn4-FZ-Ffy">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hDJ-lK-77b">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="EcR-xo-Uaz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Xof-ZP-dPs" firstAttribute="trailing" secondItem="EcR-xo-Uaz" secondAttribute="trailing" id="9aM-XK-n4M"/>
+                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="leading" secondItem="EcR-xo-Uaz" secondAttribute="leading" id="Jrj-UB-5Iq"/>
+                            <constraint firstItem="EcR-xo-Uaz" firstAttribute="bottom" secondItem="Fe2-Gz-wk4" secondAttribute="bottom" id="Old-xK-wPo"/>
+                            <constraint firstItem="Xof-ZP-dPs" firstAttribute="bottom" secondItem="EcR-xo-Uaz" secondAttribute="bottom" id="PJd-pb-gkZ"/>
+                            <constraint firstItem="Xof-ZP-dPs" firstAttribute="top" secondItem="EcR-xo-Uaz" secondAttribute="top" constant="509" id="Z0d-pe-ZCG"/>
+                            <constraint firstItem="Xof-ZP-dPs" firstAttribute="leading" secondItem="EcR-xo-Uaz" secondAttribute="leading" id="eHW-6S-Zc7"/>
+                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="top" secondItem="V8l-Wi-ES8" secondAttribute="top" id="oeN-pm-PIT"/>
+                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="trailing" secondItem="EcR-xo-Uaz" secondAttribute="trailing" id="u4V-kQ-VDt"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="rSF-Up-h7Y">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="Dmq-Lc-l7d">
@@ -263,7 +300,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mapView" destination="V8l-Wi-ES8" id="Vlu-ff-XhI"/>
+                        <outlet property="collectionView" destination="Xof-ZP-dPs" id="khL-IF-hdy"/>
+                        <outlet property="mapView" destination="Fe2-Gz-wk4" id="mcF-Rn-V0D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4SH-2f-Xtp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

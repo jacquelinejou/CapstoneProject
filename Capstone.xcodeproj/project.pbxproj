@@ -16,6 +16,7 @@
 		2D2693722877674E0074A934 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2693712877674E0074A934 /* PostCell.m */; };
 		2D269374287769300074A934 /* InfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D269373287769300074A934 /* InfoWindow.xib */; };
 		2D2693772877752B0074A934 /* CustomInfoWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2693762877752B0074A934 /* CustomInfoWindow.m */; };
+		2D2693792878B54E0074A934 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2693782878B54E0074A934 /* UserNotifications.framework */; };
 		2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A780E2874A0A1008786BF /* AppDelegate.m */; };
 		2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A78112874A0A1008786BF /* SceneDelegate.m */; };
 		2D6A78182874A0A1008786BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78162874A0A1008786BF /* Main.storyboard */; };
@@ -74,6 +75,7 @@
 		2D269373287769300074A934 /* InfoWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoWindow.xib; sourceTree = "<group>"; };
 		2D2693752877752B0074A934 /* CustomInfoWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomInfoWindow.h; sourceTree = "<group>"; };
 		2D2693762877752B0074A934 /* CustomInfoWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomInfoWindow.m; sourceTree = "<group>"; };
+		2D2693782878B54E0074A934 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		2D6A780A2874A0A1008786BF /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6A780D2874A0A1008786BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2D6A780E2874A0A1008786BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D2693792878B54E0074A934 /* UserNotifications.framework in Frameworks */,
 				F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,6 +265,7 @@
 		E4E2320D18368F179D517A2E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D2693782878B54E0074A934 /* UserNotifications.framework */,
 				47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */,
 				14CC08F12CC53C926E117423 /* Pods_Capstone_CapstoneUITests.framework */,
 				D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */,
