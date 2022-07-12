@@ -60,14 +60,6 @@
     
     UNNotificationCategory* generalCategory = [UNNotificationCategory categoryWithIdentifier:@"GENERAL" actions:@[] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction];
     
-//    // Create the custom actions for expired timer notifications.
-//    UNNotificationAction* snoozeAction = [UNNotificationAction actionWithIdentifier:@"SNOOZE_ACTION" title:@"Snooze" options:UNNotificationActionOptionNone];
-//
-//    UNNotificationAction* stopAction = [UNNotificationAction actionWithIdentifier:@"STOP_ACTION" title:@"Stop" options:UNNotificationActionOptionForeground];
-//
-//    // Create the category with the custom actions.
-//    UNNotificationCategory* expiredCategory = [UNNotificationCategory categoryWithIdentifier:@"TIMER_EXPIRED" actions:@[snoozeAction, stopAction] intentIdentifiers:@[] options:UNNotificationCategoryOptionNone];
-    
     // Register the notification categories.
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     [center setNotificationCategories:[NSSet setWithObjects:generalCategory, nil]];
@@ -82,13 +74,14 @@
     int minuteRndValue = minuteLowerBound + arc4random() % (minuteUpperBound - minuteLowerBound);
     
     NSDateComponents* date = [[NSDateComponents alloc] init];
-    date.hour = 13;
-    date.minute = 57;
+    date.hour = hourRndValue;
+    date.minute = minuteRndValue;
     UNCalendarNotificationTrigger* trigger = [UNCalendarNotificationTrigger
                                               triggerWithDateMatchingComponents:date repeats:YES];
     
     // Create the request object.
     UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"MorningAlarm" content:content trigger:trigger];
+    
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
