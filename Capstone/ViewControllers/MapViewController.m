@@ -19,7 +19,7 @@
 @interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *arrayOfPosts;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray<GMSMarker *> *arrayOfMarkers;
 @end
 
@@ -38,15 +38,22 @@
             GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:geoPoint.latitude longitude:geoPoint.longitude zoom:5];
             [self.mapView animateToCameraPosition:camera];
             self.mapView.mapType = kGMSTypeNormal;
+            self.mapView.delegate = self;
         }
     }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.collectionView.showsHorizontalScrollIndicator = YES;
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    self.collectionView = [self.collectionView initWithFrame:CGRectZero collectionViewLayout:layout];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-//    [self.collectionView removeFromSuperview];
+    [self.collectionView setHidden:YES];
+    [self setConstraints];
+    
     self.arrayOfPosts = [[NSMutableArray alloc] init];
     self.arrayOfMarkers = [[NSMutableArray alloc] init];
     PFQuery *query = [PFQuery queryWithClassName:@"Post"];
@@ -73,6 +80,19 @@
     }];
 }
 
+-(void)setConstraints {
+    [self collectionViewConstraints];
+}
+
+-(void)collectionViewConstraints {
+    NSLayoutConstraint *collectionViewWidth = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0f];
+    NSLayoutConstraint *collectionViewHeight = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.view attribute: NSLayoutAttributeHeight multiplier:0.25 constant:0.0f];
+    NSLayoutConstraint *collectionViewLeading = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.mapView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:5.0f];
+    NSLayoutConstraint *collectionViewTrailing = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.mapView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:5.0f];
+    NSLayoutConstraint *collectionViewBottom = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.mapView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0f];
+    [self.view addConstraints:@[collectionViewWidth, collectionViewHeight, collectionViewLeading, collectionViewTrailing, collectionViewBottom]];
+}
+
 - (void)loadMarkers {
     for (Post *post in self.arrayOfPosts) {
         PFGeoPoint *coordinates = (PFGeoPoint *) post[@"Location"];
@@ -91,10 +111,14 @@
     return self.arrayOfPosts.count;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return self.collectionView.frame.size;
+}
 
-- (PostCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     PostCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"PostCell" forIndexPath:indexPath];
-    Post *post = self.arrayOfPosts[indexPath.section];
+    cell.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.25];
+    Post *post = self.arrayOfPosts[indexPath.row];
     cell.usernameLabel.text = [[NSString alloc] init];
     cell.usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:10];
     cell.usernameLabel.text = post[@"UserID"];
@@ -130,11 +154,28 @@
     
     // Show marker
     self.mapView.selectedMarker = marker;
-//    [self.view addSubview:self.collectionView];
+    [self.collectionView setHidden:NO];
     // Hide marker
     self.mapView.selectedMarker = nil;
-//    [self.collectionView removeFromSuperview];
     return NO;
+}
+
+- (void) mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
+    [self.collectionView setHidden:YES];
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 8.0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 8.0;
+}
+
+// Layout: Set Edges
+- (UIEdgeInsets)collectionView:
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0,2,0,2);
 }
 
 -(UIView *) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker {
