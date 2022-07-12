@@ -11,6 +11,48 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.usernameLabel = [[UILabel alloc] init];
+    self.dateLabel = [[UILabel alloc] init];
+    self.commentLabel = [[UILabel alloc] init];
+    self.reactionLabel = [[UILabel alloc] init];
+    self.postImage = [[UIImageView alloc] init];
+    [self.contentView addSubview:self.usernameLabel];
+    [self.contentView addSubview:self.dateLabel];
+    [self.contentView addSubview:self.commentLabel];
+    [self.contentView addSubview:self.reactionLabel];
+    [self.contentView addSubview:self.postImage];
+    [self updateConstraints];
+}
+
+-(void)setupCell:(Post *)post {
+    self.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.25];
+    self.usernameLabel = [[UILabel alloc] init];
+    self.dateLabel = [[UILabel alloc] init];
+    self.commentLabel = [[UILabel alloc] init];
+    self.reactionLabel = [[UILabel alloc] init];
+    self.postImage = [[UIImageView alloc] init];
+    self.usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:10];
+    self.usernameLabel.text = post[@"UserID"];
+    
+    // format date
+    self.dateLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:10];
+    NSDate *postTime = post.createdAt;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+    // Configure the input format to parse the date string
+    formatter.dateStyle = NSDateFormatterShortStyle;
+    formatter.timeStyle = NSDateFormatterShortStyle;
+    self.dateLabel.text = [formatter stringFromDate:postTime];
+    
+    // format image
+    [post[@"Image"] getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        self.postImage.image = [UIImage imageWithData:data];
+    }];
+    
+    self.commentLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:10];
+    self.commentLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Comments"] count]] stringByAppendingString:@" Comments"];
+    self.reactionLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:10];
+    self.reactionLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Reactions"] count]] stringByAppendingString:@" Reactions"];
 }
 
 -(void)updateConstraints {

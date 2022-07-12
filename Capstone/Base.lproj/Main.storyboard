@@ -5,15 +5,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Virtuous-Slab-Bold.otf">
             <string>VirtuousSlabBold</string>
-        </array>
-        <array key="Virtuous-Slab-Thin.otf">
-            <string>VirtuousSlabThin</string>
         </array>
     </customFonts>
     <scenes>
@@ -161,6 +157,21 @@
             </objects>
             <point key="canvasLocation" x="1674" y="-361"/>
         </scene>
+        <!--Photo View Controller-->
+        <scene sceneID="u9n-zj-KZy">
+            <objects>
+                <viewController storyboardIdentifier="PhotoViewController" id="JMO-1n-GOn" customClass="PhotoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZYQ-au-NOk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="2no-RY-kLA"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MJP-4J-cp8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3047" y="-782"/>
+        </scene>
         <!--Register View Controller-->
         <scene sceneID="h5r-e2-pRv">
             <objects>
@@ -255,81 +266,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xof-ZP-dPs">
-                                <rect key="frame" x="0.0" y="589" width="414" height="224"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Jmu-TJ-PNI">
-                                    <size key="itemSize" width="342" height="217"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostCell" id="Bn4-FZ-Ffy" customClass="PostCell">
-                                        <rect key="frame" x="36" y="0.0" width="342" height="217"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hDJ-lK-77b">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="217"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="button_my_location.png" translatesAutoresizingMaskIntoConstraints="NO" id="2gh-aT-IW1">
-                                                    <rect key="frame" x="85.5" y="2" width="171" height="152"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P61-fn-Red">
-                                                    <rect key="frame" x="8" y="161" width="56" height="10"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="VirtuousSlabBold" family="Virtuous Slab" pointSize="10"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="0 Comments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P5n-ea-wcz">
-                                                    <rect key="frame" x="8" y="179" width="134" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="Ekx-lY-bJo"/>
-                                                        <constraint firstAttribute="width" constant="134" id="nKV-xO-L9l"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="VirtuousSlabThin" family="Virtuous Slab" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="0 Reactions" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDd-oy-BDz">
-                                                    <rect key="frame" x="200" y="179" width="134" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="5fa-uI-spV"/>
-                                                        <constraint firstAttribute="width" constant="134" id="GNF-bR-TYc"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="VirtuousSlabThin" family="Virtuous Slab" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rNB-Rd-6c7">
-                                                    <rect key="frame" x="310" y="151" width="24" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="2ZU-R0-c8m"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="VirtuousSlabThin" family="Virtuous Slab" pointSize="10"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </collectionViewCellContentView>
-                                        <size key="customSize" width="342" height="217"/>
-                                        <connections>
-                                            <outlet property="commentLabel" destination="P5n-ea-wcz" id="iir-tH-6J5"/>
-                                            <outlet property="dateLabel" destination="rNB-Rd-6c7" id="IRp-ot-f32"/>
-                                            <outlet property="postImage" destination="2gh-aT-IW1" id="PeI-HV-aRX"/>
-                                            <outlet property="reactionLabel" destination="kDd-oy-BDz" id="uhE-Lw-mNj"/>
-                                            <outlet property="usernameLabel" destination="P61-fn-Red" id="fNn-cI-s9N"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="V8l-Wi-ES8" id="z8z-hB-Daz"/>
-                                    <outlet property="delegate" destination="v1B-st-k5c" id="gTW-9g-6UK"/>
-                                </connections>
-                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EcR-xo-Uaz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -354,7 +290,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="Xof-ZP-dPs" id="khL-IF-hdy"/>
                         <outlet property="mapView" destination="Fe2-Gz-wk4" id="mcF-Rn-V0D"/>
                     </connections>
                 </viewController>
@@ -450,7 +385,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="button_my_location.png" width="46" height="46"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

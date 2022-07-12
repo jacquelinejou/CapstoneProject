@@ -11,12 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PostCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
-@property (weak, nonatomic) IBOutlet UILabel *commentLabel;
-@property (weak, nonatomic) IBOutlet UILabel *reactionLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *postImage;
+@property (nonatomic, strong) UILabel *usernameLabel;
+@property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) UILabel *commentLabel;
+@property (nonatomic, strong) UILabel *reactionLabel;
+@property (nonatomic, strong) UIImageView *postImage;
 @property (nonatomic, strong) Post *post;
+
+-(void)setupCell:(Post *)post;
 @end
 
 NS_ASSUME_NONNULL_END
