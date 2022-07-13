@@ -27,6 +27,8 @@
     GMUClusterManager *_clusterManager;
     GMSCircle *_circ;
     UIView *_contentView;
+    CGFloat borderSpace;
+    NSInteger insets;
 }
 
 -(void)loadView {
@@ -44,6 +46,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    borderSpace = 10.0;
+    insets = 2;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
@@ -87,9 +91,9 @@
 -(void)updateViewConstraints {
     [super updateViewConstraints];
     [_collectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_collectionView.leftAnchor constraintEqualToAnchor:self.mapView.leftAnchor constant:10.0].active = YES;
-    [_collectionView.rightAnchor constraintEqualToAnchor:self.mapView.rightAnchor constant:-10.0].active = YES;
-    [_collectionView.bottomAnchor constraintEqualToAnchor:self.mapView.bottomAnchor constant:-10.0].active = YES;
+    [_collectionView.leftAnchor constraintEqualToAnchor:self.mapView.leftAnchor constant:borderSpace].active = YES;
+    [_collectionView.rightAnchor constraintEqualToAnchor:self.mapView.rightAnchor constant:borderSpace * -1].active = YES;
+    [_collectionView.bottomAnchor constraintEqualToAnchor:self.mapView.bottomAnchor constant:borderSpace * -1].active = YES;
     [_collectionView.heightAnchor constraintEqualToConstant:0.25 * self.view.frame.size.height].active = YES;
 }
 
@@ -152,17 +156,17 @@
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 8.0;
+    return borderSpace;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 8.0;
+    return borderSpace;
 }
 
 // Layout: Set Edges
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0,2,0,2);
+    return UIEdgeInsetsMake(0,insets,0,insets);
 }
 
 -(UIView *) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker {

@@ -20,10 +20,12 @@
 
 @implementation CalendarViewController {
     FSCalendar *_calendarView;
+    CGFloat borderSpace;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    borderSpace = 10.0;
     self.gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     _calendarView = [[FSCalendar alloc] initWithFrame:CGRectZero];
     _calendarView.dataSource = self;
@@ -56,10 +58,10 @@
 
 -(void)setConstraints {
     [_calendarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:10.0].active = YES;
-    [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:-10.0].active = YES;
-    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-20.0].active = YES;
-    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant: 100.0].active = YES;
+    [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:borderSpace].active = YES;
+    [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:borderSpace * -1].active = YES;
+    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:borderSpace * -2].active = YES;
+    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:borderSpace * 10].active = YES;
 }
 
 - (void)calendar:(FSCalendar *)calendar boundingRectWillChange:(CGRect)bounds animated:(BOOL)animated {
