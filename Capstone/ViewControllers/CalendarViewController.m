@@ -14,6 +14,7 @@
 
 @interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate>
 @property (strong, nonatomic) NSCalendar *gregorian;
+@property (nonatomic, strong) NSMutableArray *arrayOfPosts;
 - (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)position;
 @end
 
@@ -33,11 +34,23 @@
     [self.view addSubview:_calendarView];
     [self setupCalendarImage];
     [self setConstraints];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query orderByDescending:@"createdAt"];
+    [query includeKey:@"author"];
+    
+    // fetch data asynchronously
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if (posts != nil) {
+            self.arrayOfPosts = (NSMutableArray *)posts;
+            [self->_calendarView reloadData];
+        }
+    }];
 }
 
 -(void)setupCalendarImage{
-    _calendarView.calendarHeaderView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.1];
-    _calendarView.calendarWeekdayView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.1];
+    _calendarView.calendarHeaderView.backgroundColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.25] colorWithAlphaComponent:0.9];
+    _calendarView.calendarWeekdayView.backgroundColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.25] colorWithAlphaComponent:0.2];
     [_calendarView registerClass:[CalendarCell class] forCellReuseIdentifier:@"CalendarCell"];
 }
 
@@ -46,7 +59,7 @@
     [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:10.0].active = YES;
     [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:-10.0].active = YES;
     [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-20.0].active = YES;
-    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant: 60.0].active = YES;
+    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant: 100.0].active = YES;
 }
 
 - (void)calendar:(FSCalendar *)calendar boundingRectWillChange:(CGRect)bounds animated:(BOOL)animated {
