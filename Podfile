@@ -9,6 +9,7 @@ target 'Capstone' do
   pod 'Parse'
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
+  pod 'FSCalendar'
 
   target 'CapstoneTests' do
     inherit! :search_paths

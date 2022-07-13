@@ -8,7 +8,6 @@
 #import "PhotoViewController.h"
 
 @interface PhotoViewController ()
-
 @end
 
 @implementation PhotoViewController

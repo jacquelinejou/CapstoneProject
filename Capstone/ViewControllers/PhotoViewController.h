@@ -6,10 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PhotoViewController : UIViewController
+@interface PhotoViewController : UIViewController <UIImagePickerControllerDelegate>
 @end
 
 NS_ASSUME_NONNULL_END

@@ -42,17 +42,6 @@ bool isGrantedNotificationAccess;
 }
 
 -(void)pushNotification {
-<<<<<<< Updated upstream
-    UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
-    content.title = [NSString localizedUserNotificationStringForKey:@"Take 5" arguments:nil];
-    content.body = [NSString localizedUserNotificationStringForKey:@"Upload before time's up!" arguments:nil];
-    content.sound = [UNNotificationSound defaultSound];
-    
-    UNNotificationCategory* generalCategory = [UNNotificationCategory categoryWithIdentifier:@"GENERAL" actions:@[] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction];
-=======
-    isGrantedNotificationAccess = NO;
->>>>>>> Stashed changes
-    
     // Register the notification categories.
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;

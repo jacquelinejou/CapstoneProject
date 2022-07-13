@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Needs camera to take a photo and upload it.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Program requires GPS to track where users post so they can view it on the map.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

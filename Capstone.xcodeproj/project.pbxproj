@@ -37,6 +37,8 @@
 		2D6A78572874FCDA008786BF /* Virtuous-Slab-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78442874BE45008786BF /* Virtuous-Slab-Thin.otf */; };
 		2D6A78582874FCDB008786BF /* Virtuous-Slab-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D6A78442874BE45008786BF /* Virtuous-Slab-Thin.otf */; };
 		2DD1A788287DF25B00B3ABF1 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A787287DF25B00B3ABF1 /* PhotoViewController.m */; };
+		2DD1A78A287E27B200B3ABF1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD1A789287E27B200B3ABF1 /* AVFoundation.framework */; };
+		2DD1A78D287E3DA900B3ABF1 /* CalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */; };
 		37003B750F267B2926F3EBF1 /* Pods_CapstoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */; };
 		F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */; };
 /* End PBXBuildFile section */
@@ -105,6 +107,9 @@
 		2D6A78502874F2BF008786BF /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		2DD1A786287DF25B00B3ABF1 /* PhotoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
 		2DD1A787287DF25B00B3ABF1 /* PhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
+		2DD1A789287E27B200B3ABF1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2DD1A78B287E3DA900B3ABF1 /* CalendarCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarCell.h; sourceTree = "<group>"; };
+		2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarCell.m; sourceTree = "<group>"; };
 		31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
 		47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapstoneTests.debug.xcconfig"; path = "Target Support Files/Pods-CapstoneTests/Pods-CapstoneTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 			files = (
 				2D2693792878B54E0074A934 /* UserNotifications.framework in Frameworks */,
 				F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */,
+				2DD1A78A287E27B200B3ABF1 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +161,8 @@
 			children = (
 				2D2693702877674E0074A934 /* PostCell.h */,
 				2D2693712877674E0074A934 /* PostCell.m */,
+				2DD1A78B287E3DA900B3ABF1 /* CalendarCell.h */,
+				2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -270,6 +278,7 @@
 		E4E2320D18368F179D517A2E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2DD1A789287E27B200B3ABF1 /* AVFoundation.framework */,
 				2D2693782878B54E0074A934 /* UserNotifications.framework */,
 				47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */,
 				14CC08F12CC53C926E117423 /* Pods_Capstone_CapstoneUITests.framework */,
@@ -567,6 +576,7 @@
 				2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */,
 				2D6A784E2874F2B5008786BF /* LoginViewController.m in Sources */,
 				2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */,
+				2DD1A78D287E3DA900B3ABF1 /* CalendarCell.m in Sources */,
 				2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */,
 				2D26936F287765C20074A934 /* Post.m in Sources */,
 				2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */,
