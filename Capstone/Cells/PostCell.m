@@ -8,9 +8,8 @@
 #import "PostCell.h"
 
 @implementation PostCell
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
+-(id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:CGRectZero];
     self.usernameLabel = [[UILabel alloc] init];
     self.dateLabel = [[UILabel alloc] init];
     self.commentLabel = [[UILabel alloc] init];
@@ -22,6 +21,11 @@
     [self.contentView addSubview:self.reactionLabel];
     [self.contentView addSubview:self.postImage];
     [self updateConstraints];
+    return self;
+}
+
++ (BOOL)requiresConstraintBasedLayout {
+    return YES;
 }
 
 -(void)setupCell:(Post *)post {
@@ -62,23 +66,31 @@
 }
 
 -(void)imageConstraints {
-    NSLayoutConstraint *imageXConstraint = [NSLayoutConstraint constraintWithItem:self.postImage attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute: NSLayoutAttributeCenterX multiplier:1.0 constant:0.0f];
-    NSLayoutConstraint *imageHeightConstraint = [NSLayoutConstraint constraintWithItem:self.postImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute: NSLayoutAttributeHeight multiplier:0.7 constant:0.0f];
-    NSLayoutConstraint *imageWidthConstraint = [NSLayoutConstraint constraintWithItem:self.postImage attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute: NSLayoutAttributeWidth multiplier:0.5 constant:0.0f];
-    NSLayoutConstraint *imageTopConstraint = [NSLayoutConstraint constraintWithItem:self.postImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:2.0f];
-    [self.contentView addConstraints:@[imageXConstraint, imageHeightConstraint, imageWidthConstraint, imageTopConstraint]];
+    [self.contentView addSubview:self.postImage];
+    [self.postImage setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.postImage.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:0.5].active = YES;
+    [self.postImage.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:2.0].active = YES;
+    [self.postImage.centerXAnchor constraintEqualToAnchor:self.contentView.centerXAnchor].active = YES;
+    [self.postImage.heightAnchor constraintEqualToConstant:0.7 * self.contentView.frame.size.height].active = YES;
 }
 
 -(void)textConstraints {
-    NSLayoutConstraint *commentTopConstraint = [NSLayoutConstraint constraintWithItem:self.commentLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.usernameLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:8.0f];
-    NSLayoutConstraint *commentLeadingConstraint = [NSLayoutConstraint constraintWithItem:self.commentLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:8.0f];
-    NSLayoutConstraint *usernameLeadingConstraint = [NSLayoutConstraint constraintWithItem:self.usernameLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.commentLabel attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0f];
-    NSLayoutConstraint *commentBottomConstraint = [NSLayoutConstraint constraintWithItem:self.commentLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-8.0f];
-    NSLayoutConstraint *reactionTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.reactionLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-8.0f];
-    NSLayoutConstraint *reactionBottomConstraint = [NSLayoutConstraint constraintWithItem:self.reactionLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-8.0f];
-    NSLayoutConstraint *dateTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.reactionLabel attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0f];
-    NSLayoutConstraint *dateBottomConstraint = [NSLayoutConstraint constraintWithItem:self.dateLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.reactionLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:-8.0f];
-    [self.contentView addConstraints:@[commentTopConstraint, commentLeadingConstraint, usernameLeadingConstraint, commentBottomConstraint, reactionTrailingConstraint, reactionBottomConstraint, dateTrailingConstraint, dateBottomConstraint]];
+    [self.contentView addSubview:self.usernameLabel];
+    [self.contentView addSubview:self.dateLabel];
+    [self.contentView addSubview:self.commentLabel];
+    [self.contentView addSubview:self.reactionLabel];
+    [self.commentLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.usernameLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.reactionLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.dateLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.commentLabel.topAnchor constraintEqualToAnchor:self.usernameLabel.bottomAnchor constant:8.0].active = YES;
+    [self.commentLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:8.0].active = YES;
+    [self.usernameLabel.leadingAnchor constraintEqualToAnchor:self.commentLabel.leadingAnchor].active = YES;
+    [self.commentLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-8.0].active = YES;
+    [self.reactionLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8.0].active = YES;
+    [self.reactionLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-8.0].active = YES;
+    [self.dateLabel.trailingAnchor constraintEqualToAnchor:self.reactionLabel.trailingAnchor].active = YES;
+    [self.dateLabel.bottomAnchor constraintEqualToAnchor:self.reactionLabel.topAnchor constant:-8.0].active = YES;
 }
 
 @end

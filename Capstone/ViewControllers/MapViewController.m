@@ -47,12 +47,12 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    [self.mapView addSubview:_collectionView];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     [_collectionView registerClass:[PostCell class] forCellWithReuseIdentifier:@"PostCell"];
     _collectionView.showsHorizontalScrollIndicator = YES;
     [_collectionView setHidden:YES];
-    [self setConstraints];
     
     self.arrayOfPosts = [[NSMutableArray alloc] init];
     self.arrayOfMarkers = [[NSMutableArray alloc] init];
@@ -80,8 +80,12 @@
     }];
 }
 
--(void)setConstraints {
-    [self.mapView addSubview:_collectionView];
++ (BOOL)requiresConstraintBasedLayout {
+    return YES;
+}
+
+-(void)updateViewConstraints {
+    [super updateViewConstraints];
     [_collectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_collectionView.leftAnchor constraintEqualToAnchor:self.mapView.leftAnchor constant:10.0].active = YES;
     [_collectionView.rightAnchor constraintEqualToAnchor:self.mapView.rightAnchor constant:-10.0].active = YES;
@@ -116,7 +120,7 @@
     PostCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:@"PostCell" forIndexPath:indexPath];
     Post *post = self.arrayOfPosts[indexPath.row];
     [cell setupCell:post];
-    [_collectionView addSubview:cell];
+//    [_collectionView addSubview:cell];
     PFGeoPoint *coordinates = (PFGeoPoint *) post[@"Location"];
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:5];
     [self.mapView animateToCameraPosition:camera];
