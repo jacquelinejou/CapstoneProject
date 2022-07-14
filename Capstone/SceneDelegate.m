@@ -17,10 +17,23 @@
 @end
 
 bool isGrantedNotificationAccess;
+NSInteger notificationHour;
+NSInteger notificationMinute;
 
-@implementation SceneDelegate
+@implementation SceneDelegate {
+    NSInteger timeLimit;
+    NSInteger hourLowerBound;
+    NSInteger hourUpperBound;
+    NSInteger minuteLowerBound;
+    NSInteger minuteUpperBound;
+}
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
+    timeLimit = 5;
+    hourLowerBound = 6;
+    hourUpperBound = 24;
+    minuteLowerBound = 0;
+    minuteUpperBound = 60;
     ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
@@ -62,18 +75,21 @@ bool isGrantedNotificationAccess;
     content.sound = [UNNotificationSound defaultSound];
     
     // Configure the trigger for a random time between 6am - 12am.
-    int hourLowerBound = 6;
-    int hourUpperBound = 24;
-    int hourRndValue = hourLowerBound + arc4random() % (hourUpperBound - hourLowerBound);
-    
-    int minuteLowerBound = 0;
-    int minuteUpperBound = 59;
-    int minuteRndValue = minuteLowerBound + arc4random() % (minuteUpperBound - minuteLowerBound);
+    int hourRndValue = (int) (hourLowerBound + arc4random_uniform(hourUpperBound - hourLowerBound));
+    int minuteRndValue = (uint32_t) arc4random_uniform(minuteUpperBound - minuteLowerBound);
     
     NSDateComponents* date = [[NSDateComponents alloc] init];
     date.hour = hourRndValue;
     date.minute = minuteRndValue;
-
+    
+    if (minuteRndValue + timeLimit >= 60) {
+        notificationHour = hourRndValue + 1;
+        notificationMinute = minuteRndValue + timeLimit - 60;
+    } else {
+        notificationHour = hourRndValue;
+        notificationMinute = minuteRndValue + timeLimit;
+    }
+    
     // Create the request object.
     UNCalendarNotificationTrigger* trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:date repeats:YES];
     // Create a request objects.
@@ -93,14 +109,22 @@ bool isGrantedNotificationAccess;
     [self.window makeKeyAndVisible];
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-          didReceiveNotificationResponse:(UNNotificationResponse *)response
-          withCompletionHandler:(void (^)(void))completionHandler {
-   if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
-       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-       self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
-       [self.window makeKeyAndVisible];
-   }
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler {
+    if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
+        if ([self dateConverter]) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
+            [self.window makeKeyAndVisible];
+        }
+    }
+}
+
+-(BOOL)dateConverter {
+    NSDate *date = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
+    return (notificationHour > [components hour] || (notificationHour == [components hour] && notificationMinute > [components minute]));
 }
 
 @end
