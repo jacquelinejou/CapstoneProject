@@ -9,15 +9,108 @@
 #import <Parse/Parse.h>
 #import "WelcomeViewController.h"
 #import "SceneDelegate.h"
+#import "FSCalendar.h"
+#import "CalendarCell.h"
+#import "Post.h"
 
-@interface CalendarViewController ()
-
+@interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
+@property (strong, nonatomic) NSCalendar *gregorian;
+@property (nonatomic, strong) NSMutableArray *arrayOfImages;
+- (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)position;
 @end
 
-@implementation CalendarViewController
+@implementation CalendarViewController {
+    FSCalendar *_calendarView;
+    CGFloat borderSpace;
+    BOOL isFirstCell;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    borderSpace = 10.0;
+    isFirstCell = YES;
+    self.tabBarController.delegate = self;
+    self.gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    _calendarView.adjustsBoundingRectWhenChangingMonths = YES;
+    _calendarView = [[FSCalendar alloc] initWithFrame:CGRectZero];
+    _calendarView.dataSource = self;
+    _calendarView.delegate = self;
+    [self.view addSubview:_calendarView];
+    [self setupCalendarImage];
+    [self _setConstraints];
+}
+
+-(void)setupCalendarImage{
+    _calendarView.appearance.titleFont = [UIFont fontWithName:@"VirtuousSlabRegular" size:15];
+    _calendarView.appearance.headerTitleFont = [UIFont fontWithName:@"VirtuousSlabBold" size:20];
+    _calendarView.appearance.weekdayFont = [UIFont fontWithName:@"VirtuousSlabBold" size:16];
+    _calendarView.appearance.todayColor = [UIColor systemBrownColor];
+    _calendarView.appearance.titleTodayColor = [UIColor whiteColor];
+    _calendarView.appearance.titleDefaultColor = [UIColor systemBrownColor];
+    _calendarView.appearance.weekdayTextColor = [UIColor systemBrownColor];
+    _calendarView.appearance.headerTitleColor = [UIColor systemBrownColor];
+    _calendarView.calendarHeaderView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.2];
+    _calendarView.calendarWeekdayView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.05];
+    [_calendarView registerClass:[CalendarCell class] forCellReuseIdentifier:@"CalendarCell"];
+}
+
+-(void)_setConstraints {
+    [_calendarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:borderSpace].active = YES;
+    [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:borderSpace * -1].active = YES;
+    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:borderSpace * -6].active = YES;
+    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:borderSpace * 10].active = YES;
+}
+
+- (void)calendar:(FSCalendar *)calendar boundingRectWillChange:(CGRect)bounds animated:(BOOL)animated {
+    // Do other updates here
+    [self.view layoutIfNeeded];
+}
+
+- (FSCalendarCell *)calendar:(FSCalendar *)calendar cellForDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
+    CalendarCell *cell = [_calendarView dequeueReusableCellWithIdentifier:@"CalendarCell" forDate:date atMonthPosition:monthPosition];
+    return cell;
+}
+
+- (void)calendar:(FSCalendar *)calendar willDisplayCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition: (FSCalendarMonthPosition)monthPosition {
+    [self configureCell:cell forDate:date atMonthPosition:monthPosition];
+}
+
+- (NSArray<UIColor *> *)calendar:(FSCalendar *)calendar appearance:(FSCalendarAppearance *)appearance eventDefaultColorsForDate:(NSDate *)date {
+    if ([self.gregorian isDateInToday:date]) {
+        return @[[UIColor orangeColor]];
+    }
+    return @[appearance.eventDefaultColor];
+}
+
+- (NSDate *)minimumDateForCalendar:(FSCalendar *)calendar {
+    PFUser *user = [PFUser currentUser];
+    NSDate *date = user.createdAt;
+    return date;
+}
+
+- (NSDate *)maximumDateForCalendar:(FSCalendar *)calendar {
+    return [NSDate date];
+}
+
+- (void)configureVisibleCells {
+    [_calendarView.visibleCells enumerateObjectsUsingBlock:^(__kindof FSCalendarCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDate *date = [_calendarView dateForCell:obj];
+        FSCalendarMonthPosition position = [_calendarView monthPositionForCell:obj];
+        [self configureCell:obj forDate:date atMonthPosition:position];
+    }];
+}
+
+- (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
+    CalendarCell *diyCell = (CalendarCell *)cell;
+    // Custom today circle
+    diyCell.circleImageView.hidden = ![self.gregorian isDateInToday:date];
+}
+
+- (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
+}
+
+-(void)calendar:(FSCalendar *)calendar didDeselectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
 }
 
 - (IBAction)didLogout:(id)sender {

@@ -9,4 +9,8 @@
 
 @implementation CustomInfoWindow
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+}
+
 @end

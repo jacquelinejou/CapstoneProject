@@ -7,31 +7,18 @@
 
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
+#import "PhotoViewController.h"
+#import "Post.h"
+#import <UserNotifications/UserNotifications.h>
 @import GoogleMaps;
 
-@interface AppDelegate ()
+@interface AppDelegate () <UNUserNotificationCenterDelegate>
 
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
-
-        NSString *ID = [dict objectForKey: @"App ID"];
-        NSString *key = [dict objectForKey: @"Client Key"];
-        NSString *kMapsAPIKey = [dict objectForKey: @"API Key"];
-        configuration.applicationId = ID; // <- UPDATE
-        configuration.clientKey = key; // <- UPDATE
-        configuration.server = @"https://parseapi.back4app.com";
-        
-        [GMSServices provideAPIKey:kMapsAPIKey];
-    }];
-
-    [Parse initializeWithConfiguration:config];
     return YES;
 }
 

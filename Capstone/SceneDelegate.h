@@ -10,5 +10,5 @@
 @interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
 
 @property (strong, nonatomic) UIWindow * window;
-
+-(BOOL)dateConverter;
 @end

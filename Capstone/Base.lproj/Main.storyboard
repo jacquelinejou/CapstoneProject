@@ -157,6 +157,24 @@
             </objects>
             <point key="canvasLocation" x="1674" y="-361"/>
         </scene>
+        <!--Photo View Controller-->
+        <scene sceneID="u9n-zj-KZy">
+            <objects>
+                <viewController storyboardIdentifier="PhotoViewController" id="JMO-1n-GOn" customClass="PhotoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZYQ-au-NOk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="2no-RY-kLA"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="jyi-Nz-JRr" kind="presentation" identifier="postSegue" modalPresentationStyle="fullScreen" id="tux-KG-dxy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MJP-4J-cp8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3046.376811594203" y="-782.14285714285711"/>
+        </scene>
         <!--Register View Controller-->
         <scene sceneID="h5r-e2-pRv">
             <objects>
@@ -243,17 +261,30 @@
         <scene sceneID="GjW-3S-9Dg">
             <objects>
                 <viewController id="v1B-st-k5c" customClass="MapViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="V8l-Wi-ES8" customClass="GMSMapView">
+                    <view key="view" contentMode="scaleToFill" id="V8l-Wi-ES8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fe2-Gz-wk4" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="EcR-xo-Uaz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="EcR-xo-Uaz" firstAttribute="bottom" secondItem="Fe2-Gz-wk4" secondAttribute="bottom" id="3hs-7m-ion"/>
+                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="leading" secondItem="EcR-xo-Uaz" secondAttribute="leading" id="Jrj-UB-5Iq"/>
+                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="top" secondItem="V8l-Wi-ES8" secondAttribute="top" id="oeN-pm-PIT"/>
+                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="trailing" secondItem="EcR-xo-Uaz" secondAttribute="trailing" id="u4V-kQ-VDt"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="rSF-Up-h7Y">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="Dmq-Lc-l7d">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="THc-1q-Ify">
                                 <rect key="frame" x="20" y="5" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Logout"/>
                                 <connections>
@@ -263,7 +294,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mapView" destination="V8l-Wi-ES8" id="Vlu-ff-XhI"/>
+                        <outlet property="mapView" destination="Fe2-Gz-wk4" id="mcF-Rn-V0D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4SH-2f-Xtp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -278,7 +309,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Gim-ea-Hpa">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.91014815076040156" green="0.99901171103872433" blue="0.89352600583195529" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
@@ -305,6 +336,7 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="agB-Tv-Zvg">
                                 <rect key="frame" x="20" y="5" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Logout"/>
                                 <connections>
@@ -357,6 +389,9 @@
             <point key="canvasLocation" x="4556.521739130435" y="464.73214285714283"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="tux-KG-dxy"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -12,7 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MapViewController : UIViewController <GMSMapViewDelegate>
-
 @end
 
 NS_ASSUME_NONNULL_END
