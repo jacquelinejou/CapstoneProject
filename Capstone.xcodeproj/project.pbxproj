@@ -39,6 +39,8 @@
 		2DD1A788287DF25B00B3ABF1 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A787287DF25B00B3ABF1 /* PhotoViewController.m */; };
 		2DD1A78A287E27B200B3ABF1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD1A789287E27B200B3ABF1 /* AVFoundation.framework */; };
 		2DD1A78D287E3DA900B3ABF1 /* CalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */; };
+		2DD1A78F2880999600B3ABF1 /* brownCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DD1A78E2880999600B3ABF1 /* brownCircle.png */; };
+		2DD1A7932880E57B00B3ABF1 /* PreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7922880E57B00B3ABF1 /* PreviewView.m */; };
 		37003B750F267B2926F3EBF1 /* Pods_CapstoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */; };
 		F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */; };
 /* End PBXBuildFile section */
@@ -110,6 +112,9 @@
 		2DD1A789287E27B200B3ABF1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2DD1A78B287E3DA900B3ABF1 /* CalendarCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarCell.h; sourceTree = "<group>"; };
 		2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarCell.m; sourceTree = "<group>"; };
+		2DD1A78E2880999600B3ABF1 /* brownCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brownCircle.png; path = ../../../../Downloads/brownCircle.png; sourceTree = "<group>"; };
+		2DD1A7912880E57B00B3ABF1 /* PreviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreviewView.h; sourceTree = "<group>"; };
+		2DD1A7922880E57B00B3ABF1 /* PreviewView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreviewView.m; sourceTree = "<group>"; };
 		31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
 		47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapstoneTests.debug.xcconfig"; path = "Target Support Files/Pods-CapstoneTests/Pods-CapstoneTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -193,6 +198,7 @@
 		2D6A780C2874A0A1008786BF /* Capstone */ = {
 			isa = PBXGroup;
 			children = (
+				2DD1A7902880E56900B3ABF1 /* Views */,
 				2D26936628775BE50074A934 /* Cells */,
 				2D26936528775BDA0074A934 /* Models */,
 				2D6A78482874C059008786BF /* ViewControllers */,
@@ -207,6 +213,7 @@
 				2D6A781F2874A0A3008786BF /* main.m */,
 				2D2693582875F5AA0074A934 /* Keys.plist */,
 				2D269363287639470074A934 /* custom_pin.png */,
+				2DD1A78E2880999600B3ABF1 /* brownCircle.png */,
 				2D269373287769300074A934 /* InfoWindow.xib */,
 				2D2693752877752B0074A934 /* CustomInfoWindow.h */,
 				2D2693762877752B0074A934 /* CustomInfoWindow.m */,
@@ -260,6 +267,15 @@
 				2DD1A787287DF25B00B3ABF1 /* PhotoViewController.m */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		2DD1A7902880E56900B3ABF1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2DD1A7912880E57B00B3ABF1 /* PreviewView.h */,
+				2DD1A7922880E57B00B3ABF1 /* PreviewView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		AC6F4CC94EE5D0C0A5ACF0A9 /* Pods */ = {
@@ -397,6 +413,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DD1A78F2880999600B3ABF1 /* brownCircle.png in Resources */,
 				2D2693592875F5AA0074A934 /* Keys.plist in Resources */,
 				2D6A78562874FC3A008786BF /* Virtuous-Slab.otf in Resources */,
 				2D269364287639470074A934 /* custom_pin.png in Resources */,
@@ -580,6 +597,7 @@
 				2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */,
 				2D26936F287765C20074A934 /* Post.m in Sources */,
 				2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */,
+				2DD1A7932880E57B00B3ABF1 /* PreviewView.m in Sources */,
 				2D6A78202874A0A3008786BF /* main.m in Sources */,
 				2DD1A788287DF25B00B3ABF1 /* PhotoViewController.m in Sources */,
 				2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */,

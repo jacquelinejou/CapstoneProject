@@ -14,7 +14,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         UIImageView *circleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"circle"]];
-        [self.contentView insertSubview:circleImageView atIndex:0];
+        [self.contentView insertSubview:circleImageView atIndex:1];
         self.circleImageView = circleImageView;
         
         CAShapeLayer *selectionLayer = [[CAShapeLayer alloc] init];
@@ -25,12 +25,19 @@
         
         self.shapeLayer.hidden = NO;
         self.backgroundView = [[UIView alloc] initWithFrame:self.bounds];
-        self.backgroundView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.1];
+        self.backgroundView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.025];
         
     }
     return self;
 }
 
+-(CalendarCell *)setupCell:(UIImage *)image {
+    self.postImageView = [[UIImageView alloc] init];
+    // format image
+    self.postImageView.image = image;
+    [self.contentView insertSubview:self.postImageView atIndex:0];
+    return self;
+}
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -38,25 +45,6 @@
     self.backgroundView.frame = CGRectInset(self.bounds, 1, 1);
     self.circleImageView.frame = self.backgroundView.frame;
     self.selectionLayer.frame = self.bounds;
-    
-    if (self.selectionType == SelectionTypeMiddle) {
-        
-        self.selectionLayer.path = [UIBezierPath bezierPathWithRect:self.selectionLayer.bounds].CGPath;
-        
-    } else if (self.selectionType == SelectionTypeLeftBorder) {
-        
-        self.selectionLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.selectionLayer.bounds byRoundingCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft cornerRadii:CGSizeMake(self.selectionLayer.fs_width/2, self.selectionLayer.fs_width/2)].CGPath;
-        
-    } else if (self.selectionType == SelectionTypeRightBorder) {
-        
-        self.selectionLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.selectionLayer.bounds byRoundingCorners:UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:CGSizeMake(self.selectionLayer.fs_width/2, self.selectionLayer.fs_width/2)].CGPath;
-        
-    } else if (self.selectionType == SelectionTypeSingle) {
-        
-        CGFloat diameter = MIN(self.selectionLayer.fs_height, self.selectionLayer.fs_width);
-        self.selectionLayer.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(self.contentView.fs_width/2-diameter/2, self.contentView.fs_height/2-diameter/2, diameter, diameter)].CGPath;
-        
-    }
 }
 
 - (void)configureAppearance

@@ -6,6 +6,7 @@
 //
 
 #import <FSCalendar/FSCalendar.h>
+#import "Post.h"
 
 typedef NS_ENUM(NSUInteger, SelectionType) {
     SelectionTypeNone,
@@ -19,8 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CalendarCell : FSCalendarCell
 @property (weak, nonatomic) UIImageView *circleImageView;
+@property (strong, nonatomic) UIImageView *postImageView;
 @property (weak, nonatomic) CAShapeLayer *selectionLayer;
 @property (assign, nonatomic) SelectionType selectionType;
+-(CalendarCell *)setupCell:(UIImage *)image;
 @end
 
 NS_ASSUME_NONNULL_END

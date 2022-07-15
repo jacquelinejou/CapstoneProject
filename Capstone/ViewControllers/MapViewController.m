@@ -12,11 +12,12 @@
 #import "CustomInfoWindow.h"
 #import "Post.h"
 #import "PostCell.h"
+#import "CalendarViewController.h"
 #import <Parse/PFObject+Subclass.h>
 @import GoogleMaps;
 @import GoogleMapsUtils;
 
-@interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarControllerDelegate>
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *arrayOfPosts;
 @property (nonatomic, strong) NSMutableArray<GMSMarker *> *arrayOfMarkers;
@@ -48,6 +49,7 @@
     [super viewDidLoad];
     borderSpace = 10.0;
     insets = 2;
+    self.tabBarController.delegate = self;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
@@ -113,7 +115,6 @@
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.arrayOfPosts.count;
-//    return 0;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,7 +125,6 @@
     PostCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:@"PostCell" forIndexPath:indexPath];
     Post *post = self.arrayOfPosts[indexPath.row];
     [cell setupCell:post];
-//    [_collectionView addSubview:cell];
     PFGeoPoint *coordinates = (PFGeoPoint *) post[@"Location"];
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:5];
     [self.mapView animateToCameraPosition:camera];
@@ -209,6 +209,11 @@
         WelcomeViewController *welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:@"WelcomeView"];
         mySceneDelegate.window.rootViewController = welcomeViewController;
     }];
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    CalendarViewController *calendarView = [[CalendarViewController alloc] init];
+    calendarView.arrayOfPosts = self.arrayOfPosts;
 }
 
 @end

@@ -11,56 +11,54 @@
 #import "SceneDelegate.h"
 #import "FSCalendar.h"
 #import "CalendarCell.h"
+#import "Post.h"
 
-@interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate>
+@interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
 @property (strong, nonatomic) NSCalendar *gregorian;
-@property (nonatomic, strong) NSMutableArray *arrayOfPosts;
+@property (nonatomic, strong) NSMutableArray *arrayOfImages;
 - (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)position;
 @end
 
 @implementation CalendarViewController {
     FSCalendar *_calendarView;
     CGFloat borderSpace;
+    BOOL isFirstCell;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     borderSpace = 10.0;
+    isFirstCell = YES;
+    self.tabBarController.delegate = self;
     self.gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    _calendarView.adjustsBoundingRectWhenChangingMonths = YES;
     _calendarView = [[FSCalendar alloc] initWithFrame:CGRectZero];
     _calendarView.dataSource = self;
     _calendarView.delegate = self;
-    _calendarView.swipeToChooseGesture.enabled = YES;
-    UIPanGestureRecognizer *scopeGesture = [[UIPanGestureRecognizer alloc] initWithTarget:_calendarView action:@selector(handleScopeGesture:)];
-    [_calendarView addGestureRecognizer:scopeGesture];
     [self.view addSubview:_calendarView];
     [self setupCalendarImage];
-    [self setConstraints];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
-    [query orderByDescending:@"createdAt"];
-    [query includeKey:@"author"];
-    
-    // fetch data asynchronously
-    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-        if (posts != nil) {
-            self.arrayOfPosts = (NSMutableArray *)posts;
-            [self->_calendarView reloadData];
-        }
-    }];
+    [self _setConstraints];
 }
 
 -(void)setupCalendarImage{
-    _calendarView.calendarHeaderView.backgroundColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.25] colorWithAlphaComponent:0.9];
-    _calendarView.calendarWeekdayView.backgroundColor = [[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.25] colorWithAlphaComponent:0.2];
+    _calendarView.appearance.titleFont = [UIFont fontWithName:@"VirtuousSlabRegular" size:15];
+    _calendarView.appearance.headerTitleFont = [UIFont fontWithName:@"VirtuousSlabBold" size:20];
+    _calendarView.appearance.weekdayFont = [UIFont fontWithName:@"VirtuousSlabBold" size:16];
+    _calendarView.appearance.todayColor = [UIColor systemBrownColor];
+    _calendarView.appearance.titleTodayColor = [UIColor whiteColor];
+    _calendarView.appearance.titleDefaultColor = [UIColor systemBrownColor];
+    _calendarView.appearance.weekdayTextColor = [UIColor systemBrownColor];
+    _calendarView.appearance.headerTitleColor = [UIColor systemBrownColor];
+    _calendarView.calendarHeaderView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.2];
+    _calendarView.calendarWeekdayView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.05];
     [_calendarView registerClass:[CalendarCell class] forCellReuseIdentifier:@"CalendarCell"];
 }
 
--(void)setConstraints {
+-(void)_setConstraints {
     [_calendarView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:borderSpace].active = YES;
     [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:borderSpace * -1].active = YES;
-    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:borderSpace * -2].active = YES;
+    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:borderSpace * -6].active = YES;
     [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:borderSpace * 10].active = YES;
 }
 
@@ -85,6 +83,16 @@
     return @[appearance.eventDefaultColor];
 }
 
+- (NSDate *)minimumDateForCalendar:(FSCalendar *)calendar {
+    PFUser *user = [PFUser currentUser];
+    NSDate *date = user.createdAt;
+    return date;
+}
+
+- (NSDate *)maximumDateForCalendar:(FSCalendar *)calendar {
+    return [NSDate date];
+}
+
 - (void)configureVisibleCells {
     [_calendarView.visibleCells enumerateObjectsUsingBlock:^(__kindof FSCalendarCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSDate *date = [_calendarView dateForCell:obj];
@@ -93,52 +101,17 @@
     }];
 }
 
-- (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition
-{
-    
+- (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
     CalendarCell *diyCell = (CalendarCell *)cell;
-    
     // Custom today circle
     diyCell.circleImageView.hidden = ![self.gregorian isDateInToday:date];
-    
-    // Configure selection layer
-    if (monthPosition == FSCalendarMonthPositionCurrent) {
-        
-        SelectionType selectionType = SelectionTypeNone;
-        if ([_calendarView.selectedDates containsObject:date]) {
-            NSDate *previousDate = [self.gregorian dateByAddingUnit:NSCalendarUnitDay value:-1 toDate:date options:0];
-            NSDate *nextDate = [self.gregorian dateByAddingUnit:NSCalendarUnitDay value:1 toDate:date options:0];
-            if ([_calendarView.selectedDates containsObject:date]) {
-                if ([_calendarView.selectedDates containsObject:previousDate] && [_calendarView.selectedDates containsObject:nextDate]) {
-                    selectionType = SelectionTypeMiddle;
-                } else if ([_calendarView.selectedDates containsObject:previousDate] && [_calendarView.selectedDates containsObject:date]) {
-                    selectionType = SelectionTypeRightBorder;
-                } else if ([_calendarView.selectedDates containsObject:nextDate]) {
-                    selectionType = SelectionTypeLeftBorder;
-                } else {
-                    selectionType = SelectionTypeSingle;
-                }
-            }
-        } else {
-            selectionType = SelectionTypeNone;
-        }
-        
-        if (selectionType == SelectionTypeNone) {
-            diyCell.selectionLayer.hidden = YES;
-            return;
-        }
-        
-        diyCell.selectionLayer.hidden = NO;
-        diyCell.selectionType = selectionType;
-        
-    } else {
-        
-        diyCell.circleImageView.hidden = YES;
-        diyCell.selectionLayer.hidden = YES;
-        
-    }
 }
 
+- (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
+}
+
+-(void)calendar:(FSCalendar *)calendar didDeselectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
+}
 
 - (IBAction)didLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
