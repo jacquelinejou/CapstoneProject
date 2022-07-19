@@ -46,8 +46,8 @@ NSInteger notificationMinute;
         
         [GMSServices provideAPIKey:kMapsAPIKey];
     }];
-    
     [Parse initializeWithConfiguration:config];
+    
     [self pushNotification];
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) PFFileObject *image;
+@property (nonatomic, strong) UIImage *imageData;
 @property (nonatomic, strong) NSArray *reactions;
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) PFGeoPoint *location;

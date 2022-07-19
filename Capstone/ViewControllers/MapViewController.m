@@ -20,6 +20,8 @@
 @interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarControllerDelegate>
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *arrayOfPosts;
+@property (nonatomic, strong) NSMutableDictionary *dictOfPosts;
+@property (nonatomic, strong) NSMutableDictionary *currMonthDictOfPosts;
 @property (nonatomic, strong) NSMutableArray<GMSMarker *> *arrayOfMarkers;
 @end
 
@@ -71,6 +73,7 @@
         if (posts != nil) {
             self.arrayOfPosts = (NSMutableArray *)posts;
             [self loadMarkers];
+            [self setupDictionaries];
             
             // Set up the cluster manager with a supplied icon generator and renderer.
             id<GMUClusterAlgorithm> algorithm = [[GMUNonHierarchicalDistanceBasedAlgorithm alloc] init];
@@ -84,6 +87,27 @@
             [self->_clusterManager cluster];
         }
     }];
+}
+
+-(void)setupDictionaries {
+    self.dictOfPosts = [[NSMutableDictionary alloc] init];
+    self.currMonthDictOfPosts = [[NSMutableDictionary alloc] init];
+    for (Post *post in self.arrayOfPosts) {
+        // sets date to beginning of day to compare later
+        NSDate *date = post.createdAt;
+        [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&date interval:NULL forDate:date];
+        
+        // converts image to usable image
+        PFFileObject *pffile = post[@"Image"];
+        NSString *url = pffile.url;
+        NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
+        UIImage *image = [UIImage imageWithData: imageData];
+        self.dictOfPosts[date] = image;
+        // add to current month dict if in curr month
+        if ([self isSameMonth:date otherDay:[NSDate date]]) {
+            self.currMonthDictOfPosts[date] = image;
+        }
+    }
 }
 
 + (BOOL)requiresConstraintBasedLayout {
@@ -181,9 +205,10 @@
     infoWindow.dateLabel.text = [self setDate:postTime];
     
     // format image
-    [post[@"Image"] getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        infoWindow.postImage.image = [UIImage imageWithData:data];
-    }];
+    PFFileObject *pffile = post[@"Image"];
+    NSString *url = pffile.url;
+    NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
+    infoWindow.postImage.image = [UIImage imageWithData: imageData];
     
     infoWindow.commentLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:10];
     infoWindow.commentLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Comments"] count]] stringByAppendingString:@" Comments"];
@@ -202,6 +227,15 @@
     return stringDate;
 }
 
+- (BOOL)isSameMonth:(NSDate*)date1 otherDay:(NSDate*)date2 {
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
+    NSDateComponents* comp1 = [calendar components:unitFlags fromDate:date1];
+    NSDateComponents* comp2 = [calendar components:unitFlags fromDate:date2];
+    return [comp1 month] == [comp2 month] &&
+    [comp1 year]  == [comp2 year];
+}
+
 - (IBAction)didLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         SceneDelegate *mySceneDelegate = (SceneDelegate * ) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
@@ -212,8 +246,10 @@
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    CalendarViewController *calendarView = [[CalendarViewController alloc] init];
-    calendarView.arrayOfPosts = self.arrayOfPosts;
+    UINavigationController *navController = tabBarController.viewControllers[1];
+    CalendarViewController *calendarView = (CalendarViewController *) navController.topViewController;
+    calendarView.dictOfPosts = self.dictOfPosts;
+    calendarView.currMonthDictOfPosts = self.currMonthDictOfPosts;
 }
 
 @end
