@@ -315,14 +315,17 @@
 //    });
     NSLog(@"%@", backUrl);
     NSLog(@"%@", frontUrl);
-    AVAsset *video1Asset = [AVAsset assetWithURL:backUrl];
+    AVAsset *video1Asset = [AVAsset assetWithURL:frontUrl];
     AVMutableComposition* mixComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *firstTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, video1Asset.duration) ofTrack:[[video1Asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
     
-    AVAsset *video2Asset = [AVAsset assetWithURL:frontUrl];
-    AVMutableCompositionTrack *secondTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-    [secondTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, video2Asset.duration) ofTrack:[[video2Asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
+    AVAsset *video2Asset = [AVAsset assetWithURL:backUrl];
+    firstTrack insertEmptyTimeRange:<#(CMTimeRange)#>
+//    AVMutableCompositionTrack *secondTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+//    [secondTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, video2Asset.duration) ofTrack:[[video2Asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
+//    firstTrack.preferredTransform = CGAffineTransformMakeScale(0.25f, 0.25f);
+//    firstTrack.preferredTransform = CGAffineTransformConcat(scale2,rotate);
     AVMutableVideoCompositionInstruction * mainInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, video1Asset.duration);
     
@@ -332,7 +335,7 @@
     CGFloat rotation = M_PI / 2;
     CGAffineTransform rotate = CGAffineTransformRotate(move, rotation);
     [firstlayerInstruction setTransform:CGAffineTransformConcat(scale,rotate) atTime:kCMTimeZero];
-    
+
     AVMutableVideoCompositionLayerInstruction *secondlayerInstruction = [self videoCompositionInstruction:secondTrack withAsset:video2Asset];
     CGAffineTransform secondScale = CGAffineTransformMakeScale(1.0f,1.0f);
     CGAffineTransform secondMove =  CGAffineTransformMakeTranslation(secondTrack.naturalSize.height,-(secondTrack.naturalSize.width - secondTrack.naturalSize.height)/2);
@@ -346,9 +349,6 @@
     CGSize naturalSize = CGSizeMake(videoAssetTrack.naturalSize.height, videoAssetTrack.naturalSize.width);
     mainCompositionInst.renderSize = naturalSize;
     mainCompositionInst.frameDuration = CMTimeMake(1, 30);
-    
-    AVPlayerItem * newPlayerItem = [AVPlayerItem playerItemWithAsset:mixComposition];
-    newPlayerItem.videoComposition = mainCompositionInst;
     
     // Create the export session with the composition and set the preset to the highest quality.
     exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
