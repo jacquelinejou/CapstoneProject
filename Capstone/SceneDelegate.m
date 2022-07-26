@@ -51,7 +51,8 @@ NSInteger notificationMinute;
     [self pushNotification];
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
+//        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
+        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
     }
 }
 

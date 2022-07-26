@@ -23,9 +23,10 @@
     return @"Post";
 }
 
-+ (void) postUserImage: ( UIImage * _Nullable )image withCaption: ( NSString * _Nullable )caption withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void) postUserVideo: ( NSURL * _Nullable )video withCaption: ( NSString * _Nullable )caption withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     Post *newPost = [Post new];
-    newPost.image = [self getPFFileFromImage:image];
+    NSData *data = [[NSData alloc] initWithContentsOfURL:video];
+    newPost.image = [PFFileObject fileObjectWithName:video.absoluteString data:data];
     newPost.author = [PFUser currentUser];
     newPost.caption = caption;
     newPost.reactions = [[NSArray alloc] init];

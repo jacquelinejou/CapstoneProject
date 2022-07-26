@@ -1,0 +1,25 @@
+{
+  "name": "iOS-Client-SDK",
+  "version": "1.1.37",
+  "summary": "Ziggeo iOS Client SDK",
+  "description": "Ziggeo iOS recording and playback SDK",
+  "homepage": "http://ziggeo.com",
+  "license": {
+    "type": "Confidential",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Ziggeo Inc": "support@ziggeo.com"
+  },
+  "source": {
+    "git": "https://github.com/Ziggeo/iOS-Client-SDK.git",
+    "tag": "1.1.37"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "vendored_frameworks": [
+    "Output/SelfieSegmentation.framework",
+    "Output/Ziggeo.framework"
+  ]
+}

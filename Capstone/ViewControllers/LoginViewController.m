@@ -39,7 +39,8 @@
        [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
            if (error == nil) {
                [self resignFirstResponder];
-               [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+//               [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+               [self performSegueWithIdentifier:@"photoSegue" sender:nil];
            } else {
                [self failedLogin];
            }

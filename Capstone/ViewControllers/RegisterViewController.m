@@ -41,7 +41,7 @@
        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
            if (error == nil) {
                [self resignFirstResponder];
-               [self dismissViewControllerAnimated:YES completion:nil];
+               [self performSegueWithIdentifier:@"createdSegue" sender:nil];
            } else {
                [self failedRegister];
            }

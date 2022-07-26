@@ -10,6 +10,8 @@ target 'Capstone' do
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
   pod 'FSCalendar'
+  pod 'MBProgressHUD'
+  pod 'iOS-Client-SDK', :git => 'https://github.com/Ziggeo/iOS-Client-SDK.git'
 
   target 'CapstoneTests' do
     inherit! :search_paths
