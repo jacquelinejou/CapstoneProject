@@ -34,13 +34,12 @@
     NSString *username = self.usernameText.text;
     NSString *password = self.passwordText.text;
     if ([username isEqualToString:@""] || [password isEqualToString:@""]) {
-        [self loginHelper];
+        [self emptyLoginAttempt];
     } else {
        [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
            if (error == nil) {
                [self resignFirstResponder];
-//               [self performSegueWithIdentifier:@"loginSegue" sender:nil];
-               [self performSegueWithIdentifier:@"photoSegue" sender:nil];
+               [self performSegueWithIdentifier:@"loginSegue" sender:nil];
            } else {
                [self failedLogin];
            }
@@ -48,44 +47,32 @@
     }
 }
 
--(void)loginHelper {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Empty Field" message:@"Please fill in this field." preferredStyle:(UIAlertControllerStyleAlert)];
-    
-    // create a cancel action
+-(UIAlertController *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
-    // add the cancel action to the alertController
     [alert addAction:cancelAction];
 
-    // create an OK action
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
         handler:^(UIAlertAction * _Nonnull action) {
     }];
-    // add the OK action to the alert controller
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
     }];
+    return alert;
+}
+
+-(void)emptyLoginAttempt {
+    UIAlertController *alert = [self errorMessage];
+    alert.title = @"Empty Field";
+    alert.message = @"Please fill in this field.";
 }
 
 -(void)failedLogin {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Login" message:@"This username/password does not exist." preferredStyle:(UIAlertControllerStyleAlert)];
-    
-    // create a cancel action
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-    // add the cancel action to the alertController
-    [alert addAction:cancelAction];
-
-    // create an OK action
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-        handler:^(UIAlertAction * _Nonnull action) {
-    }];
-    // add the OK action to the alert controller
-    [alert addAction:okAction];
-    [self presentViewController:alert animated:YES completion:^{
-    }];
+    UIAlertController *alert = [self errorMessage];
+    alert.title = @"Invalid Login";
+    alert.message = @"This username/password does not exist.";
 }
 
 - (IBAction)didCancel:(id)sender {
@@ -105,8 +92,7 @@
 }
 
 #pragma mark - keyboard movements
-- (void)keyboardWillShow:(NSNotification *)notification
-{
+- (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
     [UIView animateWithDuration:0.3 animations:^{
@@ -116,8 +102,7 @@
     }];
 }
 
--(void)keyboardWillHide:(NSNotification *)notification
-{
+-(void)keyboardWillHide:(NSNotification *)notification {
     [UIView animateWithDuration:0.3 animations:^{
         CGRect f = self.view.frame;
         f.origin.y = 0.0f;

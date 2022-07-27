@@ -14,22 +14,20 @@
 #import "Post.h"
 
 @interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
-@property (strong, nonatomic) NSCalendar *gregorian;
+@property (strong, nonatomic) NSCalendar *_gregorian;
 - (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)position;
 @end
 
 @implementation CalendarViewController {
     FSCalendar *_calendarView;
-    CGFloat borderSpace;
-    BOOL isFirstCell;
+    CGFloat _borderSpace;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    borderSpace = 10.0;
-    isFirstCell = YES;
+    _borderSpace = 10.0;
     self.tabBarController.delegate = self;
-    self.gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    self._gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     _calendarView.adjustsBoundingRectWhenChangingMonths = YES;
     _calendarView = [[FSCalendar alloc] initWithFrame:CGRectZero];
     _calendarView.dataSource = self;
@@ -55,10 +53,10 @@
 
 -(void)_setConstraints {
     [_calendarView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:borderSpace].active = YES;
-    [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:borderSpace * -1].active = YES;
-    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:borderSpace * -6].active = YES;
-    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:borderSpace * 10].active = YES;
+    [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:_borderSpace].active = YES;
+    [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:_borderSpace * -1].active = YES;
+    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * -6].active = YES;
+    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:_borderSpace * 10].active = YES;
 }
 
 - (void)calendar:(FSCalendar *)calendar boundingRectWillChange:(CGRect)bounds animated:(BOOL)animated {
@@ -91,7 +89,7 @@
 }
 
 - (NSArray<UIColor *> *)calendar:(FSCalendar *)calendar appearance:(FSCalendarAppearance *)appearance eventDefaultColorsForDate:(NSDate *)date {
-    if ([self.gregorian isDateInToday:date]) {
+    if ([self._gregorian isDateInToday:date]) {
         return @[[UIColor orangeColor]];
     }
     return @[appearance.eventDefaultColor];
@@ -118,7 +116,7 @@
 - (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
     CalendarCell *diyCell = (CalendarCell *)cell;
     // Custom today circle
-    diyCell.circleImageView.hidden = ![self.gregorian isDateInToday:date];
+    diyCell.circleImageView.hidden = ![self._gregorian isDateInToday:date];
 }
 
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {

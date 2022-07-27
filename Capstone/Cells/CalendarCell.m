@@ -11,8 +11,7 @@
 
 @implementation CalendarCell
 - (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         UIImageView *circleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"circle"]];
         [self.contentView insertSubview:circleImageView atIndex:1];
         self.circleImageView = circleImageView;
