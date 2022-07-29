@@ -34,6 +34,7 @@ NSInteger notificationMinute;
     hourUpperBound = 24;
     minuteLowerBound = 0;
     minuteUpperBound = 60;
+    
     ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
@@ -52,6 +53,7 @@ NSInteger notificationMinute;
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
+//        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
     }
 }
 
@@ -93,7 +95,7 @@ NSInteger notificationMinute;
     // Create the request object.
     UNCalendarNotificationTrigger* trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:date repeats:YES];
     // Create a request objects.
-    UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"MorningAlarm" content:content trigger:trigger];
+    UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"Post Time" content:content trigger:trigger];
     // add error handling
     [center addNotificationRequest:request withCompletionHandler:nil];
 }

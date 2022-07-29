@@ -151,6 +151,7 @@
                         <outlet property="passwordText" destination="HR4-ad-clh" id="bUy-nt-LoE"/>
                         <outlet property="usernameText" destination="VDO-MH-EyR" id="t1u-ti-H98"/>
                         <segue destination="jyi-Nz-JRr" kind="presentation" identifier="loginSegue" destinationCreationSelector="loginSegue" modalPresentationStyle="fullScreen" id="8cw-F9-dLS"/>
+                        <segue destination="JMO-1n-GOn" kind="presentation" identifier="photoSegue" modalPresentationStyle="fullScreen" id="j8c-mQ-rBz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h7Q-fH-X3t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -251,6 +252,7 @@
                     <connections>
                         <outlet property="passwordText" destination="VW0-Jg-G7z" id="KvC-Xo-hy8"/>
                         <outlet property="usernameText" destination="hPM-T3-Zya" id="gWD-Ha-Ddd"/>
+                        <segue destination="dlG-lk-wwN" kind="presentation" identifier="createdSegue" modalPresentationStyle="fullScreen" id="Pc0-WF-VlH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bm3-xr-bqR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -391,6 +393,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="tux-KG-dxy"/>
+        <segue reference="Pc0-WF-VlH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

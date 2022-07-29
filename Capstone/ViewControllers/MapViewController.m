@@ -19,10 +19,10 @@
 
 @interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarControllerDelegate>
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
-@property (nonatomic, strong) NSMutableArray *arrayOfPosts;
+@property (nonatomic, strong) NSMutableArray *posts;
 @property (nonatomic, strong) NSMutableDictionary *dictOfPosts;
 @property (nonatomic, strong) NSMutableDictionary *currMonthDictOfPosts;
-@property (nonatomic, strong) NSMutableArray<GMSMarker *> *arrayOfMarkers;
+@property (nonatomic, strong) NSMutableArray<GMSMarker *> *markers;
 @end
 
 @implementation MapViewController {
@@ -36,7 +36,7 @@
 
 -(void)loadView {
     [super loadView];
-    // Center on Current location if no posts, or else latest post
+    // Center on Current location
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         if (!error) {
             GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:geoPoint.latitude longitude:geoPoint.longitude zoom:5];
@@ -55,23 +55,22 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    [self.mapView addSubview:_collectionView];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     [_collectionView registerClass:[PostCell class] forCellWithReuseIdentifier:@"PostCell"];
     _collectionView.showsHorizontalScrollIndicator = YES;
     [_collectionView setHidden:YES];
+    [self.mapView addSubview:_collectionView];
     
-    self.arrayOfPosts = [[NSMutableArray alloc] init];
-    self.arrayOfMarkers = [[NSMutableArray alloc] init];
+    self.posts = [[NSMutableArray alloc] init];
+    self.markers = [[NSMutableArray alloc] init];
     PFQuery *query = [PFQuery queryWithClassName:@"Post"];
     [query orderByDescending:@"createdAt"];
-    [query includeKey:@"author"];
     
     // fetch data asynchronously
-    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-        if (posts != nil) {
-            self.arrayOfPosts = (NSMutableArray *)posts;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
+        if (parsePosts != nil) {
+            self.posts = (NSMutableArray *)parsePosts;
             [self loadMarkers];
             [self setupDictionaries];
             
@@ -82,7 +81,7 @@
             self->_clusterManager = [[GMUClusterManager alloc] initWithMap:self.mapView algorithm:algorithm renderer:renderer];
             
             // Add markers to the cluster manager.
-            [self->_clusterManager addItems:self.arrayOfMarkers];
+            [self->_clusterManager addItems:self.markers];
             // Render clusters from items on the map
             [self->_clusterManager cluster];
         }
@@ -92,7 +91,7 @@
 -(void)setupDictionaries {
     self.dictOfPosts = [[NSMutableDictionary alloc] init];
     self.currMonthDictOfPosts = [[NSMutableDictionary alloc] init];
-    for (Post *post in self.arrayOfPosts) {
+    for (Post *post in self.posts) {
         // sets date to beginning of day to compare later
         NSDate *date = post.createdAt;
         [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&date interval:NULL forDate:date];
@@ -124,21 +123,25 @@
 }
 
 - (void)loadMarkers {
-    for (Post *post in self.arrayOfPosts) {
-        PFGeoPoint *coordinates = (PFGeoPoint *) post[@"Location"];
-        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:12];
-        CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude);
-        GMSMarker *marker = [GMSMarker markerWithPosition:coord];
-        marker.icon = [UIImage imageNamed:@"custom_pin.png"];
-        marker.map = self.mapView;
-        marker.userData = post;
-        [self.arrayOfMarkers addObject:marker];
+    for (Post *post in self.posts) {
+        [self loadMarker:post];
     }
     [_collectionView reloadData];
 }
 
+-(void)loadMarker:(Post *)post {
+    PFGeoPoint *coordinate = (PFGeoPoint *) post.Location;
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:12];
+    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude);
+    GMSMarker *marker = [GMSMarker markerWithPosition:coord];
+    marker.icon = [UIImage imageNamed:@"custom_pin.png"];
+    marker.map = self.mapView;
+    marker.userData = post;
+    [self.markers addObject:marker];
+}
+
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.arrayOfPosts.count;
+    return self.posts.count;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -147,9 +150,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     PostCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:@"PostCell" forIndexPath:indexPath];
-    Post *post = self.arrayOfPosts[indexPath.row];
+    Post *post = self.posts[indexPath.row];
     [cell setupCell:post];
-    PFGeoPoint *coordinates = (PFGeoPoint *) post[@"Location"];
+    PFGeoPoint *coordinates = (PFGeoPoint *) post.Location;
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:5];
     [self.mapView animateToCameraPosition:camera];
     return cell;
@@ -197,7 +200,7 @@
     CustomInfoWindow *infoWindow = [[[NSBundle mainBundle] loadNibNamed:@"InfoWindow" owner:self options:nil] objectAtIndex:0];
     Post *post = marker.userData;
     infoWindow.usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:10];
-    infoWindow.usernameLabel.text = post[@"UserID"];
+    infoWindow.usernameLabel.text = post.UserID;
     
     // format date
     infoWindow.dateLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:10];
@@ -205,7 +208,7 @@
     infoWindow.dateLabel.text = [self setDate:postTime];
     
     // format image
-    PFFileObject *pffile = post[@"Image"];
+    PFFileObject *pffile = post.Image;
     NSString *url = pffile.url;
     NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
     infoWindow.postImage.image = [UIImage imageWithData: imageData];

@@ -36,57 +36,45 @@
     newUser.username = self.usernameText.text;
     newUser.password = self.passwordText.text;
     if ([self.usernameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""]) {
-        [self registrationHelper];
+        [self emptyRegistrationAttempt];
     } else {
        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
            if (error == nil) {
                [self resignFirstResponder];
-               [self dismissViewControllerAnimated:YES completion:nil];
+               [self performSegueWithIdentifier:@"createdSegue" sender:nil];
            } else {
-               [self failedRegister];
+               [self failedRegistration];
            }
        }];
     }
 }
 
--(void)registrationHelper {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Empty Field" message:@"Please fill in this field." preferredStyle:(UIAlertControllerStyleAlert)];
-    
-    // create a cancel action
+-(UIAlertController *)errorMessage {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
-    // add the cancel action to the alertController
     [alert addAction:cancelAction];
 
-    // create an OK action
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
         handler:^(UIAlertAction * _Nonnull action) {
     }];
-    // add the OK action to the alert controller
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
     }];
+    return alert;
 }
 
--(void)failedRegister {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Registration" message:@"This username already exists." preferredStyle:(UIAlertControllerStyleAlert)];
-    
-    // create a cancel action
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-    // add the cancel action to the alertController
-    [alert addAction:cancelAction];
+-(void)emptyRegistrationAttempt {
+    UIAlertController *alert = [self errorMessage];
+    alert.title = @"Empty Field";
+    alert.message = @"Please fill in this field.";
+}
 
-    // create an OK action
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-        handler:^(UIAlertAction * _Nonnull action) {
-    }];
-    // add the OK action to the alert controller
-    [alert addAction:okAction];
-    [self presentViewController:alert animated:YES completion:^{
-    }];
+-(void)failedRegistration {
+    UIAlertController *alert = [self errorMessage];
+    alert.title = @"Invalid Registration";
+    alert.message = @"This username already exists.";
 }
 
 - (IBAction)didCancel:(id)sender {
@@ -106,8 +94,7 @@
 }
 
 #pragma mark - keyboard movements
-- (void)keyboardWillShow:(NSNotification *)notification
-{
+- (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
     [UIView animateWithDuration:0.3 animations:^{
@@ -117,8 +104,7 @@
     }];
 }
 
--(void)keyboardWillHide:(NSNotification *)notification
-{
+-(void)keyboardWillHide:(NSNotification *)notification {
     [UIView animateWithDuration:0.3 animations:^{
         CGRect f = self.view.frame;
         f.origin.y = 0.0f;

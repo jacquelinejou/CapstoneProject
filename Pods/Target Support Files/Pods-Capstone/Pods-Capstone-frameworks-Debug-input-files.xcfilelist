@@ -1,4 +1,7 @@
 ${PODS_ROOT}/Target Support Files/Pods-Capstone/Pods-Capstone-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework
 ${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework
+${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/Parse/Parse.framework
+${PODS_ROOT}/iOS-Client-SDK/Output/SelfieSegmentation.framework
+${PODS_ROOT}/iOS-Client-SDK/Output/Ziggeo.framework
