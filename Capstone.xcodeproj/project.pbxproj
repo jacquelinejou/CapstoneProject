@@ -41,6 +41,8 @@
 		2DD1A78D287E3DA900B3ABF1 /* CalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */; };
 		2DD1A78F2880999600B3ABF1 /* brownCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DD1A78E2880999600B3ABF1 /* brownCircle.png */; };
 		2DD1A7A92891C64B00B3ABF1 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7A82891C64B00B3ABF1 /* APIManager.m */; };
+		2DD1A7AC2893784A00B3ABF1 /* PostDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7AB2893784A00B3ABF1 /* PostDetailsViewController.m */; };
+		2DD1A7B12894352600B3ABF1 /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7B02894352500B3ABF1 /* NotificationManager.m */; };
 		37003B750F267B2926F3EBF1 /* Pods_CapstoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */; };
 		F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */; };
 /* End PBXBuildFile section */
@@ -115,6 +117,10 @@
 		2DD1A78E2880999600B3ABF1 /* brownCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brownCircle.png; path = ../../../../Downloads/brownCircle.png; sourceTree = "<group>"; };
 		2DD1A7A72891C64B00B3ABF1 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		2DD1A7A82891C64B00B3ABF1 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		2DD1A7AA2893784A00B3ABF1 /* PostDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailsViewController.h; sourceTree = "<group>"; };
+		2DD1A7AB2893784A00B3ABF1 /* PostDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailsViewController.m; sourceTree = "<group>"; };
+		2DD1A7AF2894352500B3ABF1 /* NotificationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationManager.h; sourceTree = "<group>"; };
+		2DD1A7B02894352500B3ABF1 /* NotificationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationManager.m; sourceTree = "<group>"; };
 		31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
 		47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapstoneTests.debug.xcconfig"; path = "Target Support Files/Pods-CapstoneTests/Pods-CapstoneTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -198,6 +204,7 @@
 		2D6A780C2874A0A1008786BF /* Capstone */ = {
 			isa = PBXGroup;
 			children = (
+				2DD1A7AD289385AB00B3ABF1 /* Delegates */,
 				2DD1A7A62891C63600B3ABF1 /* API */,
 				2DD1A7902880E56900B3ABF1 /* Views */,
 				2D26936628775BE50074A934 /* Cells */,
@@ -218,6 +225,8 @@
 				2D269373287769300074A934 /* InfoWindow.xib */,
 				2D2693752877752B0074A934 /* CustomInfoWindow.h */,
 				2D2693762877752B0074A934 /* CustomInfoWindow.m */,
+				2DD1A7AF2894352500B3ABF1 /* NotificationManager.h */,
+				2DD1A7B02894352500B3ABF1 /* NotificationManager.m */,
 			);
 			path = Capstone;
 			sourceTree = "<group>";
@@ -266,6 +275,8 @@
 				2D26935E2876091B0074A934 /* CalendarViewController.m */,
 				2DD1A786287DF25B00B3ABF1 /* PhotoViewController.h */,
 				2DD1A787287DF25B00B3ABF1 /* PhotoViewController.m */,
+				2DD1A7AA2893784A00B3ABF1 /* PostDetailsViewController.h */,
+				2DD1A7AB2893784A00B3ABF1 /* PostDetailsViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -284,6 +295,13 @@
 				2DD1A7A82891C64B00B3ABF1 /* APIManager.m */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		2DD1A7AD289385AB00B3ABF1 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		AC6F4CC94EE5D0C0A5ACF0A9 /* Pods */ = {
@@ -598,6 +616,8 @@
 			files = (
 				2D2693772877752B0074A934 /* CustomInfoWindow.m in Sources */,
 				2D2693722877674E0074A934 /* PostCell.m in Sources */,
+				2DD1A7B12894352600B3ABF1 /* NotificationManager.m in Sources */,
+				2DD1A7AC2893784A00B3ABF1 /* PostDetailsViewController.m in Sources */,
 				2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */,
 				2D6A784E2874F2B5008786BF /* LoginViewController.m in Sources */,
 				2DD1A7A92891C64B00B3ABF1 /* APIManager.m in Sources */,

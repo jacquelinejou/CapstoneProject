@@ -266,20 +266,8 @@
                     <view key="view" contentMode="scaleToFill" id="V8l-Wi-ES8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fe2-Gz-wk4" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="EcR-xo-Uaz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="EcR-xo-Uaz" firstAttribute="bottom" secondItem="Fe2-Gz-wk4" secondAttribute="bottom" id="3hs-7m-ion"/>
-                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="leading" secondItem="EcR-xo-Uaz" secondAttribute="leading" id="Jrj-UB-5Iq"/>
-                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="top" secondItem="V8l-Wi-ES8" secondAttribute="top" id="oeN-pm-PIT"/>
-                            <constraint firstItem="Fe2-Gz-wk4" firstAttribute="trailing" secondItem="EcR-xo-Uaz" secondAttribute="trailing" id="u4V-kQ-VDt"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="rSF-Up-h7Y">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="Dmq-Lc-l7d">
@@ -296,12 +284,27 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mapView" destination="Fe2-Gz-wk4" id="mcF-Rn-V0D"/>
+                        <segue destination="Zkr-9X-clN" kind="presentation" identifier="DisplayPostSegue" id="dg3-ne-pfo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4SH-2f-Xtp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5466.666666666667" y="-336.16071428571428"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="FkK-lD-abw">
+            <objects>
+                <viewController id="Zkr-9X-clN" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uKr-9v-pK5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="KTP-wg-che"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lZS-Vl-rrL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6839" y="-336"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="CfR-Vl-muM">
@@ -311,7 +314,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Gim-ea-Hpa">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.91014815076040156" green="0.99901171103872433" blue="0.89352600583195529" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.99901171103872433" green="0.93888843042603465" blue="0.92634777480158281" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
@@ -356,7 +359,7 @@
         <scene sceneID="eFd-hc-ASR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6LJ-Rl-Tpz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="dkk-pS-hwg"/>
+                    <tabBarItem key="tabBarItem" title="" image="map icon" landscapeImage="map icon" largeContentSizeImage="map icon" selectedImage="map icon" id="dkk-pS-hwg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Cgc-w5-9Fj">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -371,11 +374,11 @@
             </objects>
             <point key="canvasLocation" x="4556.521739130435" y="-336.16071428571428"/>
         </scene>
-        <!--Item-->
+        <!--Navigation Controller-->
         <scene sceneID="Leq-nR-Zgf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jtI-Nu-QgD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Eu7-Ll-vJ3"/>
+                    <tabBarItem key="tabBarItem" title="" image="calendar icon" landscapeImage="calendar icon" largeContentSizeImage="calendar icon" selectedImage="calendar icon" id="Eu7-Ll-vJ3"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="85R-71-Z2c">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -393,9 +396,11 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="tux-KG-dxy"/>
-        <segue reference="Pc0-WF-VlH"/>
+        <segue reference="pao-xk-4d4"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="calendar icon" width="25" height="25"/>
+        <image name="map icon" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

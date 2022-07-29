@@ -10,6 +10,9 @@
 #import "PhotoViewController.h"
 #import "Post.h"
 #import <UserNotifications/UserNotifications.h>
+#import "APIManager.h"
+#import "NotificationManager.h"
+
 @import GoogleMaps;
 
 @interface SceneDelegate () <UNUserNotificationCenterDelegate>
@@ -21,7 +24,6 @@ NSInteger notificationHour;
 NSInteger notificationMinute;
 
 @implementation SceneDelegate {
-    NSInteger timeLimit;
     NSInteger hourLowerBound;
     NSInteger hourUpperBound;
     NSInteger minuteLowerBound;
@@ -29,31 +31,16 @@ NSInteger notificationMinute;
 }
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
-    timeLimit = 5;
     hourLowerBound = 6;
     hourUpperBound = 24;
     minuteLowerBound = 0;
     minuteUpperBound = 60;
     
-    ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
-        NSString *ID = [dict objectForKey: @"App ID"];
-        NSString *key = [dict objectForKey: @"Client Key"];
-        NSString *kMapsAPIKey = [dict objectForKey: @"API Key"];
-        configuration.applicationId = ID;
-        configuration.clientKey = key;
-        configuration.server = @"https://parseapi.back4app.com";
-        
-        [GMSServices provideAPIKey:kMapsAPIKey];
-    }];
-    [Parse initializeWithConfiguration:config];
-    
+    [[APIManager sharedManager] connectToParse:^(NSError * _Nonnull error) {}];
     [self pushNotification];
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
-//        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
     }
 }
 
@@ -84,13 +71,7 @@ NSInteger notificationMinute;
     date.hour = hourRndValue;
     date.minute = minuteRndValue;
     
-    if (minuteRndValue + timeLimit >= 60) {
-        notificationHour = hourRndValue + 1;
-        notificationMinute = minuteRndValue + timeLimit - 60;
-    } else {
-        notificationHour = hourRndValue;
-        notificationMinute = minuteRndValue + timeLimit;
-    }
+    [[NotificationManager sharedManager] setNotificationTime:hourRndValue minute:minuteRndValue];
     
     // Create the request object.
     UNCalendarNotificationTrigger* trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:date repeats:YES];
@@ -114,19 +95,14 @@ NSInteger notificationMinute;
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler {
     if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
-        if ([self dateConverter]) {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
-            [self.window makeKeyAndVisible];
-        }
+        [[NotificationManager sharedManager] isTime:^(BOOL isTime) {
+            if (isTime) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
+                [self.window makeKeyAndVisible];
+            }
+        }];
     }
-}
-
--(BOOL)dateConverter {
-    NSDate *date = [NSDate date];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
-    return (notificationHour > [components hour] || (notificationHour == [components hour] && notificationMinute > [components minute]));
 }
 
 @end

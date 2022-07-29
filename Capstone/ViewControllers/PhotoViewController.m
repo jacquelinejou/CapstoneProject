@@ -6,13 +6,14 @@
 //
 
 #import "PhotoViewController.h"
-#import "SceneDelegate.h"
 #import "MapViewController.h"
 #import "Photos/Photos.h"
 #import "Post.h"
 #import "AVKit/AVKit.h"
 #import "MBProgressHUD.h"
 #import "AssetsLibrary/AssetsLibrary.h"
+#import "APIManager.h"
+#import "NotificationManager.h"
 
 @interface PhotoViewController ()
 @end
@@ -95,7 +96,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     _captureSession = [AVCaptureMultiCamSession new];
-    _captureSession.sessionPreset = AVCaptureSessionPresetMedium;
     [_captureSession beginConfiguration];
     [self setupCameras];
     [self setupBackCamera];
@@ -341,15 +341,10 @@
 
 -(void)postHelper {
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    [Post postUserVideo:self->_backUrl withCaption:@"" withCompletion:^(BOOL succeeded, NSError *_Nullable error) {
-        if (error) {
-            UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error Posting" message:@"Please retry." preferredStyle:(UIAlertControllerStyleAlert)];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            }];
-            [errorAlert addAction:okAction];
+    [[APIManager sharedManager] postVideoWithCompletion:self->_backUrl completion:^(NSError * _Nonnull error) {
+        if (!error) {
+            [MBProgressHUD hideHUDForView:self.view animated:true];
         }
-        [MBProgressHUD hideHUDForView:self.view animated:true];
-        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -429,27 +424,34 @@
 
 -(void)updateViewConstraints {
     [super updateViewConstraints];
-    [self setupForegroundConstraints];
+    [self.view addSubview:_background];
+    [self.view addSubview:_foreground];
+    [self.view addSubview:_recordButton];
+    [_background setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_foreground setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_recordButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self setupAspectRatioConstraints];
     [self setupBackgroundConstraints];
+    [self setupForegroundConstraints];
+    [self setupRecordButtonConstraints];
+}
+
+-(void)setupAspectRatioConstraints {
+    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foreground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foreground attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_background attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
     [self.view addConstraints:@[_frontCameraPiPConstraints, _backCameraPiPConstraints]];
 }
 
 -(void)setupForegroundConstraints {
-    [self.view addSubview:_foreground];
-    [_foreground setTranslatesAutoresizingMaskIntoConstraints:NO];
-    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foreground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foreground attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    [_foreground.widthAnchor constraintEqualToAnchor:_background.widthAnchor multiplier:_backFrontRatio].active = YES;
     [_foreground.heightAnchor constraintLessThanOrEqualToAnchor:self.view.heightAnchor].active = YES;
     [_foreground.widthAnchor constraintLessThanOrEqualToAnchor:self.view.widthAnchor].active = YES;
     [_foreground.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     [_foreground.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
     [_foreground.bottomAnchor constraintEqualToAnchor:_recordButton.bottomAnchor constant:_spacing].active = YES;
-    [_foreground.widthAnchor constraintEqualToAnchor:_background.widthAnchor multiplier:_backFrontRatio].active = YES;
 }
 
 -(void)setupBackgroundConstraints {
-    [self.view addSubview:_background];
-    [_background setTranslatesAutoresizingMaskIntoConstraints:NO];
-    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_background attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
     [_background.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     [_background.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
     [_background.trailingAnchor constraintEqualToAnchor:_foreground.trailingAnchor constant:_spacing].active = YES;
@@ -459,21 +461,21 @@
     [_background.bottomAnchor constraintEqualToAnchor:_recordButton.bottomAnchor constant:_spacing].active = YES;
     [_background.heightAnchor constraintEqualToAnchor:self.view.heightAnchor].active = YES;
     [_background.heightAnchor constraintLessThanOrEqualToAnchor:self.view.heightAnchor].active = YES;
+    
 }
 
 -(void)setupRecordButtonConstraints {
-    [self.view addSubview:_recordButton];
-    [_recordButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_recordButton.widthAnchor constraintGreaterThanOrEqualToConstant:4 * _spacing].active = YES;
     [_recordButton.heightAnchor constraintEqualToConstant:1.5 * _spacing].active = YES;
     [_recordButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
 }
 
 -(void)checkTime{
-    SceneDelegate *sd = [[SceneDelegate alloc] init];
-    if (![sd dateConverter] || _donePosting) {
-        [self performSegueWithIdentifier:@"postSegue" sender:nil];
-    }
+    [[NotificationManager sharedManager] isTime:^(BOOL isTime) {
+        if (!isTime || self->_donePosting) {
+            [self performSegueWithIdentifier:@"postSegue" sender:nil];
+        }
+    }];
 }
 
 @end
