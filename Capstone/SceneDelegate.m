@@ -10,6 +10,8 @@
 #import "PhotoViewController.h"
 #import "Post.h"
 #import <UserNotifications/UserNotifications.h>
+#import "APIManager.h"
+
 @import GoogleMaps;
 
 @interface SceneDelegate () <UNUserNotificationCenterDelegate>
@@ -35,25 +37,11 @@ NSInteger notificationMinute;
     minuteLowerBound = 0;
     minuteUpperBound = 60;
     
-    ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
-        NSString *ID = [dict objectForKey: @"App ID"];
-        NSString *key = [dict objectForKey: @"Client Key"];
-        NSString *kMapsAPIKey = [dict objectForKey: @"API Key"];
-        configuration.applicationId = ID;
-        configuration.clientKey = key;
-        configuration.server = @"https://parseapi.back4app.com";
-        
-        [GMSServices provideAPIKey:kMapsAPIKey];
-    }];
-    [Parse initializeWithConfiguration:config];
-    
+    [[APIManager sharedManager] connectToParse:^(NSError * _Nonnull error) {}];
     [self pushNotification];
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
-//        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
     }
 }
 

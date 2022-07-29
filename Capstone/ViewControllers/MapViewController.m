@@ -1,10 +1,3 @@
-//
-//  MapViewController.m
-//  Capstone
-//
-//  Created by jacquelinejou on 7/6/22.
-//
-
 #import "MapViewController.h"
 #import <Parse/Parse.h>
 #import "WelcomeViewController.h"
@@ -14,44 +7,64 @@
 #import "PostCell.h"
 #import "CalendarViewController.h"
 #import <Parse/PFObject+Subclass.h>
+#import "APIManager.h"
 @import GoogleMaps;
 @import GoogleMapsUtils;
 
 @interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarControllerDelegate>
-@property (weak, nonatomic) IBOutlet GMSMapView *mapView;
-@property (nonatomic, strong) NSMutableArray *posts;
-@property (nonatomic, strong) NSMutableDictionary *dictOfPosts;
-@property (nonatomic, strong) NSMutableDictionary *currMonthDictOfPosts;
-@property (nonatomic, strong) NSMutableArray<GMSMarker *> *markers;
+@property (nonatomic, strong) NSMutableArray *_posts;
+@property (nonatomic, strong) NSMutableDictionary *_dictOfPosts;
+@property (nonatomic, strong) NSMutableDictionary *_currMonthDictOfPosts;
+@property (nonatomic, strong) NSMutableArray<GMSMarker *> *_markers;
 @end
 
 @implementation MapViewController {
     UICollectionView *_collectionView;
+    GMSMapView *_mapView;
     GMUClusterManager *_clusterManager;
     GMSCircle *_circ;
     UIView *_contentView;
-    CGFloat borderSpace;
-    NSInteger insets;
-}
-
--(void)loadView {
-    [super loadView];
-    // Center on Current location
-    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-        if (!error) {
-            GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:geoPoint.latitude longitude:geoPoint.longitude zoom:5];
-            [self.mapView animateToCameraPosition:camera];
-            self.mapView.mapType = kGMSTypeNormal;
-            self.mapView.delegate = self;
-        }
-    }];
+    CGFloat _borderSpace;
+    NSInteger _insets;
+    BOOL isMoved;
+    BOOL windowShowing;
+    CLLocationCoordinate2D _currLocation;
+    PFGeoPoint *_northEast;
+    PFGeoPoint *_northWest;
+    PFGeoPoint *_southEast;
+    PFGeoPoint *_southWest;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    borderSpace = 10.0;
-    insets = 2;
     self.tabBarController.delegate = self;
+    _borderSpace = 10.0;
+    _insets = 2;
+    isMoved = YES;
+    windowShowing = NO;
+    self._posts = [[NSMutableArray alloc] init];
+    self._markers = [[NSMutableArray alloc] init];
+    [self setupMapView];
+    [self setupScrollBar];
+    [self setupClustering];
+}
+
+-(void)setupMapView {
+    // open map on bellevue with my location enabled to center on current location
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:47.6 longitude:-122.2 zoom:10];
+    _mapView = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
+    _mapView.delegate = self;
+    _mapView.mapType = kGMSTypeNormal;
+    _mapView.settings.compassButton = YES;
+    _mapView.settings.myLocationButton = YES;
+    [self.view addSubview:_mapView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->_mapView.myLocationEnabled = YES;
+    });
+
+}
+
+-(void)setupScrollBar {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
@@ -60,38 +73,73 @@
     [_collectionView registerClass:[PostCell class] forCellWithReuseIdentifier:@"PostCell"];
     _collectionView.showsHorizontalScrollIndicator = YES;
     [_collectionView setHidden:YES];
-    [self.mapView addSubview:_collectionView];
-    
-    self.posts = [[NSMutableArray alloc] init];
-    self.markers = [[NSMutableArray alloc] init];
+    [_mapView addSubview:_collectionView];
+}
+
+-(void)setupClustering {
+    id<GMUClusterAlgorithm> algorithm = [[GMUNonHierarchicalDistanceBasedAlgorithm alloc] init];
+    id<GMUClusterIconGenerator> clusterIconGenerator = [[GMUDefaultClusterIconGenerator alloc] init];
+    id<GMUClusterRenderer> renderer = [[GMUDefaultClusterRenderer alloc] initWithMapView:_mapView clusterIconGenerator:clusterIconGenerator];
+    _clusterManager = [[GMUClusterManager alloc] initWithMap:_mapView algorithm:algorithm renderer:renderer];
+}
+
+- (void)mapView:(GMSMapView *)mapView willMove:(BOOL)gesture {
+    isMoved = YES;
+}
+
+- (void)mapView:(GMSMapView *)mapView idleAtCameraPosition:(GMSCameraPosition *)position {
+    if (isMoved) {
+        isMoved = NO;
+        // don't refetch data when recentering on marker tap
+        if (!windowShowing) {
+            [self fetchData];
+        }
+        windowShowing = NO;
+        // hide scroll bar if empty
+        if ([self._posts count] == 0) {
+            [_collectionView setHidden:YES];
+        }
+    }
+}
+
+-(void)fetchData {
+    [self findDisplayDimensions];
     PFQuery *query = [PFQuery queryWithClassName:@"Post"];
     [query orderByDescending:@"createdAt"];
+    [query whereKey:@"Location" withinPolygon:@[self->_northEast, self->_northWest, self->_southWest, self->_southEast]];
     
     // fetch data asynchronously
     [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
         if (parsePosts != nil) {
-            self.posts = (NSMutableArray *)parsePosts;
+            self._posts = (NSMutableArray *)parsePosts;
             [self loadMarkers];
             [self setupDictionaries];
-            
-            // Set up the cluster manager with a supplied icon generator and renderer.
-            id<GMUClusterAlgorithm> algorithm = [[GMUNonHierarchicalDistanceBasedAlgorithm alloc] init];
-            id<GMUClusterIconGenerator> clusterIconGenerator = [[GMUDefaultClusterIconGenerator alloc] init];
-            id<GMUClusterRenderer> renderer = [[GMUDefaultClusterRenderer alloc] initWithMapView:self.mapView clusterIconGenerator:clusterIconGenerator];
-            self->_clusterManager = [[GMUClusterManager alloc] initWithMap:self.mapView algorithm:algorithm renderer:renderer];
-            
-            // Add markers to the cluster manager.
-            [self->_clusterManager addItems:self.markers];
-            // Render clusters from items on the map
+
+            // reset cluster manager
+            [self->_clusterManager clearItems];
+            [self->_clusterManager addItems:self._markers];
             [self->_clusterManager cluster];
         }
     }];
 }
 
+-(void)findDisplayDimensions {
+    GMSVisibleRegion visibleRegion = [_mapView.projection visibleRegion];
+    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc]initWithRegion:visibleRegion];
+    CLLocationCoordinate2D northEast = bounds.northEast;
+    CLLocationCoordinate2D northWest = CLLocationCoordinate2DMake(bounds.northEast.latitude, bounds.southWest.longitude);
+    CLLocationCoordinate2D southEast = CLLocationCoordinate2DMake(bounds.southWest.latitude, bounds.northEast.longitude);
+    CLLocationCoordinate2D  southWest = bounds.southWest;
+    _northEast = [PFGeoPoint geoPointWithLatitude:northEast.latitude longitude:northEast.longitude];
+    _northWest = [PFGeoPoint geoPointWithLatitude:northWest.latitude longitude:northWest.longitude];
+    _southWest = [PFGeoPoint geoPointWithLatitude:southWest.latitude longitude:southWest.longitude];
+    _southEast = [PFGeoPoint geoPointWithLatitude:southEast.latitude longitude:southEast.longitude];
+}
+
 -(void)setupDictionaries {
-    self.dictOfPosts = [[NSMutableDictionary alloc] init];
-    self.currMonthDictOfPosts = [[NSMutableDictionary alloc] init];
-    for (Post *post in self.posts) {
+    self._dictOfPosts = [[NSMutableDictionary alloc] init];
+    self._currMonthDictOfPosts = [[NSMutableDictionary alloc] init];
+    for (Post *post in self._posts) {
         // sets date to beginning of day to compare later
         NSDate *date = post.createdAt;
         [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&date interval:NULL forDate:date];
@@ -101,10 +149,10 @@
         NSString *url = pffile.url;
         NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
         UIImage *image = [UIImage imageWithData: imageData];
-        self.dictOfPosts[date] = image;
+        self._dictOfPosts[date] = image;
         // add to current month dict if in curr month
         if ([self isSameMonth:date otherDay:[NSDate date]]) {
-            self.currMonthDictOfPosts[date] = image;
+            self._currMonthDictOfPosts[date] = image;
         }
     }
 }
@@ -115,15 +163,29 @@
 
 -(void)updateViewConstraints {
     [super updateViewConstraints];
+    [self setupMapConstraints];
+    [self updateScrollBarConstraints];
+}
+
+-(void)updateScrollBarConstraints {
     [_collectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_collectionView.leftAnchor constraintEqualToAnchor:self.mapView.leftAnchor constant:borderSpace].active = YES;
-    [_collectionView.rightAnchor constraintEqualToAnchor:self.mapView.rightAnchor constant:borderSpace * -1].active = YES;
-    [_collectionView.bottomAnchor constraintEqualToAnchor:self.mapView.bottomAnchor constant:borderSpace * -1].active = YES;
+    [_collectionView.leftAnchor constraintEqualToAnchor:_mapView.leftAnchor constant:_borderSpace].active = YES;
+    [_collectionView.rightAnchor constraintEqualToAnchor:_mapView.rightAnchor constant:_borderSpace * -1].active = YES;
+    [_collectionView.bottomAnchor constraintEqualToAnchor:_mapView.bottomAnchor constant:self.view.frame.size.height * -0.11].active = YES;
     [_collectionView.heightAnchor constraintEqualToConstant:0.25 * self.view.frame.size.height].active = YES;
 }
 
+-(void)setupMapConstraints{
+    [_mapView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_mapView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor].active = YES;
+    [_mapView.heightAnchor constraintEqualToAnchor:self.view.heightAnchor].active = YES;
+    [_mapView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+    [_mapView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
+}
+
 - (void)loadMarkers {
-    for (Post *post in self.posts) {
+    [self._markers removeAllObjects];
+    for (Post *post in self._posts) {
         [self loadMarker:post];
     }
     [_collectionView reloadData];
@@ -131,17 +193,17 @@
 
 -(void)loadMarker:(Post *)post {
     PFGeoPoint *coordinate = (PFGeoPoint *) post.Location;
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:12];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:10];
     CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude);
     GMSMarker *marker = [GMSMarker markerWithPosition:coord];
     marker.icon = [UIImage imageNamed:@"custom_pin.png"];
-    marker.map = self.mapView;
+    marker.map = _mapView;
     marker.userData = post;
-    [self.markers addObject:marker];
+    [self._markers addObject:marker];
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.posts.count;
+    return self._posts.count;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -150,52 +212,82 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     PostCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:@"PostCell" forIndexPath:indexPath];
-    Post *post = self.posts[indexPath.row];
-    [cell setupCell:post];
-    PFGeoPoint *coordinates = (PFGeoPoint *) post.Location;
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:5];
-    [self.mapView animateToCameraPosition:camera];
+    Post *post = self._posts[indexPath.row];
+    cell.post = post;
+    cell.usernameLabel.text = post.UserID;
+    cell.commentLabel.text = [[NSString stringWithFormat:@"%lu", [post.Comments count]] stringByAppendingString:@" Comments"];
+    cell.reactionLabel.text = [[NSString stringWithFormat:@"%lu", [post.Reactions count]] stringByAppendingString:@" Reactions"];
+    
+    // setup post date
+    NSDate *postTime = post.createdAt;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+    formatter.dateStyle = NSDateFormatterShortStyle;
+    formatter.timeStyle = NSDateFormatterShortStyle;
+    cell.dateLabel.text = [formatter stringFromDate:postTime];
+    
+    // setup post image
+    PFFileObject *pffile = post.Image;
+    NSString *url = pffile.url;
+    NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
+    cell.postImage.image = [UIImage imageWithData: imageData];
     return cell;
 }
 
+// when tap post in scroll bar, recenter map on that post and display it
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Post *post = self._posts[indexPath.row];
+    GMSMarker *marker = self._markers[indexPath.row];
+    _mapView.selectedMarker = marker;
+    PFGeoPoint *coordinates = (PFGeoPoint *) post.Location;
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:10];
+    [_mapView animateToLocation:CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude)];
+}
+
+// display marker window above marker and scroll bar when tapped
 - (BOOL)mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker {
     _circ.map = nil;
-    [self.mapView animateToLocation:marker.position];
+    windowShowing = YES;
+    [_mapView animateToLocation:marker.position];
     
     if ([marker.userData conformsToProtocol:@protocol(GMUCluster)]) {
-        [self.mapView animateToZoom:self.mapView.camera.zoom +1];
+        [_mapView animateToZoom:_mapView.camera.zoom +1];
         return YES;
     }
     marker.title = @"Date";
     marker.snippet = @"Post";
-    marker.map = self.mapView;
+    marker.map = _mapView;
     
     // Show marker
-    self.mapView.selectedMarker = marker;
+    _mapView.selectedMarker = marker;
     [_collectionView setHidden:NO];
     // Hide marker
-    self.mapView.selectedMarker = nil;
+    _mapView.selectedMarker = nil;
     return NO;
 }
 
+// close marker window and scroll bar when tap anywhere other than a marker
 - (void) mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
+    windowShowing = NO;
+    _mapView.selectedMarker = nil;
     [_collectionView setHidden:YES];
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return borderSpace;
+    return _borderSpace;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return borderSpace;
+    return _borderSpace;
 }
 
 // Layout: Set Edges
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0,insets,0,insets);
+    return UIEdgeInsetsMake(0,_insets,0,_insets);
 }
 
+// setup marker window
 -(UIView *) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker {
     CustomInfoWindow *infoWindow = [[[NSBundle mainBundle] loadNibNamed:@"InfoWindow" owner:self options:nil] objectAtIndex:0];
     Post *post = marker.userData;
@@ -251,8 +343,8 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     UINavigationController *navController = tabBarController.viewControllers[1];
     CalendarViewController *calendarView = (CalendarViewController *) navController.topViewController;
-    calendarView.dictOfPosts = self.dictOfPosts;
-    calendarView.currMonthDictOfPosts = self.currMonthDictOfPosts;
+    calendarView.dictOfPosts = self._dictOfPosts;
+    calendarView.currMonthDictOfPosts = self._currMonthDictOfPosts;
 }
 
 @end

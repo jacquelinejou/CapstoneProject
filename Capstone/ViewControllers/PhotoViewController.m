@@ -95,7 +95,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     _captureSession = [AVCaptureMultiCamSession new];
-    _captureSession.sessionPreset = AVCaptureSessionPresetMedium;
     [_captureSession beginConfiguration];
     [self setupCameras];
     [self setupBackCamera];
@@ -349,7 +348,6 @@
             [errorAlert addAction:okAction];
         }
         [MBProgressHUD hideHUDForView:self.view animated:true];
-        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -429,27 +427,34 @@
 
 -(void)updateViewConstraints {
     [super updateViewConstraints];
-    [self setupForegroundConstraints];
+    [self.view addSubview:_background];
+    [self.view addSubview:_foreground];
+    [self.view addSubview:_recordButton];
+    [_background setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_foreground setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_recordButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self setupAspectRatioConstraints];
     [self setupBackgroundConstraints];
+    [self setupForegroundConstraints];
+    [self setupRecordButtonConstraints];
+}
+
+-(void)setupAspectRatioConstraints {
+    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foreground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foreground attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_background attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
     [self.view addConstraints:@[_frontCameraPiPConstraints, _backCameraPiPConstraints]];
 }
 
 -(void)setupForegroundConstraints {
-    [self.view addSubview:_foreground];
-    [_foreground setTranslatesAutoresizingMaskIntoConstraints:NO];
-    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foreground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foreground attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    [_foreground.widthAnchor constraintEqualToAnchor:_background.widthAnchor multiplier:_backFrontRatio].active = YES;
     [_foreground.heightAnchor constraintLessThanOrEqualToAnchor:self.view.heightAnchor].active = YES;
     [_foreground.widthAnchor constraintLessThanOrEqualToAnchor:self.view.widthAnchor].active = YES;
     [_foreground.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     [_foreground.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
     [_foreground.bottomAnchor constraintEqualToAnchor:_recordButton.bottomAnchor constant:_spacing].active = YES;
-    [_foreground.widthAnchor constraintEqualToAnchor:_background.widthAnchor multiplier:_backFrontRatio].active = YES;
 }
 
 -(void)setupBackgroundConstraints {
-    [self.view addSubview:_background];
-    [_background setTranslatesAutoresizingMaskIntoConstraints:NO];
-    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_background attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
     [_background.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     [_background.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
     [_background.trailingAnchor constraintEqualToAnchor:_foreground.trailingAnchor constant:_spacing].active = YES;
@@ -459,11 +464,10 @@
     [_background.bottomAnchor constraintEqualToAnchor:_recordButton.bottomAnchor constant:_spacing].active = YES;
     [_background.heightAnchor constraintEqualToAnchor:self.view.heightAnchor].active = YES;
     [_background.heightAnchor constraintLessThanOrEqualToAnchor:self.view.heightAnchor].active = YES;
+
 }
 
 -(void)setupRecordButtonConstraints {
-    [self.view addSubview:_recordButton];
-    [_recordButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_recordButton.widthAnchor constraintGreaterThanOrEqualToConstant:4 * _spacing].active = YES;
     [_recordButton.heightAnchor constraintEqualToConstant:1.5 * _spacing].active = YES;
     [_recordButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;

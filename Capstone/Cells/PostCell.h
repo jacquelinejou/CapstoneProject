@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView *postImage;
 @property (nonatomic, strong) Post *post;
 
--(void)setupCell:(Post *)post;
+//-(void)setupCell:(Post *)post;
 @end
 
 NS_ASSUME_NONNULL_END

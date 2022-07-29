@@ -8,6 +8,7 @@
 #import "LoginViewController.h"
 #import "WelcomeViewController.h"
 #import <Parse/Parse.h>
+#import "APIManager.h"
 
 @interface LoginViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *usernameText;
