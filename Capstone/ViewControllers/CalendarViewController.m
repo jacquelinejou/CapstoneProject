@@ -15,7 +15,6 @@
 
 @interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
 @property (strong, nonatomic) NSCalendar *gregorian;
-@property (nonatomic, strong) NSMutableArray *arrayOfImages;
 - (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)position;
 @end
 
@@ -69,11 +68,26 @@
 
 - (FSCalendarCell *)calendar:(FSCalendar *)calendar cellForDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
     CalendarCell *cell = [_calendarView dequeueReusableCellWithIdentifier:@"CalendarCell" forDate:date atMonthPosition:monthPosition];
+    NSDate *newDate = [[NSDate alloc] initWithTimeInterval:0 sinceDate:date];
+    [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&newDate interval:NULL forDate:newDate];
+    if (self.currMonthDictOfPosts[newDate]) {
+        [cell setupCell:self.currMonthDictOfPosts[newDate]];
+    }
     return cell;
 }
 
 - (void)calendar:(FSCalendar *)calendar willDisplayCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition: (FSCalendarMonthPosition)monthPosition {
     [self configureCell:cell forDate:date atMonthPosition:monthPosition];
+}
+
+- (void)calendarCurrentPageDidChange:(FSCalendar *)calendar {
+    self.currMonthDictOfPosts = [[NSMutableDictionary alloc] init];
+    for (NSDate *date in self.dictOfPosts) {
+        if ([self isSameMonth:date otherDay:_calendarView.currentPage]) {
+            self.currMonthDictOfPosts[date] = self.dictOfPosts[date];
+        }
+    }
+    [_calendarView reloadData];
 }
 
 - (NSArray<UIColor *> *)calendar:(FSCalendar *)calendar appearance:(FSCalendarAppearance *)appearance eventDefaultColorsForDate:(NSDate *)date {
@@ -111,6 +125,25 @@
 }
 
 -(void)calendar:(FSCalendar *)calendar didDeselectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
+}
+
+- (BOOL)isSameMonth:(NSDate*)date1 otherDay:(NSDate*)date2 {
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
+    NSDateComponents* comp1 = [calendar components:unitFlags fromDate:date1];
+    NSDateComponents* comp2 = [calendar components:unitFlags fromDate:date2];
+    return [comp1 month] == [comp2 month] &&
+    [comp1 year]  == [comp2 year];
+}
+
+- (BOOL)isSameDay:(NSDate*)date1 otherDay:(NSDate*)date2 {
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
+    NSDateComponents* comp1 = [calendar components:unitFlags fromDate:date1];
+    NSDateComponents* comp2 = [calendar components:unitFlags fromDate:date2];
+    return [comp1 day] == [comp2 day] &&
+    [comp1 month] == [comp2 month] &&
+    [comp1 year]  == [comp2 year];
 }
 
 - (IBAction)didLogout:(id)sender {

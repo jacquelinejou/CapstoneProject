@@ -40,6 +40,7 @@
 
 -(void)setupCell:(Post *)post {
     self.backgroundColor = [UIColor lightGrayColor];
+    self.post = post;
     self.usernameLabel = [[UILabel alloc] init];
     self.dateLabel = [[UILabel alloc] init];
     self.commentLabel = [[UILabel alloc] init];
@@ -59,9 +60,10 @@
     self.dateLabel.text = [formatter stringFromDate:postTime];
     
     // format image
-    [post[@"Image"] getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        self.postImage.image = [UIImage imageWithData:data];
-    }];
+    PFFileObject *pffile = post[@"Image"];
+    NSString *url = pffile.url;
+    NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
+    self.postImage.image = [UIImage imageWithData: imageData];
     
     self.commentLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:fontSize];
     self.commentLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Comments"] count]] stringByAppendingString:@" Comments"];

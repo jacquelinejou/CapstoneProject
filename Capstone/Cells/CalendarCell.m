@@ -27,12 +27,13 @@
         self.backgroundView = [[UIView alloc] initWithFrame:self.bounds];
         self.backgroundView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.025];
         
+        self.postImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        [self.contentView insertSubview:circleImageView atIndex:0];
     }
     return self;
 }
 
 -(CalendarCell *)setupCell:(UIImage *)image {
-    self.postImageView = [[UIImageView alloc] init];
     // format image
     self.postImageView.image = image;
     [self.contentView insertSubview:self.postImageView atIndex:0];
@@ -41,9 +42,9 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
     self.backgroundView.frame = CGRectInset(self.bounds, 1, 1);
     self.circleImageView.frame = self.backgroundView.frame;
+    self.postImageView.frame = self.backgroundView.frame;
     self.selectionLayer.frame = self.bounds;
 }
 
@@ -63,5 +64,10 @@
         _selectionType = selectionType;
         [self setNeedsLayout];
     }
+}
+
+-(void)prepareForReuse{
+    [super prepareForReuse];
+    self.postImageView.image = [[UIImage alloc] init];
 }
 @end
