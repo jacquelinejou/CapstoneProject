@@ -1,9 +1,14 @@
+//
+//  MapViewController.h
+//  Capstone
+//
+//  Created by jacquelinejou on 7/06/22.
+//
+
 #import "MapViewController.h"
 #import <Parse/Parse.h>
 #import "WelcomeViewController.h"
-#import "SceneDelegate.h"
 #import "CustomInfoWindow.h"
-#import "Post.h"
 #import "PostCell.h"
 #import "CalendarViewController.h"
 #import <Parse/PFObject+Subclass.h>
@@ -104,22 +109,18 @@
 
 -(void)fetchData {
     [self findDisplayDimensions];
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"Location" withinPolygon:@[self->_northEast, self->_northWest, self->_southWest, self->_southEast]];
-    
-    // fetch data asynchronously
-    [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
-        if (parsePosts != nil) {
-            self._posts = (NSMutableArray *)parsePosts;
-            [self loadMarkers];
-            [self setupDictionaries];
+    NSArray *coordinates = @[_northWest, _northEast, _southEast, _southWest];
+    [[APIManager sharedManager] fetchMapDataWithCompletion:coordinates completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
+            if (posts != nil) {
+                self._posts = (NSMutableArray *)posts;
+                [self loadMarkers];
+                [self setupDictionaries];
 
-            // reset cluster manager
-            [self->_clusterManager clearItems];
-            [self->_clusterManager addItems:self._markers];
-            [self->_clusterManager cluster];
-        }
+                // reset cluster manager
+                [self->_clusterManager clearItems];
+                [self->_clusterManager addItems:self._markers];
+                [self->_clusterManager cluster];
+            }
     }];
 }
 
@@ -234,7 +235,7 @@
     return cell;
 }
 
-// when tap post in scroll bar, recenter map on that post and display it
+// when tap post in scroll bar, recenter map on that post and display it in a details view controller
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Post *post = self._posts[indexPath.row];
     GMSMarker *marker = self._markers[indexPath.row];
@@ -242,6 +243,14 @@
     PFGeoPoint *coordinates = (PFGeoPoint *) post.Location;
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:10];
     [_mapView animateToLocation:CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude)];
+    // send post to postdetailsviewcontroller
+    PostDetailsViewController *postDetailsViewController =  [[PostDetailsViewController alloc] init];
+    postDetailsViewController.postDetails = post;
+    [[self navigationController] pushViewController:postDetailsViewController animated:YES];
+}
+
+- (void)addItemViewController:(PostDetailsViewController *)controller didSendPost:(Post *)post {
+    [_collectionView reloadData];
 }
 
 // display marker window above marker and scroll bar when tapped
@@ -332,12 +341,7 @@
 }
 
 - (IBAction)didLogout:(id)sender {
-    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        SceneDelegate *mySceneDelegate = (SceneDelegate * ) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        WelcomeViewController *welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:@"WelcomeView"];
-        mySceneDelegate.window.rootViewController = welcomeViewController;
-    }];
+    [[APIManager sharedManager] logout];
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {

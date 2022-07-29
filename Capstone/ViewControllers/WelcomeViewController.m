@@ -11,8 +11,6 @@
 
 @end
 
-//bool isGrantedNotificationAccess;
-
 @implementation WelcomeViewController
 
 - (void)viewDidLoad {

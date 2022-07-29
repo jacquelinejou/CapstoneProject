@@ -6,8 +6,8 @@
 //
 
 #import "APIManager.h"
-#import "Post.h"
-#import "Parse/Parse.h"
+#import "SceneDelegate.h"
+#import "WelcomeViewController.h"
 
 @implementation APIManager
 
@@ -41,6 +41,46 @@
         [GMSServices provideAPIKey:kMapsAPIKey];
     }];
     [Parse initializeWithConfiguration:config];
+}
+
+- (void)loginWithCompletion:(NSString *)username password:(NSString *)password completion:(void(^)(NSError *error))completion {
+    [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+        completion(error);
+    }];
+}
+
+- (void)registerWithCompletion:(PFUser *)newUser completion:(void(^)(NSError *error))completion {
+    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
+        completion(error);
+    }];
+}
+
+- (void)logout {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        SceneDelegate *mySceneDelegate = (SceneDelegate * ) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        WelcomeViewController *welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:@"WelcomeView"];
+        mySceneDelegate.window.rootViewController = welcomeViewController;
+    }];
+}
+
+- (void)fetchMapDataWithCompletion:(NSArray *)coordinates completion:(void(^)(NSArray *posts, NSError *error))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"Location" withinPolygon:coordinates];
+
+    // fetch data asynchronously
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
+        if (parsePosts != nil) {
+            completion(parsePosts, error);
+        }
+    }];
+}
+
+- (void)postVideoWithCompletion:(NSURL *)url completion:(void(^)(NSError *error))completion {
+    [Post postUserVideo:url withCaption:@"" withCompletion:^(BOOL succeeded, NSError *_Nullable error) {
+        completion(error);
+    }];
 }
 
 @end

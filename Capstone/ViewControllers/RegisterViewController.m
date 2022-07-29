@@ -7,6 +7,7 @@
 
 #import "RegisterViewController.h"
 #import <Parse/Parse.h>
+#import "APIManager.h"
 
 @interface RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameText;
@@ -26,7 +27,7 @@
 }
 
 - (void)dismissKeyboard {
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 - (IBAction)didRegister:(id)sender {
@@ -38,14 +39,14 @@
     if ([self.usernameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""]) {
         [self emptyRegistrationAttempt];
     } else {
-       [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
-           if (error == nil) {
-               [self resignFirstResponder];
-               [self performSegueWithIdentifier:@"createdSegue" sender:nil];
-           } else {
-               [self failedRegistration];
-           }
-       }];
+        [[APIManager sharedManager] registerWithCompletion:newUser completion:^(NSError * _Nonnull error) {
+            if (error == nil) {
+                [self resignFirstResponder];
+                [self performSegueWithIdentifier:@"createdSegue" sender:nil];
+            } else {
+                [self failedRegistration];
+            }
+        }];
     }
 }
 
@@ -55,9 +56,9 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     [alert addAction:cancelAction];
-
+    
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-        handler:^(UIAlertAction * _Nonnull action) {
+                                                     handler:^(UIAlertAction * _Nonnull action) {
     }];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
@@ -96,7 +97,7 @@
 #pragma mark - keyboard movements
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         CGRect f = self.view.frame;
         f.origin.y = -keyboardSize.height;

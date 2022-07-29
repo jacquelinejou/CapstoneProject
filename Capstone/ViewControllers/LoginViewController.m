@@ -9,6 +9,7 @@
 #import "WelcomeViewController.h"
 #import <Parse/Parse.h>
 #import "APIManager.h"
+#import "NotificationManager.h"
 
 @interface LoginViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *usernameText;
@@ -28,7 +29,7 @@
 }
 
 - (void)dismissKeyboard {
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 - (IBAction)didLogin:(id)sender {
@@ -37,14 +38,20 @@
     if ([username isEqualToString:@""] || [password isEqualToString:@""]) {
         [self emptyLoginAttempt];
     } else {
-       [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
-           if (error == nil) {
-               [self resignFirstResponder];
-               [self performSegueWithIdentifier:@"loginSegue" sender:nil];
-           } else {
-               [self failedLogin];
-           }
-       }];
+        [[APIManager sharedManager] loginWithCompletion:username password:password completion:^(NSError * _Nonnull error) {
+            if (error == nil) {
+                [self resignFirstResponder];
+                [[NotificationManager sharedManager] isTime:^(BOOL isTime) {
+                    if (isTime) {
+                        [self performSegueWithIdentifier:@"photoSegue" sender:nil];
+                    } else {
+                        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                    }
+                }];
+            } else {
+                [self failedLogin];
+            }
+        }];
     }
 }
 
@@ -54,9 +61,9 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     [alert addAction:cancelAction];
-
+    
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-        handler:^(UIAlertAction * _Nonnull action) {
+                                                     handler:^(UIAlertAction * _Nonnull action) {
     }];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
@@ -95,7 +102,7 @@
 #pragma mark - keyboard movements
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         CGRect f = self.view.frame;
         f.origin.y = -keyboardSize.height;

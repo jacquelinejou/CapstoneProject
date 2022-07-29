@@ -6,13 +6,14 @@
 //
 
 #import "PhotoViewController.h"
-#import "SceneDelegate.h"
 #import "MapViewController.h"
 #import "Photos/Photos.h"
 #import "Post.h"
 #import "AVKit/AVKit.h"
 #import "MBProgressHUD.h"
 #import "AssetsLibrary/AssetsLibrary.h"
+#import "APIManager.h"
+#import "NotificationManager.h"
 
 @interface PhotoViewController ()
 @end
@@ -340,14 +341,10 @@
 
 -(void)postHelper {
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    [Post postUserVideo:self->_backUrl withCaption:@"" withCompletion:^(BOOL succeeded, NSError *_Nullable error) {
-        if (error) {
-            UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error Posting" message:@"Please retry." preferredStyle:(UIAlertControllerStyleAlert)];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            }];
-            [errorAlert addAction:okAction];
+    [[APIManager sharedManager] postVideoWithCompletion:self->_backUrl completion:^(NSError * _Nonnull error) {
+        if (!error) {
+            [MBProgressHUD hideHUDForView:self.view animated:true];
         }
-        [MBProgressHUD hideHUDForView:self.view animated:true];
     }];
 }
 
@@ -464,7 +461,7 @@
     [_background.bottomAnchor constraintEqualToAnchor:_recordButton.bottomAnchor constant:_spacing].active = YES;
     [_background.heightAnchor constraintEqualToAnchor:self.view.heightAnchor].active = YES;
     [_background.heightAnchor constraintLessThanOrEqualToAnchor:self.view.heightAnchor].active = YES;
-
+    
 }
 
 -(void)setupRecordButtonConstraints {
@@ -474,10 +471,11 @@
 }
 
 -(void)checkTime{
-    SceneDelegate *sd = [[SceneDelegate alloc] init];
-    if (![sd dateConverter] || _donePosting) {
-        [self performSegueWithIdentifier:@"postSegue" sender:nil];
-    }
+    [[NotificationManager sharedManager] isTime:^(BOOL isTime) {
+        if (!isTime || self->_donePosting) {
+            [self performSegueWithIdentifier:@"postSegue" sender:nil];
+        }
+    }];
 }
 
 @end

@@ -283,10 +283,28 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Zkr-9X-clN" kind="presentation" identifier="DisplayPostSegue" id="dg3-ne-pfo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4SH-2f-Xtp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5466.666666666667" y="-336.16071428571428"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="FkK-lD-abw">
+            <objects>
+                <viewController id="Zkr-9X-clN" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uKr-9v-pK5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="KTP-wg-che"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lZS-Vl-rrL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6839" y="-336"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="CfR-Vl-muM">
@@ -360,7 +378,7 @@
         <scene sceneID="Leq-nR-Zgf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jtI-Nu-QgD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="calendar icon" landscapeImage="calendar icon" largeContentSizeImage="calendar icon" selectedImage="calendar" catalog="system" id="Eu7-Ll-vJ3"/>
+                    <tabBarItem key="tabBarItem" title="" image="calendar icon" landscapeImage="calendar icon" largeContentSizeImage="calendar icon" selectedImage="calendar icon" id="Eu7-Ll-vJ3"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="85R-71-Z2c">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -377,11 +395,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8cw-F9-dLS"/>
+        <segue reference="tux-KG-dxy"/>
         <segue reference="pao-xk-4d4"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="calendar icon" width="25" height="25"/>
         <image name="map icon" width="25" height="25"/>
         <systemColor name="systemBackgroundColor">
