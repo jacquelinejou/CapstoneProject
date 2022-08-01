@@ -47,8 +47,7 @@
     self.selectionLayer.frame = self.bounds;
 }
 
-- (void)configureAppearance
-{
+- (void)configureAppearance {
     [super configureAppearance];
     // Override the build-in appearance configuration
     if (self.isPlaceholder) {
@@ -57,15 +56,14 @@
     }
 }
 
-- (void)setSelectionType:(SelectionType)selectionType
-{
+- (void)setSelectionType:(SelectionType)selectionType {
     if (_selectionType != selectionType) {
         _selectionType = selectionType;
         [self setNeedsLayout];
     }
 }
 
--(void)prepareForReuse{
+-(void)prepareForReuse {
     [super prepareForReuse];
     self.postImageView.image = [[UIImage alloc] init];
 }

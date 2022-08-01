@@ -17,10 +17,7 @@
 @import GoogleMapsUtils;
 
 @interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarControllerDelegate>
-@property (nonatomic, strong) NSMutableArray *_posts;
-@property (nonatomic, strong) NSMutableDictionary *_dictOfPosts;
-@property (nonatomic, strong) NSMutableDictionary *_currMonthDictOfPosts;
-@property (nonatomic, strong) NSMutableArray<GMSMarker *> *_markers;
+@property (strong,nonatomic) PostDetailsViewController* postDetailsVC;
 @end
 
 @implementation MapViewController {
@@ -38,17 +35,21 @@
     PFGeoPoint *_northWest;
     PFGeoPoint *_southEast;
     PFGeoPoint *_southWest;
+    NSMutableArray *_posts;
+    NSMutableArray<GMSMarker *> *_markers;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tabBarController.delegate = self;
+    self.postDetailsVC = [[PostDetailsViewController alloc] init];
+    self.postDetailsVC.delegate = self;
     _borderSpace = 10.0;
     _insets = 2;
     isMoved = YES;
     windowShowing = NO;
-    self._posts = [[NSMutableArray alloc] init];
-    self._markers = [[NSMutableArray alloc] init];
+    _posts = [[NSMutableArray alloc] init];
+    _markers = [[NSMutableArray alloc] init];
     [self setupMapView];
     [self setupScrollBar];
     [self setupClustering];
@@ -101,7 +102,7 @@
         }
         windowShowing = NO;
         // hide scroll bar if empty
-        if ([self._posts count] == 0) {
+        if ([_posts count] == 0) {
             [_collectionView setHidden:YES];
         }
     }
@@ -112,13 +113,12 @@
     NSArray *coordinates = @[_northWest, _northEast, _southEast, _southWest];
     [[APIManager sharedManager] fetchMapDataWithCompletion:coordinates completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
             if (posts != nil) {
-                self._posts = (NSMutableArray *)posts;
+                self->_posts = (NSMutableArray *)posts;
                 [self loadMarkers];
-                [self setupDictionaries];
 
                 // reset cluster manager
                 [self->_clusterManager clearItems];
-                [self->_clusterManager addItems:self._markers];
+                [self->_clusterManager addItems:self->_markers];
                 [self->_clusterManager cluster];
             }
     }];
@@ -135,27 +135,6 @@
     _northWest = [PFGeoPoint geoPointWithLatitude:northWest.latitude longitude:northWest.longitude];
     _southWest = [PFGeoPoint geoPointWithLatitude:southWest.latitude longitude:southWest.longitude];
     _southEast = [PFGeoPoint geoPointWithLatitude:southEast.latitude longitude:southEast.longitude];
-}
-
--(void)setupDictionaries {
-    self._dictOfPosts = [[NSMutableDictionary alloc] init];
-    self._currMonthDictOfPosts = [[NSMutableDictionary alloc] init];
-    for (Post *post in self._posts) {
-        // sets date to beginning of day to compare later
-        NSDate *date = post.createdAt;
-        [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&date interval:NULL forDate:date];
-        
-        // converts image to usable image
-        PFFileObject *pffile = post[@"Image"];
-        NSString *url = pffile.url;
-        NSData * imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
-        UIImage *image = [UIImage imageWithData: imageData];
-        self._dictOfPosts[date] = image;
-        // add to current month dict if in curr month
-        if ([self isSameMonth:date otherDay:[NSDate date]]) {
-            self._currMonthDictOfPosts[date] = image;
-        }
-    }
 }
 
 + (BOOL)requiresConstraintBasedLayout {
@@ -185,8 +164,8 @@
 }
 
 - (void)loadMarkers {
-    [self._markers removeAllObjects];
-    for (Post *post in self._posts) {
+    [_markers removeAllObjects];
+    for (Post *post in _posts) {
         [self loadMarker:post];
     }
     [_collectionView reloadData];
@@ -200,11 +179,11 @@
     marker.icon = [UIImage imageNamed:@"custom_pin.png"];
     marker.map = _mapView;
     marker.userData = post;
-    [self._markers addObject:marker];
+    [_markers addObject:marker];
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self._posts.count;
+    return _posts.count;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -213,7 +192,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     PostCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:@"PostCell" forIndexPath:indexPath];
-    Post *post = self._posts[indexPath.row];
+    Post *post = _posts[indexPath.row];
     cell.post = post;
     cell.usernameLabel.text = post.UserID;
     cell.commentLabel.text = [[NSString stringWithFormat:@"%lu", [post.Comments count]] stringByAppendingString:@" Comments"];
@@ -237,19 +216,23 @@
 
 // when tap post in scroll bar, recenter map on that post and display it in a details view controller
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Post *post = self._posts[indexPath.row];
-    GMSMarker *marker = self._markers[indexPath.row];
+    Post *post = _posts[indexPath.row];
+    GMSMarker *marker = _markers[indexPath.row];
     _mapView.selectedMarker = marker;
     PFGeoPoint *coordinates = (PFGeoPoint *) post.Location;
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:10];
     [_mapView animateToLocation:CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude)];
     // send post to postdetailsviewcontroller
-    PostDetailsViewController *postDetailsViewController =  [[PostDetailsViewController alloc] init];
-    postDetailsViewController.postDetails = post;
-    [[self navigationController] pushViewController:postDetailsViewController animated:YES];
+    self.postDetailsVC.postDetails = post;
+    self.postDetailsVC.postIndex = indexPath.row;
+    [[self navigationController] pushViewController:self.postDetailsVC animated:YES];
+    isMoved = NO;
 }
 
-- (void)addItemViewController:(PostDetailsViewController *)controller didSendPost:(Post *)post {
+- (void)didSendBackPost:(Post *)post withIndex:(NSInteger)postIndex {
+    Post *oldPost = _posts[postIndex];
+    [_posts removeObject:oldPost];
+    [_posts addObject:post];
     [_collectionView reloadData];
 }
 
@@ -342,13 +325,6 @@
 
 - (IBAction)didLogout:(id)sender {
     [[APIManager sharedManager] logout];
-}
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    UINavigationController *navController = tabBarController.viewControllers[1];
-    CalendarViewController *calendarView = (CalendarViewController *) navController.topViewController;
-    calendarView.dictOfPosts = self._dictOfPosts;
-    calendarView.currMonthDictOfPosts = self._currMonthDictOfPosts;
 }
 
 @end

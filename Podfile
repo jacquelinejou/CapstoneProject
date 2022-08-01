@@ -12,6 +12,7 @@ target 'Capstone' do
   pod 'FSCalendar'
   pod 'MBProgressHUD'
   pod 'iOS-Client-SDK', :git => 'https://github.com/Ziggeo/iOS-Client-SDK.git'
+  pod 'DateTools'
 
   target 'CapstoneTests' do
     inherit! :search_paths
