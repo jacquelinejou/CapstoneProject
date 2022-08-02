@@ -10,8 +10,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CalendarViewController : UIViewController
-@property (nonatomic, strong) NSMutableDictionary *dictOfPosts;
-@property (nonatomic, strong) NSMutableDictionary *currMonthDictOfPosts;
 @end
 
 NS_ASSUME_NONNULL_END

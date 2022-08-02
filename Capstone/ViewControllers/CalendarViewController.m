@@ -12,22 +12,27 @@
 #import "CalendarCell.h"
 #import "Post.h"
 #import "APIManager.h"
+#import "CacheManager.h"
 
 @interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
-@property (strong, nonatomic) NSCalendar *_gregorian;
-- (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)position;
 @end
 
 @implementation CalendarViewController {
+    NSCalendar *_gregorian;
     FSCalendar *_calendarView;
     CGFloat _borderSpace;
+    BOOL _isCurMonth;
+    NSMutableDictionary *_dictOfPosts;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupCache];
     _borderSpace = 10.0;
+    _isCurMonth = YES;
+    _dictOfPosts = [[NSMutableDictionary alloc] init];
     self.tabBarController.delegate = self;
-    self._gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    _gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     _calendarView.adjustsBoundingRectWhenChangingMonths = YES;
     _calendarView = [[FSCalendar alloc] initWithFrame:CGRectZero];
     _calendarView.dataSource = self;
@@ -35,6 +40,17 @@
     [self.view addSubview:_calendarView];
     [self setupCalendarImage];
     [self _setConstraints];
+}
+
+-(void)setupCache {
+    if (![[CacheManager sharedManager] hasCached]) {
+        [[APIManager sharedManager] fetchCalendarDataWithCompletion:PFUser.currentUser date:[NSDate date] completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
+            if (!error) {
+                [[CacheManager sharedManager] cacheMonth:posts];
+                [self->_calendarView reloadData];
+            }
+        }];
+    }
 }
 
 -(void)setupCalendarImage{
@@ -68,8 +84,16 @@
     CalendarCell *cell = [_calendarView dequeueReusableCellWithIdentifier:@"CalendarCell" forDate:date atMonthPosition:monthPosition];
     NSDate *newDate = [[NSDate alloc] initWithTimeInterval:0 sinceDate:date];
     [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&newDate interval:NULL forDate:newDate];
-    if (self.currMonthDictOfPosts[newDate]) {
-        [cell setupCell:self.currMonthDictOfPosts[newDate]];
+    Post *post;
+    if (_isCurMonth) {
+        post = [[CacheManager sharedManager] getCachedPostForKey:newDate];
+    } else {
+        post = _dictOfPosts[newDate];
+    }
+    if (post) {
+        NSString *stringImage = post.Image.url;
+        NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: stringImage]];
+        [cell setupCell:[UIImage imageWithData: imageData]];
     }
     return cell;
 }
@@ -79,17 +103,24 @@
 }
 
 - (void)calendarCurrentPageDidChange:(FSCalendar *)calendar {
-    self.currMonthDictOfPosts = [[NSMutableDictionary alloc] init];
-    for (NSDate *date in self.dictOfPosts) {
-        if ([self isSameMonth:date otherDay:_calendarView.currentPage]) {
-            self.currMonthDictOfPosts[date] = self.dictOfPosts[date];
-        }
+    NSDate *currMonth = _calendarView.currentPage;
+    if ([self isSameMonth:currMonth otherDay:[NSDate date]]) {
+        _isCurMonth = YES;
+    } else {
+        [[APIManager sharedManager] fetchCalendarDataWithCompletion:[PFUser currentUser] date:currMonth completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
+            for (Post *post in posts) {
+                NSDate *startDay = post.createdAt;
+                [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&startDay interval:NULL forDate:startDay];
+                self->_dictOfPosts[startDay] = post;
+            }
+            self->_isCurMonth = NO;
+        }];
     }
     [_calendarView reloadData];
 }
 
 - (NSArray<UIColor *> *)calendar:(FSCalendar *)calendar appearance:(FSCalendarAppearance *)appearance eventDefaultColorsForDate:(NSDate *)date {
-    if ([self._gregorian isDateInToday:date]) {
+    if ([_gregorian isDateInToday:date]) {
         return @[[UIColor orangeColor]];
     }
     return @[appearance.eventDefaultColor];
@@ -116,7 +147,7 @@
 - (void)configureCell:(FSCalendarCell *)cell forDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
     CalendarCell *diyCell = (CalendarCell *)cell;
     // Custom today circle
-    diyCell.circleImageView.hidden = ![self._gregorian isDateInToday:date];
+    diyCell.circleImageView.hidden = ![_gregorian isDateInToday:date];
 }
 
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {

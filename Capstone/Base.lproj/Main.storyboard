@@ -301,10 +301,44 @@
                         <viewLayoutGuide key="safeArea" id="KTP-wg-che"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <segue destination="5N0-Y7-3z7" kind="presentation" identifier="CommentsSegue" id="nj7-yJ-65z"/>
+                        <segue destination="JNh-zL-MLz" kind="presentation" identifier="ReactionsSegue" id="tcs-Qy-YCn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lZS-Vl-rrL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6839" y="-336"/>
+        </scene>
+        <!--Reactions View Controller-->
+        <scene sceneID="bLW-xv-Cr5">
+            <objects>
+                <viewController id="JNh-zL-MLz" customClass="ReactionsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GHt-DY-iHn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ZB7-c1-NcJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="01F-k7-Ldm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8299" y="64"/>
+        </scene>
+        <!--Comments View Controller-->
+        <scene sceneID="3a1-ww-yty">
+            <objects>
+                <viewController id="5N0-Y7-3z7" customClass="CommentsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hhQ-Ag-86N">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="7l5-Wc-TO2"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UgN-gj-DPL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8311" y="-745"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="CfR-Vl-muM">

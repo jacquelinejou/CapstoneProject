@@ -35,12 +35,11 @@ NSInteger notificationMinute;
     hourUpperBound = 24;
     minuteLowerBound = 0;
     minuteUpperBound = 60;
-    
-    [[APIManager sharedManager] connectToParse:^(NSError * _Nonnull error) {}];
+    [[APIManager sharedManager] connectToParse];
     [self pushNotification];
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
+    self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
     }
 }
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="Post" representedClassName="PostMO" syncable="YES">
+        <attribute name="caption" attributeType="String"/>
+        <attribute name="comments" attributeType="Transformable"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO" spotlightIndexingEnabled="YES"/>
+        <attribute name="image" attributeType="String"/>
+        <attribute name="reactions" attributeType="Transformable"/>
+        <attribute name="userId" attributeType="String"/>
+        <attribute name="video" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Post" positionX="-63" positionY="-18" width="128" height="134"/>
+    </elements>
+</model>

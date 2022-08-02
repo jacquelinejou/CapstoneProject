@@ -33,7 +33,7 @@
     newPost.author = [PFUser currentUser];
     newPost.caption = caption;
     newPost.Reactions = [[NSArray alloc] init];
-    newPost.Comments = [[NSArray alloc] init];
+    newPost.Comments = [[NSMutableArray alloc] init];
     newPost.UserID = [PFUser currentUser].username;
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         if (!error) {

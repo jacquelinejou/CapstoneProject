@@ -56,6 +56,7 @@
     [self setupConstraintConstants];
     [self setupRecordingConstants];
     [self setupLiveDisplayConstants];
+    [self setupDoubleTapGesture];
     [self setupTimer];
     [self updateViewConstraints];
 }
