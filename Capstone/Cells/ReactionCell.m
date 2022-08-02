@@ -50,9 +50,9 @@
 -(void)reactionConstraints {
     [self.contentView addSubview:self.reactionImage];
     [self.reactionImage setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.reactionImage.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier * 2].active = YES;
+    [self.reactionImage.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier * 1.5].active = YES;
     [self.reactionImage.centerXAnchor constraintEqualToAnchor:self.contentView.centerXAnchor].active = YES;
-    [self.reactionImage.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:_widthMultiplier * 2].active = YES;
+    [self.reactionImage.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:_widthMultiplier * 2.5].active = YES;
     [self.reactionImage.topAnchor constraintEqualToAnchor:self.usernameLabel.bottomAnchor constant:self.contentView.frame.size.height * _spacing].active = YES;
 }
 
@@ -69,6 +69,7 @@
     self.usernameLabel = [[UILabel alloc] init];
     self.reactionImage = [[UIImageView alloc] init];
     self.dateLabel = [[UILabel alloc] init];
+    self.backgroundColor = [UIColor colorWithRed:0.91 green:1.0 blue:0.91 alpha:1.0];
 }
 
 -(void)setupFont {

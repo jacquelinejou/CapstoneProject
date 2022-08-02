@@ -40,7 +40,7 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
     BOOL time = (notificationHour > [components hour] || (notificationHour == [components hour] && notificationMinute > [components minute]));
-    completion(YES);
+    completion(time);
 }
 
 @end

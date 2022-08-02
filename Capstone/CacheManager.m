@@ -52,8 +52,8 @@
     _hasCached = YES;
 }
 
--(nullable Post*)getCachedPostForKey:(NSDate*)key {
-    return [_imageCache objectForKey:key];
+-(Post *)getCachedPostForKey:(NSDate*)key {
+    return [self->_imageCache objectForKey:key];
 }
 
 -(void)didlogout {

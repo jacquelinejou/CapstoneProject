@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIImageView *postImageView;
 @property (weak, nonatomic) CAShapeLayer *selectionLayer;
 @property (assign, nonatomic) SelectionType selectionType;
--(CalendarCell *)setupCell:(UIImage *)image;
+@property (assign, nonatomic) PFFileObject *video;
+-(CalendarCell *)setupCell:(UIImage *)image withVideo:(NSURL *)video;
 @end
 
 NS_ASSUME_NONNULL_END

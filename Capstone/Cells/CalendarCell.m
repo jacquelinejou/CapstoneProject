@@ -32,10 +32,11 @@
     return self;
 }
 
--(CalendarCell *)setupCell:(UIImage *)image {
+-(CalendarCell *)setupCell:(UIImage *)image withVideo:(PFFileObject *)video{
     // format image
     self.postImageView.image = image;
     [self.contentView insertSubview:self.postImageView atIndex:0];
+    self.video = video;
     return self;
 }
 
@@ -43,7 +44,7 @@
     [super layoutSubviews];
     self.backgroundView.frame = CGRectInset(self.bounds, 1, 1);
     self.circleImageView.frame = self.backgroundView.frame;
-    self.postImageView.frame = self.backgroundView.frame;
+    self.postImageView.frame = CGRectMake(0, self.backgroundView.frame.size.height * 0.2, self.backgroundView.frame.size.width, self.backgroundView.frame.size.height * 0.6);
     self.selectionLayer.frame = self.bounds;
 }
 
