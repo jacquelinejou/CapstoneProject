@@ -18,11 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) PFFileObject *Image;
 @property (nonatomic, strong) PFFileObject *Video;
-@property (nonatomic, strong) NSArray *Reactions;
+@property (nonatomic, strong) NSMutableArray *Reactions;
 @property (nonatomic, strong) NSMutableArray *Comments;
 @property (nonatomic, strong) PFGeoPoint *Location;
 
 + (void) postUserVideo: ( NSURL * _Nullable )image withCaption: ( NSString * _Nullable )caption withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (UIImage *)imageFromVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time;
++ (UIImage *)rotateImage:(UIImage *)image;
++ (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 
 @end
 

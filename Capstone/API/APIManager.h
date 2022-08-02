@@ -9,6 +9,7 @@
 #import "Parse/Parse.h"
 #import "Post.h"
 #import "Comments.h"
+#import "Reactions.h"
 @import GoogleMaps;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,6 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)fetchCommentsWithCompletion:(NSString *)postID completion:(void(^)(NSArray *comments, NSError *error))completion;
 -(void)fetchLastCommentWithCompletion:(NSString *)postID completion:(void(^)(Comments *comment, NSError *error))completion;
 -(void)updateNumberCommentsWithCompletion:(NSString *)postID comment:(NSString *)comment;
+- (void)postReactionWithCompletion:(UIImage *)reaction withPostID:(NSString *)postID completion:(void(^)(Reactions *reaction, NSError *error))completion;
+-(void)fetchReactionWithCompletion:(NSString *)postID completion:(void(^)(NSArray *_Nullable reactions, NSError *error))completion;
+-(void)fetchLastReactionWithCompletion:(NSString *)postID completion:(void(^)(Reactions *reaction, NSError *error))completion;
+-(void)updateNumberReactionsWithCompletion:(NSString *)postID reaction:(UIImage *)reaction;
 @end
 
 NS_ASSUME_NONNULL_END

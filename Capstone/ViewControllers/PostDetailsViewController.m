@@ -9,7 +9,6 @@
 #import "MapViewController.h"
 #import "Post.h"
 #import "AVKit/AVKit.h"
-#import "CommentsViewController.h"
 
 @interface PostDetailsViewController ()
 @property (nonatomic, strong) UILabel *_usernameLabel;
@@ -17,6 +16,7 @@
 @property (nonatomic, strong) UIButton *_commentLabel;
 @property (nonatomic, strong) UIButton *_reactionLabel;
 @property (strong,nonatomic) CommentsViewController* commentsVC;
+@property (strong,nonatomic) ReactionsViewController* reactionsVC;
 @end
 
 @implementation PostDetailsViewController {
@@ -33,6 +33,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.commentsVC = [[CommentsViewController alloc] init];
     self.commentsVC.delegate = self;
+    self.reactionsVC = [[ReactionsViewController alloc] init];
+    self.reactionsVC.delegate = self;
     _borderSpace = 50.0;
     _fontSize = 18.0;
     _labelSize = 30.0;
@@ -142,14 +144,15 @@
 }
 
 -(void)didTapComment {
-    self.commentsVC.postID = self.postDetails.objectId;
     self.commentsVC.postDetails = self.postDetails;
     _moveForward = YES;
     [[self navigationController] pushViewController:self.commentsVC animated:YES];
 }
 
 -(void)didTapReaction {
-    [self performSegueWithIdentifier:@"ReactionsSegue" sender:self];
+    self.reactionsVC.postDetails = self.postDetails;
+    _moveForward = YES;
+    [[self navigationController] pushViewController:self.reactionsVC animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -163,6 +166,11 @@
 - (void)didSendPost:(nonnull Post *)post {
     self.postDetails = post;
     [self._commentLabel setTitle:[[NSString stringWithFormat:@"%lu", [post.Comments count]] stringByAppendingString:@" Comments"] forState:UIControlStateNormal];
+}
+
+- (void)didSendReactions:(Post *)post {
+    self.postDetails = post;
+    [self._reactionLabel setTitle:[[NSString stringWithFormat:@"%lu", [post.Reactions count]] stringByAppendingString:@" Reactions"] forState:UIControlStateNormal];
 }
 
 @end

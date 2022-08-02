@@ -33,6 +33,7 @@
     UIView *_background;
     UIView *_foreground;
     UIButton *_recordButton;
+    UIButton *_picButton;
     
     Float32 _spacing;
     Float32 _aspectRatio;
@@ -44,6 +45,7 @@
     NSLayoutConstraint *_backCameraPiPConstraints;
     BOOL _isRecording;
     BOOL _donePosting;
+    BOOL _takePic;
     NSURL *_frontUrl;
     NSURL *_backUrl;
     AVCaptureMovieFileOutput *_frontMovieFileOutput;
@@ -57,7 +59,9 @@
     [self setupRecordingConstants];
     [self setupLiveDisplayConstants];
     [self setupDoubleTapGesture];
-    [self setupTimer];
+    if (!self.isPicture) {
+        [self setupTimer];
+    }
     [self updateViewConstraints];
 }
 
@@ -70,7 +74,9 @@
 -(void)setupRecordingConstants {
     _isRecording = NO;
     _donePosting = NO;
+    _takePic = NO;
     _recordButton = [[UIButton alloc] init];
+    _picButton = [[UIButton alloc] init];
     _frontUrl = [self tempURL];
     _backUrl = [self tempURL];
     _dataOutputQueue = dispatch_queue_create("data output queue", DISPATCH_QUEUE_SERIAL);
@@ -101,9 +107,12 @@
     [self setupCameras];
     [self setupBackCamera];
     [self setupFrontCamera];
-    [self setupFileOutput];
     [self setupButton];
-    
+    [self setupFileOutput];
+    if (self.isPicture) {
+        [_recordButton removeFromSuperview];
+        [self setupPictureButton];
+    }
     [_captureSession commitConfiguration];
     [_captureSession startRunning];
 }
@@ -223,10 +232,24 @@
     [_recordButton addTarget:self action:@selector(didTapRecord:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+-(void)setupPictureButton {
+    [self.view addSubview:_picButton];
+    [self setupPictureButtonConstraints];
+    _picButton.tintColor = [UIColor blackColor];
+    [_picButton setTitleColor:[UIColor blackColor] forState:normal];
+    [_picButton setTitle:@"React" forState:normal];
+    [_picButton addTarget:self action:@selector(didTapRecord:) forControlEvents:UIControlEventTouchUpInside];
+}
+
 -(void)setupFileOutput {
     _frontMovieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
     // record time limit 5 seconds
-    CMTime timeLimit = CMTimeMake(5, 1);
+    CMTime timeLimit;
+    if (self.isPicture) {
+        timeLimit = CMTimeMake(1, 1);
+    } else {
+        timeLimit = CMTimeMake(5, 1);
+    }
     _frontMovieFileOutput.maxRecordedDuration = timeLimit;
     if([_captureSession canAddOutput:_frontMovieFileOutput]){
         [_captureSession addOutput:_frontMovieFileOutput];
@@ -304,8 +327,10 @@
     if (!_isRecording) {
         [_frontMovieFileOutput startRecordingToOutputFileURL:_frontUrl recordingDelegate:self];
         [_backMovieFileOutput startRecordingToOutputFileURL:_backUrl recordingDelegate:self];
-        _isRecording = YES;
-        [self setupButton];
+        if (!self.isPicture) {
+            _isRecording = YES;
+            [self setupButton];
+        }
     }
 }
 
@@ -340,6 +365,18 @@
     }];
 }
 
+-(void)postReaction {
+    UIImage *reactionImage = [Post imageFromVideo:_backUrl atTime:0];
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
+    [[APIManager sharedManager] postReactionWithCompletion:reactionImage withPostID:self.postID completion:^(Reactions * _Nonnull reaction, NSError * _Nonnull error) {
+        if ([self.delegate respondsToSelector:@selector(didSendPic:)]) {
+            [self.delegate didSendPic:reaction];
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:true];
+        [[self navigationController] popViewControllerAnimated:YES];
+    }];
+}
+
 -(void)postHelper {
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [[APIManager sharedManager] postVideoWithCompletion:self->_backUrl completion:^(NSError * _Nonnull error) {
@@ -358,14 +395,18 @@
     [self->_recordButton setEnabled:YES];
     _isRecording = NO;
     [self setupButton];
-    if (!_backMovieFileOutput.isRecording && !_backMovieFileOutput.isRecording) {
+    if (!_backMovieFileOutput.isRecording && !_frontMovieFileOutput.isRecording) {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIBackgroundTaskIdentifier currBackgroundRecordingID = self->_backgroundRecordingID;
             self->_backgroundRecordingID = UIBackgroundTaskInvalid;
             if (currBackgroundRecordingID != UIBackgroundTaskInvalid) {
                 [[UIApplication sharedApplication] endBackgroundTask:currBackgroundRecordingID];
             }
-            [self postVideo];
+            if (!self.isPicture) {
+                [self postVideo];
+            } else {
+                [self postReaction];
+            }
         });
     }
 }
@@ -469,6 +510,14 @@
     [_recordButton.widthAnchor constraintGreaterThanOrEqualToConstant:4 * _spacing].active = YES;
     [_recordButton.heightAnchor constraintEqualToConstant:1.5 * _spacing].active = YES;
     [_recordButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+}
+
+-(void)setupPictureButtonConstraints {
+    [_picButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_picButton.widthAnchor constraintGreaterThanOrEqualToConstant:4 * _spacing].active = YES;
+    [_picButton.heightAnchor constraintEqualToConstant:1.5 * _spacing].active = YES;
+    [_picButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+    [_background.bottomAnchor constraintEqualToAnchor:_picButton.bottomAnchor constant:_spacing].active = YES;
 }
 
 -(void)checkTime{
