@@ -226,7 +226,6 @@
     self.postDetailsVC.postDetails = post;
     self.postDetailsVC.postIndex = indexPath.row;
     [[self navigationController] pushViewController:self.postDetailsVC animated:YES];
-    isMoved = NO;
 }
 
 - (void)didSendBackPost:(Post *)post withIndex:(NSInteger)postIndex {

@@ -49,6 +49,8 @@
 		2DD1A80128975D5500B3ABF1 /* ReactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A80028975D5500B3ABF1 /* ReactionsViewController.m */; };
 		2DD1A80428975EE900B3ABF1 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A80328975EE900B3ABF1 /* CommentCell.m */; };
 		2DD1A80728983F6F00B3ABF1 /* Comments.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A80628983F6F00B3ABF1 /* Comments.m */; };
+		2DD1A80A289898C300B3ABF1 /* ReactionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A809289898C300B3ABF1 /* ReactionCell.m */; };
+		2DD1A80D28989A5F00B3ABF1 /* Reactions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A80C28989A5F00B3ABF1 /* Reactions.m */; };
 		37003B750F267B2926F3EBF1 /* Pods_CapstoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */; };
 		F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */; };
 /* End PBXBuildFile section */
@@ -138,6 +140,10 @@
 		2DD1A80328975EE900B3ABF1 /* CommentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		2DD1A80528983F6F00B3ABF1 /* Comments.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comments.h; sourceTree = "<group>"; };
 		2DD1A80628983F6F00B3ABF1 /* Comments.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Comments.m; sourceTree = "<group>"; };
+		2DD1A808289898C300B3ABF1 /* ReactionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactionCell.h; sourceTree = "<group>"; };
+		2DD1A809289898C300B3ABF1 /* ReactionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactionCell.m; sourceTree = "<group>"; };
+		2DD1A80B28989A5F00B3ABF1 /* Reactions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reactions.h; sourceTree = "<group>"; };
+		2DD1A80C28989A5F00B3ABF1 /* Reactions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reactions.m; sourceTree = "<group>"; };
 		31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
 		47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapstoneTests.debug.xcconfig"; path = "Target Support Files/Pods-CapstoneTests/Pods-CapstoneTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -182,6 +188,8 @@
 				2D26936E287765C20074A934 /* Post.m */,
 				2DD1A80528983F6F00B3ABF1 /* Comments.h */,
 				2DD1A80628983F6F00B3ABF1 /* Comments.m */,
+				2DD1A80B28989A5F00B3ABF1 /* Reactions.h */,
+				2DD1A80C28989A5F00B3ABF1 /* Reactions.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -195,6 +203,8 @@
 				2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */,
 				2DD1A80228975EE900B3ABF1 /* CommentCell.h */,
 				2DD1A80328975EE900B3ABF1 /* CommentCell.m */,
+				2DD1A808289898C300B3ABF1 /* ReactionCell.h */,
+				2DD1A809289898C300B3ABF1 /* ReactionCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -648,6 +658,7 @@
 				2DD1A80728983F6F00B3ABF1 /* Comments.m in Sources */,
 				2DD1A7FE28975D4900B3ABF1 /* CommentsViewController.m in Sources */,
 				2DD1A7AC2893784A00B3ABF1 /* PostDetailsViewController.m in Sources */,
+				2DD1A80D28989A5F00B3ABF1 /* Reactions.m in Sources */,
 				2DD1A7FB28948F5D00B3ABF1 /* CacheManager.m in Sources */,
 				2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */,
 				2DD1A80128975D5500B3ABF1 /* ReactionsViewController.m in Sources */,
@@ -659,6 +670,7 @@
 				2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */,
 				2D26936F287765C20074A934 /* Post.m in Sources */,
 				2D26935F2876091B0074A934 /* CalendarViewController.m in Sources */,
+				2DD1A80A289898C300B3ABF1 /* ReactionCell.m in Sources */,
 				2DD1A80428975EE900B3ABF1 /* CommentCell.m in Sources */,
 				2D6A78202874A0A3008786BF /* main.m in Sources */,
 				2DD1A788287DF25B00B3ABF1 /* PhotoViewController.m in Sources */,

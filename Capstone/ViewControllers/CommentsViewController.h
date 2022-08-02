@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface CommentsViewController : UIViewController
-@property (nonatomic, strong) NSString *postID;
 @property (nonatomic, strong) Post *postDetails;
 @property (nonatomic, weak) id <CommentsViewControllerDelegate> delegate;
 @end

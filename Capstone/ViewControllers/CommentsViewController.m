@@ -56,7 +56,7 @@
 }
 
 -(void)didTapPost {
-    [[APIManager sharedManager] postCommentWithCompletion:self._commentText.text withPostID:self.postID completion:^(Comments * _Nonnull comment, NSError * _Nonnull error) {
+    [[APIManager sharedManager] postCommentWithCompletion:self._commentText.text withPostID:self.postDetails.objectId completion:^(Comments * _Nonnull comment, NSError * _Nonnull error) {
         if (!error) {
             [self.postDetails.Comments addObject:comment];
             if ([self.delegate respondsToSelector:@selector(didSendPost:)]) {
@@ -83,14 +83,26 @@
     [self.view addSubview:self._commentText];
     [self.view addSubview:self._postButton];
     
+    [self tableViewConstraints];
+    [self commentTextConstraints];
+    [self postButtonConstraints];
+}
+
+-(void)tableViewConstraints {
     [self._tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self._tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self._tableView.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.7].active = YES;
     [self._tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:self.view.frame.size.height * 0.1].active = YES;
+}
+
+-(void)commentTextConstraints {
     [self._commentText.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     [self._commentText.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.2].active = YES;
     [self._commentText.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.8].active = YES;
     [self._commentText.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+}
+
+-(void)postButtonConstraints {
     [self._postButton.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.2].active = YES;
     [self._postButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self._postButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:self.view.frame.size.height * -0.05].active = YES;
@@ -98,7 +110,7 @@
 }
 
 -(void)setupComments {
-    [[APIManager sharedManager] fetchCommentsWithCompletion:self.postID completion:^(NSArray * _Nonnull comments, NSError * _Nonnull error) {
+    [[APIManager sharedManager] fetchCommentsWithCompletion:self.postDetails.objectId completion:^(NSArray * _Nonnull comments, NSError * _Nonnull error) {
         self->_comments = (NSMutableArray *) comments;
         [self._tableView reloadData];
     }];
@@ -112,7 +124,6 @@
     Comments *comment = _comments[indexPath.row];
     cell.usernameLabel.text = comment.username;
     cell.commentLabel.text = comment.comment;
-    // check this
     cell.dateLabel.text = [comment.createdAt shortTimeAgoSinceNow];
     return cell;
 }
@@ -133,11 +144,11 @@
 
 - (void)dismissKeyboard {
     [self.view endEditing:YES];
-    [self resignFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self resignFirstResponder];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }

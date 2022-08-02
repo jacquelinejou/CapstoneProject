@@ -32,7 +32,7 @@
     newPost.Video = [self getPFFileFromUrl:video];
     newPost.author = [PFUser currentUser];
     newPost.caption = caption;
-    newPost.Reactions = [[NSArray alloc] init];
+    newPost.Reactions = [[NSMutableArray alloc] init];
     newPost.Comments = [[NSMutableArray alloc] init];
     newPost.UserID = [PFUser currentUser].username;
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {

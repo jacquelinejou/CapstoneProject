@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "Post.h"
 #import "CommentsViewController.h"
+#import "ReactionsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @class PostDetailsViewController;
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didSendBackPost:(Post *)post withIndex:(NSInteger)postIndex;
 @end
 
-@interface PostDetailsViewController : UIViewController <CommentsViewControllerDelegate>
+@interface PostDetailsViewController : UIViewController <CommentsViewControllerDelegate, ReactionsViewControllerDelegate>
 @property (nonatomic, strong) Post *postDetails;
 @property (nonatomic) NSInteger postIndex;
 @property (nonatomic, weak) id <PostDetailsViewControllerDelegate> delegate;
