@@ -11,17 +11,19 @@
 #import "FSCalendar.h"
 #import "CalendarCell.h"
 #import "Post.h"
-#import "APIManager.h"
+#import "ParseConnectionAPIManager.h"
+#import "ParseCalendarAPIManager.h"
 #import "CacheManager.h"
 #import "AVKit/AVKit.h"
 
 @interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
 @end
 
+static CGFloat _borderSpace = 10.0;
+
 @implementation CalendarViewController {
     NSCalendar *_gregorian;
     FSCalendar *_calendarView;
-    CGFloat _borderSpace;
     BOOL _isCurMonth;
     NSMutableDictionary *_dictOfPosts;
 }
@@ -29,7 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupCache];
-    _borderSpace = 10.0;
     _isCurMonth = YES;
     _dictOfPosts = [[NSMutableDictionary alloc] init];
     self.tabBarController.delegate = self;
@@ -45,7 +46,7 @@
 
 -(void)setupCache {
     if (![[CacheManager sharedManager] hasCached]) {
-        [[APIManager sharedManager] fetchCalendarDataWithCompletion:PFUser.currentUser date:[NSDate date] completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
+        [[ParseCalendarAPIManager sharedManager] fetchCalendarDataWithCompletion:PFUser.currentUser date:[NSDate date] completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
             if (!error) {
                 [[CacheManager sharedManager] cacheMonth:posts];
                 [self->_calendarView reloadData];
@@ -110,7 +111,7 @@
         _isCurMonth = YES;
         [_calendarView reloadData];
     } else {
-        [[APIManager sharedManager] fetchCalendarDataWithCompletion:[PFUser currentUser] date:currMonth completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
+        [[ParseCalendarAPIManager sharedManager] fetchCalendarDataWithCompletion:[PFUser currentUser] date:currMonth completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
             for (Post *post in posts) {
                 NSDate *startDay = post.createdAt;
                 [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&startDay interval:NULL forDate:startDay];
@@ -186,7 +187,7 @@
 }
 
 - (IBAction)didLogout:(id)sender {
-    [[APIManager sharedManager] logout];
+    [[ParseConnectionAPIManager sharedManager] logout];
 }
 
 @end

@@ -40,10 +40,9 @@
 		2DD1A78A287E27B200B3ABF1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD1A789287E27B200B3ABF1 /* AVFoundation.framework */; };
 		2DD1A78D287E3DA900B3ABF1 /* CalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */; };
 		2DD1A78F2880999600B3ABF1 /* brownCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DD1A78E2880999600B3ABF1 /* brownCircle.png */; };
-		2DD1A7A92891C64B00B3ABF1 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7A82891C64B00B3ABF1 /* APIManager.m */; };
+		2DD1A7A92891C64B00B3ABF1 /* ParsePostAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7A82891C64B00B3ABF1 /* ParsePostAPIManager.m */; };
 		2DD1A7AC2893784A00B3ABF1 /* PostDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7AB2893784A00B3ABF1 /* PostDetailsViewController.m */; };
 		2DD1A7B12894352600B3ABF1 /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7B02894352500B3ABF1 /* NotificationManager.m */; };
-		2DD1A7F8289456B800B3ABF1 /* Capstone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7F6289456B800B3ABF1 /* Capstone.xcdatamodeld */; };
 		2DD1A7FB28948F5D00B3ABF1 /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7FA28948F5D00B3ABF1 /* CacheManager.m */; };
 		2DD1A7FE28975D4900B3ABF1 /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A7FD28975D4900B3ABF1 /* CommentsViewController.m */; };
 		2DD1A80128975D5500B3ABF1 /* ReactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A80028975D5500B3ABF1 /* ReactionsViewController.m */; };
@@ -52,6 +51,11 @@
 		2DD1A80A289898C300B3ABF1 /* ReactionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A809289898C300B3ABF1 /* ReactionCell.m */; };
 		2DD1A80D28989A5F00B3ABF1 /* Reactions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A80C28989A5F00B3ABF1 /* Reactions.m */; };
 		2DD1A8102899A42700B3ABF1 /* ColorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A80F2899A42600B3ABF1 /* ColorManager.m */; };
+		2DD1A8142899F2A000B3ABF1 /* ParseMapAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A8132899F2A000B3ABF1 /* ParseMapAPIManager.m */; };
+		2DD1A8172899F3D600B3ABF1 /* ParseConnectionAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A8162899F3D600B3ABF1 /* ParseConnectionAPIManager.m */; };
+		2DD1A81A2899F5AC00B3ABF1 /* ParseCalendarAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A8192899F5AC00B3ABF1 /* ParseCalendarAPIManager.m */; };
+		2DD1A81D2899F82F00B3ABF1 /* ParseCommentAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A81C2899F82F00B3ABF1 /* ParseCommentAPIManager.m */; };
+		2DD1A8202899F8DF00B3ABF1 /* ParseReactionAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD1A81F2899F8DF00B3ABF1 /* ParseReactionAPIManager.m */; };
 		37003B750F267B2926F3EBF1 /* Pods_CapstoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C23658A635E2206478F115 /* Pods_CapstoneTests.framework */; };
 		F7280FEEE63EA3724B3F2249 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */; };
 /* End PBXBuildFile section */
@@ -124,13 +128,12 @@
 		2DD1A78B287E3DA900B3ABF1 /* CalendarCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalendarCell.h; sourceTree = "<group>"; };
 		2DD1A78C287E3DA900B3ABF1 /* CalendarCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalendarCell.m; sourceTree = "<group>"; };
 		2DD1A78E2880999600B3ABF1 /* brownCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brownCircle.png; path = ../../../../Downloads/brownCircle.png; sourceTree = "<group>"; };
-		2DD1A7A72891C64B00B3ABF1 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
-		2DD1A7A82891C64B00B3ABF1 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		2DD1A7A72891C64B00B3ABF1 /* ParsePostAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParsePostAPIManager.h; sourceTree = "<group>"; };
+		2DD1A7A82891C64B00B3ABF1 /* ParsePostAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParsePostAPIManager.m; sourceTree = "<group>"; };
 		2DD1A7AA2893784A00B3ABF1 /* PostDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDetailsViewController.h; sourceTree = "<group>"; };
 		2DD1A7AB2893784A00B3ABF1 /* PostDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDetailsViewController.m; sourceTree = "<group>"; };
 		2DD1A7AF2894352500B3ABF1 /* NotificationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationManager.h; sourceTree = "<group>"; };
 		2DD1A7B02894352500B3ABF1 /* NotificationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationManager.m; sourceTree = "<group>"; };
-		2DD1A7F7289456B800B3ABF1 /* Capstone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Capstone.xcdatamodel; sourceTree = "<group>"; };
 		2DD1A7F928948F5D00B3ABF1 /* CacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CacheManager.h; sourceTree = "<group>"; };
 		2DD1A7FA28948F5D00B3ABF1 /* CacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
 		2DD1A7FC28975D4900B3ABF1 /* CommentsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
@@ -147,6 +150,16 @@
 		2DD1A80C28989A5F00B3ABF1 /* Reactions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reactions.m; sourceTree = "<group>"; };
 		2DD1A80E2899A42600B3ABF1 /* ColorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorManager.h; sourceTree = "<group>"; };
 		2DD1A80F2899A42600B3ABF1 /* ColorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorManager.m; sourceTree = "<group>"; };
+		2DD1A8122899F2A000B3ABF1 /* ParseMapAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseMapAPIManager.h; sourceTree = "<group>"; };
+		2DD1A8132899F2A000B3ABF1 /* ParseMapAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseMapAPIManager.m; sourceTree = "<group>"; };
+		2DD1A8152899F3D600B3ABF1 /* ParseConnectionAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseConnectionAPIManager.h; sourceTree = "<group>"; };
+		2DD1A8162899F3D600B3ABF1 /* ParseConnectionAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseConnectionAPIManager.m; sourceTree = "<group>"; };
+		2DD1A8182899F5AC00B3ABF1 /* ParseCalendarAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseCalendarAPIManager.h; sourceTree = "<group>"; };
+		2DD1A8192899F5AC00B3ABF1 /* ParseCalendarAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseCalendarAPIManager.m; sourceTree = "<group>"; };
+		2DD1A81B2899F82F00B3ABF1 /* ParseCommentAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseCommentAPIManager.h; sourceTree = "<group>"; };
+		2DD1A81C2899F82F00B3ABF1 /* ParseCommentAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseCommentAPIManager.m; sourceTree = "<group>"; };
+		2DD1A81E2899F8DF00B3ABF1 /* ParseReactionAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseReactionAPIManager.h; sourceTree = "<group>"; };
+		2DD1A81F2899F8DF00B3ABF1 /* ParseReactionAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseReactionAPIManager.m; sourceTree = "<group>"; };
 		31FB5AF01B4B752ACC220811 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
 		47F127FAD2CA25FA08362E33 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9E818083481B2ECD6C447D /* Pods-CapstoneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapstoneTests.debug.xcconfig"; path = "Target Support Files/Pods-CapstoneTests/Pods-CapstoneTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -238,14 +251,12 @@
 		2D6A780C2874A0A1008786BF /* Capstone */ = {
 			isa = PBXGroup;
 			children = (
-				2DD1A7AD289385AB00B3ABF1 /* Delegates */,
+				2DD1A8112899B75C00B3ABF1 /* Manager */,
 				2DD1A7A62891C63600B3ABF1 /* API */,
-				2DD1A7902880E56900B3ABF1 /* Views */,
 				2D26936628775BE50074A934 /* Cells */,
 				2D26936528775BDA0074A934 /* Models */,
 				2D6A78482874C059008786BF /* ViewControllers */,
 				2D6A780D2874A0A1008786BF /* AppDelegate.h */,
-				2DD1A7F6289456B800B3ABF1 /* Capstone.xcdatamodeld */,
 				2D6A780E2874A0A1008786BF /* AppDelegate.m */,
 				2D6A78102874A0A1008786BF /* SceneDelegate.h */,
 				2D6A78112874A0A1008786BF /* SceneDelegate.m */,
@@ -260,12 +271,6 @@
 				2D269373287769300074A934 /* InfoWindow.xib */,
 				2D2693752877752B0074A934 /* CustomInfoWindow.h */,
 				2D2693762877752B0074A934 /* CustomInfoWindow.m */,
-				2DD1A7AF2894352500B3ABF1 /* NotificationManager.h */,
-				2DD1A7B02894352500B3ABF1 /* NotificationManager.m */,
-				2DD1A7F928948F5D00B3ABF1 /* CacheManager.h */,
-				2DD1A7FA28948F5D00B3ABF1 /* CacheManager.m */,
-				2DD1A80E2899A42600B3ABF1 /* ColorManager.h */,
-				2DD1A80F2899A42600B3ABF1 /* ColorManager.m */,
 			);
 			path = Capstone;
 			sourceTree = "<group>";
@@ -324,27 +329,36 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		2DD1A7902880E56900B3ABF1 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		2DD1A7A62891C63600B3ABF1 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				2DD1A7A72891C64B00B3ABF1 /* APIManager.h */,
-				2DD1A7A82891C64B00B3ABF1 /* APIManager.m */,
+				2DD1A7A72891C64B00B3ABF1 /* ParsePostAPIManager.h */,
+				2DD1A7A82891C64B00B3ABF1 /* ParsePostAPIManager.m */,
+				2DD1A8122899F2A000B3ABF1 /* ParseMapAPIManager.h */,
+				2DD1A8132899F2A000B3ABF1 /* ParseMapAPIManager.m */,
+				2DD1A8152899F3D600B3ABF1 /* ParseConnectionAPIManager.h */,
+				2DD1A8162899F3D600B3ABF1 /* ParseConnectionAPIManager.m */,
+				2DD1A8182899F5AC00B3ABF1 /* ParseCalendarAPIManager.h */,
+				2DD1A8192899F5AC00B3ABF1 /* ParseCalendarAPIManager.m */,
+				2DD1A81B2899F82F00B3ABF1 /* ParseCommentAPIManager.h */,
+				2DD1A81C2899F82F00B3ABF1 /* ParseCommentAPIManager.m */,
+				2DD1A81E2899F8DF00B3ABF1 /* ParseReactionAPIManager.h */,
+				2DD1A81F2899F8DF00B3ABF1 /* ParseReactionAPIManager.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
 		};
-		2DD1A7AD289385AB00B3ABF1 /* Delegates */ = {
+		2DD1A8112899B75C00B3ABF1 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				2DD1A7AF2894352500B3ABF1 /* NotificationManager.h */,
+				2DD1A7B02894352500B3ABF1 /* NotificationManager.m */,
+				2DD1A7F928948F5D00B3ABF1 /* CacheManager.h */,
+				2DD1A7FA28948F5D00B3ABF1 /* CacheManager.m */,
+				2DD1A80E2899A42600B3ABF1 /* ColorManager.h */,
+				2DD1A80F2899A42600B3ABF1 /* ColorManager.m */,
 			);
-			path = Delegates;
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		AC6F4CC94EE5D0C0A5ACF0A9 /* Pods */ = {
@@ -663,13 +677,15 @@
 				2DD1A80728983F6F00B3ABF1 /* Comments.m in Sources */,
 				2DD1A7FE28975D4900B3ABF1 /* CommentsViewController.m in Sources */,
 				2DD1A7AC2893784A00B3ABF1 /* PostDetailsViewController.m in Sources */,
+				2DD1A81D2899F82F00B3ABF1 /* ParseCommentAPIManager.m in Sources */,
+				2DD1A81A2899F5AC00B3ABF1 /* ParseCalendarAPIManager.m in Sources */,
 				2DD1A80D28989A5F00B3ABF1 /* Reactions.m in Sources */,
 				2DD1A7FB28948F5D00B3ABF1 /* CacheManager.m in Sources */,
 				2D6A784B2874F0D8008786BF /* WelcomeViewController.m in Sources */,
 				2DD1A80128975D5500B3ABF1 /* ReactionsViewController.m in Sources */,
 				2D6A784E2874F2B5008786BF /* LoginViewController.m in Sources */,
-				2DD1A7F8289456B800B3ABF1 /* Capstone.xcdatamodeld in Sources */,
-				2DD1A7A92891C64B00B3ABF1 /* APIManager.m in Sources */,
+				2DD1A7A92891C64B00B3ABF1 /* ParsePostAPIManager.m in Sources */,
+				2DD1A8172899F3D600B3ABF1 /* ParseConnectionAPIManager.m in Sources */,
 				2D6A780F2874A0A1008786BF /* AppDelegate.m in Sources */,
 				2DD1A78D287E3DA900B3ABF1 /* CalendarCell.m in Sources */,
 				2D6A78512874F2BF008786BF /* RegisterViewController.m in Sources */,
@@ -680,7 +696,9 @@
 				2D6A78202874A0A3008786BF /* main.m in Sources */,
 				2DD1A788287DF25B00B3ABF1 /* PhotoViewController.m in Sources */,
 				2DD1A8102899A42700B3ABF1 /* ColorManager.m in Sources */,
+				2DD1A8142899F2A000B3ABF1 /* ParseMapAPIManager.m in Sources */,
 				2D6A78122874A0A1008786BF /* SceneDelegate.m in Sources */,
+				2DD1A8202899F8DF00B3ABF1 /* ParseReactionAPIManager.m in Sources */,
 				2D26935C2876090F0074A934 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1011,19 +1029,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		2DD1A7F6289456B800B3ABF1 /* Capstone.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				2DD1A7F7289456B800B3ABF1 /* Capstone.xcdatamodel */,
-			);
-			currentVersion = 2DD1A7F7289456B800B3ABF1 /* Capstone.xcdatamodel */;
-			path = Capstone.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 2D6A78022874A0A1008786BF /* Project object */;
 }

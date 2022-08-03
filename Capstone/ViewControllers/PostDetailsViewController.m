@@ -20,14 +20,14 @@
 @property (strong,nonatomic) ReactionsViewController* reactionsVC;
 @end
 
+static CGFloat _borderSpace = 50.0;
+static NSInteger _fontSize = 18.0;
+static NSInteger _labelSize = 30.0;
+static CGFloat _heightMultiplier = 0.5;
+
 @implementation PostDetailsViewController {
     AVPlayerViewController *_postVideo;
-    CGFloat _borderSpace;
-    NSInteger _fontSize;
-    NSInteger _labelSize;
-    CGFloat _heightMultiplier;
     BOOL _moveForward;
-    UIColor *_colorTheme;
 }
 
 - (void)viewDidLoad {
@@ -37,16 +37,16 @@
     self.commentsVC.delegate = self;
     self.reactionsVC = [[ReactionsViewController alloc] init];
     self.reactionsVC.delegate = self;
-    _borderSpace = 50.0;
-    _fontSize = 18.0;
-    _labelSize = 30.0;
-    _heightMultiplier = 0.5;
+    [self createVariables];
     [self setupVariables];
+    [self assignVariables];
     [self setupColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     _moveForward = NO;
+    [self assignVariables];
+    [self.view setNeedsDisplay];
 }
 
 + (BOOL)requiresConstraintBasedLayout {
@@ -59,7 +59,27 @@
     [self textConstraints];
 }
 
+-(void)createVariables {
+    _postVideo = [[AVPlayerViewController alloc] init];
+    self._usernameLabel = [[UILabel alloc] init];
+    self._dateLabel = [[UILabel alloc] init];
+    self._commentLabel = [[UIButton alloc] init];
+    self._reactionLabel = [[UIButton alloc] init];
+}
+
 -(void)setupVariables {
+    self._usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:_fontSize];
+    self._dateLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:_fontSize];
+    self._commentLabel.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:_fontSize];
+    [self._commentLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self._commentLabel addTarget:self action:@selector(didTapComment) forControlEvents:UIControlEventTouchUpInside];
+    [self._reactionLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self._reactionLabel.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:_fontSize];
+    [self._reactionLabel sendActionsForControlEvents:UIControlEventTouchUpInside];
+    [self._reactionLabel addTarget:self action:@selector(didTapReaction) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)assignVariables {
     [self setupVideo];
     [self setupUsername];
     [self setupDate];
@@ -73,7 +93,6 @@
     NSURL *url = [NSURL URLWithString: stringUrl];
     AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:url];
     AVPlayer* playVideo = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-    _postVideo = [[AVPlayerViewController alloc] init];
     _postVideo.player = playVideo;
     _postVideo.player.volume = 0;
     [self.view addSubview:_postVideo.view];
@@ -82,14 +101,10 @@
 }
 
 -(void)setupUsername {
-    self._usernameLabel = [[UILabel alloc] init];
     self._usernameLabel.text = self.postDetails.UserID;
-    self._usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:_fontSize];
 }
 
 -(void)setupDate {
-    self._dateLabel = [[UILabel alloc] init];
-    self._dateLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:_fontSize];
     NSDate *postTime = self.postDetails.createdAt;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
@@ -99,20 +114,11 @@
 }
 
 -(void)setupComment {
-    self._commentLabel = [[UIButton alloc] init];
-    self._commentLabel.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:_fontSize];
-    [self._commentLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self._commentLabel setTitle:[[NSString stringWithFormat:@"%lu", [self.postDetails.Comments count]] stringByAppendingString:@" Comments"] forState:UIControlStateNormal];
-    [self._commentLabel addTarget:self action:@selector(didTapComment) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)setupReactions {
-    self._reactionLabel = [[UIButton alloc] init];
-    [self._reactionLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    self._reactionLabel.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:_fontSize];
     [self._reactionLabel setTitle:[[NSString stringWithFormat:@"%lu", [self.postDetails.Reactions count]] stringByAppendingString:@" Reactions"] forState:UIControlStateNormal];
-    [self._reactionLabel sendActionsForControlEvents:UIControlEventTouchUpInside];
-    [self._reactionLabel addTarget:self action:@selector(didTapReaction) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)videoConstraints {
@@ -196,8 +202,7 @@
 }
 
 -(void)setupColor {
-    _colorTheme = [[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.999];
-    self._commentLabel.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:_colorTheme];
+    self._commentLabel.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:[[UIColor colorWithRed:[[ColorManager sharedManager] getCurrColor] green:[[ColorManager sharedManager] getOtherColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:1.0] colorWithAlphaComponent:1.0]];
     self._reactionLabel.backgroundColor = self._commentLabel.backgroundColor;
     self.view.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._commentLabel.backgroundColor];
 }

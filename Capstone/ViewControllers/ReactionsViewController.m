@@ -7,7 +7,7 @@
 
 #import "ReactionsViewController.h"
 #import "ReactionCell.h"
-#import "APIManager.h"
+#import "ParseReactionAPIManager.h"
 #import "DateTools.h"
 #import "ColorManager.h"
 
@@ -19,7 +19,6 @@
 
 @implementation ReactionsViewController {
     NSMutableArray *_reactions;
-    UIColor *_colorTheme;
 }
 
 - (void)viewDidLoad {
@@ -81,8 +80,7 @@
 }
 
 -(void)setupColor {
-    _colorTheme = [[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.999];
-    self._pictureButton.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:_colorTheme];
+    self._pictureButton.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:[[UIColor colorWithRed:[[ColorManager sharedManager] getOtherColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:1.0] colorWithAlphaComponent:1.0]];
     self._tableView.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._pictureButton.backgroundColor];
     self.view.backgroundColor = self._tableView.backgroundColor;
 }
@@ -103,7 +101,7 @@
 }
 
 -(void)setupReactions {
-    [[APIManager sharedManager] fetchReactionWithCompletion:self.postDetails.objectId completion:^(NSArray * _Nullable reactions, NSError * _Nonnull error) {
+    [[ParseReactionAPIManager sharedManager] fetchReactionWithCompletion:self.postDetails.objectId completion:^(NSArray * _Nullable reactions, NSError * _Nonnull error) {
             self->_reactions = (NSMutableArray *) reactions;
             [self._tableView reloadData];
     }];

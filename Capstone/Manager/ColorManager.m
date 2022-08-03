@@ -20,8 +20,23 @@
 
 -(id)init {
     if (self = [super init]) {
+        currColor = 1.0;
+        otherColors = 0.0;
+        cellColor = 0.91;
     }
     return self;
+}
+
+-(CGFloat)getCurrColor {
+    return currColor;
+}
+
+-(CGFloat)getOtherColor {
+    return otherColors;
+}
+
+-(CGFloat)getCellColor {
+    return cellColor;
 }
 
 - (UIColor *)lighterColorForColor:(UIColor *)c {

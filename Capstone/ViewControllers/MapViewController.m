@@ -12,7 +12,8 @@
 #import "PostCell.h"
 #import "CalendarViewController.h"
 #import <Parse/PFObject+Subclass.h>
-#import "APIManager.h"
+#import "ParseMapAPIManager.h"
+#import "ParseConnectionAPIManager.h"
 @import GoogleMaps;
 @import GoogleMapsUtils;
 
@@ -20,14 +21,17 @@
 @property (strong,nonatomic) PostDetailsViewController* postDetailsVC;
 @end
 
+static CGFloat _borderSpace = 10.0;
+static NSInteger _insets = 2;
+static NSInteger _zoom = 10;
+static NSInteger _fontSize = 10;
+
 @implementation MapViewController {
     UICollectionView *_collectionView;
     GMSMapView *_mapView;
     GMUClusterManager *_clusterManager;
     GMSCircle *_circ;
     UIView *_contentView;
-    CGFloat _borderSpace;
-    NSInteger _insets;
     BOOL isMoved;
     BOOL windowShowing;
     CLLocationCoordinate2D _currLocation;
@@ -44,8 +48,6 @@
     self.tabBarController.delegate = self;
     self.postDetailsVC = [[PostDetailsViewController alloc] init];
     self.postDetailsVC.delegate = self;
-    _borderSpace = 10.0;
-    _insets = 2;
     isMoved = YES;
     windowShowing = NO;
     _posts = [[NSMutableArray alloc] init];
@@ -57,7 +59,7 @@
 
 -(void)setupMapView {
     // open map on bellevue with my location enabled to center on current location
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:47.6 longitude:-122.2 zoom:10];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:47.6 longitude:-122.2 zoom:_zoom];
     _mapView = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
     _mapView.delegate = self;
     _mapView.mapType = kGMSTypeNormal;
@@ -111,7 +113,7 @@
 -(void)fetchData {
     [self findDisplayDimensions];
     NSArray *coordinates = @[_northWest, _northEast, _southEast, _southWest];
-    [[APIManager sharedManager] fetchMapDataWithCompletion:coordinates completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
+    [[ParseMapAPIManager sharedManager] fetchMapDataWithCompletion:coordinates completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
             if (posts != nil) {
                 self->_posts = (NSMutableArray *)posts;
                 [self loadMarkers];
@@ -173,7 +175,7 @@
 
 -(void)loadMarker:(Post *)post {
     PFGeoPoint *coordinate = (PFGeoPoint *) post.Location;
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:10];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:_zoom];
     CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude);
     GMSMarker *marker = [GMSMarker markerWithPosition:coord];
     marker.icon = [UIImage imageNamed:@"custom_pin.png"];
@@ -220,11 +222,12 @@
     GMSMarker *marker = _markers[indexPath.row];
     _mapView.selectedMarker = marker;
     PFGeoPoint *coordinates = (PFGeoPoint *) post.Location;
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:10];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:_zoom];
     [_mapView animateToLocation:CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude)];
     // send post to postdetailsviewcontroller
     self.postDetailsVC.postDetails = post;
     self.postDetailsVC.postIndex = indexPath.row;
+    windowShowing = YES;
     [[self navigationController] pushViewController:self.postDetailsVC animated:YES];
 }
 
@@ -282,11 +285,11 @@
 -(UIView *) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker {
     CustomInfoWindow *infoWindow = [[[NSBundle mainBundle] loadNibNamed:@"InfoWindow" owner:self options:nil] objectAtIndex:0];
     Post *post = marker.userData;
-    infoWindow.usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:10];
+    infoWindow.usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:_fontSize];
     infoWindow.usernameLabel.text = post.UserID;
     
     // format date
-    infoWindow.dateLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:10];
+    infoWindow.dateLabel.font = [UIFont fontWithName:@"VirtuousSlabThin" size:_fontSize];
     NSDate *postTime = post.createdAt;
     infoWindow.dateLabel.text = [self setDate:postTime];
     
@@ -296,9 +299,9 @@
     NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: url]];
     infoWindow.postImage.image = [UIImage imageWithData: imageData];
     
-    infoWindow.commentLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:10];
+    infoWindow.commentLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:_fontSize];
     infoWindow.commentLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Comments"] count]] stringByAppendingString:@" Comments"];
-    infoWindow.reactionLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:10];
+    infoWindow.reactionLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:_fontSize];
     infoWindow.reactionLabel.text = [[NSString stringWithFormat:@"%lu", [post[@"Reactions"] count]] stringByAppendingString:@" Reactions"];
     return infoWindow;
 }
@@ -323,7 +326,7 @@
 }
 
 - (IBAction)didLogout:(id)sender {
-    [[APIManager sharedManager] logout];
+    [[ParseConnectionAPIManager sharedManager] logout];
 }
 
 @end

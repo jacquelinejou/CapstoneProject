@@ -6,21 +6,18 @@
 //
 
 #import "CommentCell.h"
+#import "ColorManager.h"
 
-@implementation CommentCell {
-    NSInteger _fontSize;
-    CGFloat _widthSpacingMultiplier;
-    CGFloat _spacing;
-    CGFloat _widthMultiplier;
-}
+static NSInteger _fontSize = 11;
+static CGFloat _widthSpacingMultiplier = 0.1;
+static CGFloat _spacing = 0.05;
+static CGFloat _widthMultiplier = 0.25;
+
+@implementation CommentCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self createProperties];
-        _fontSize = 11;
-        _widthSpacingMultiplier = 0.1;
-        _spacing = 0.05;
-        _widthMultiplier = 0.25;
     }
     return self;
 }
@@ -69,7 +66,7 @@
     self.usernameLabel = [[UILabel alloc] init];
     self.commentLabel = [[UILabel alloc] init];
     self.dateLabel = [[UILabel alloc] init];
-    self.backgroundColor = [UIColor colorWithRed:0.91 green:0.91 blue:1.0 alpha:1.0];
+    self.backgroundColor = [UIColor colorWithRed:[[ColorManager sharedManager] getCellColor] green:[[ColorManager sharedManager] getCellColor] blue:[[ColorManager sharedManager] getCurrColor] alpha:1.0];
 }
 
 -(void)setupFont {

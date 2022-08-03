@@ -7,7 +7,7 @@
 
 #import "RegisterViewController.h"
 #import <Parse/Parse.h>
-#import "APIManager.h"
+#import "ParseConnectionAPIManager.h"
 
 @interface RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameText;
@@ -39,7 +39,7 @@
     if ([self.usernameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""]) {
         [self emptyRegistrationAttempt];
     } else {
-        [[APIManager sharedManager] registerWithCompletion:newUser completion:^(NSError * _Nonnull error) {
+        [[ParseConnectionAPIManager sharedManager] registerWithCompletion:newUser completion:^(NSError * _Nonnull error) {
             if (error == nil) {
                 [self resignFirstResponder];
                 [self performSegueWithIdentifier:@"createdSegue" sender:nil];

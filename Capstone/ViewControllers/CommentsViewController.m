@@ -7,7 +7,7 @@
 
 #import "CommentsViewController.h"
 #import "CommentCell.h"
-#import "APIManager.h"
+#import "ParseCommentAPIManager.h"
 #import "DateTools.h"
 #import "ColorManager.h"
 
@@ -19,7 +19,6 @@
 
 @implementation CommentsViewController {
     NSMutableArray *_comments;
-    UIColor *_colorTheme;
 }
 
 - (void)viewDidLoad {
@@ -51,12 +50,12 @@
     self._commentText = [[UITextField alloc] init];
     self._commentText.placeholder = @"Comment here.";
     self._commentText.font = [UIFont fontWithName:@"VirtuousSlabBold" size:17];
-    self._commentText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self._commentText.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     self._commentText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
 }
 
 -(void)setupColor {
-    _colorTheme = [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] colorWithAlphaComponent:0.999];
+    UIColor *_colorTheme = [[UIColor colorWithRed:[[ColorManager sharedManager] getOtherColor] green:[[ColorManager sharedManager] getOtherColor] blue:[[ColorManager sharedManager] getCurrColor] alpha:1.0] colorWithAlphaComponent:1.0];
     self._postButton.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:_colorTheme];
     self._tableView.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._postButton.backgroundColor];
     self.view.backgroundColor = self._tableView.backgroundColor;
@@ -68,14 +67,14 @@
     self._postButton.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:20];
     self._postButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     self._postButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self._postButton.backgroundColor = [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] colorWithAlphaComponent:0.99];;
+    self._postButton.backgroundColor = [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] colorWithAlphaComponent:0.99];
     [self._postButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self._postButton setTitle:[NSString stringWithFormat:@"%@", @"Send"] forState:UIControlStateNormal];
     [self._postButton addTarget:self action:@selector(didTapPost) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)didTapPost {
-    [[APIManager sharedManager] postCommentWithCompletion:self._commentText.text withPostID:self.postDetails.objectId completion:^(Comments * _Nonnull comment, NSError * _Nonnull error) {
+    [[ParseCommentAPIManager sharedManager] postCommentWithCompletion:self._commentText.text withPostID:self.postDetails.objectId completion:^(Comments * _Nonnull comment, NSError * _Nonnull error) {
         if (!error) {
             [self.postDetails.Comments addObject:comment];
             if ([self.delegate respondsToSelector:@selector(didSendPost:)]) {
@@ -129,7 +128,7 @@
 }
 
 -(void)setupComments {
-    [[APIManager sharedManager] fetchCommentsWithCompletion:self.postDetails.objectId completion:^(NSArray * _Nonnull comments, NSError * _Nonnull error) {
+    [[ParseCommentAPIManager sharedManager] fetchCommentsWithCompletion:self.postDetails.objectId completion:^(NSArray * _Nonnull comments, NSError * _Nonnull error) {
         self->_comments = (NSMutableArray *) comments;
         [self._tableView reloadData];
     }];

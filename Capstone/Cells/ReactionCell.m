@@ -6,21 +6,18 @@
 //
 
 #import "ReactionCell.h"
+#import "ColorManager.h"
 
-@implementation ReactionCell {
-    NSInteger _fontSize;
-    CGFloat _widthMultiplier;
-    CGFloat _widthSpacingMultiplier;
-    CGFloat _spacing;
-}
+static NSInteger _fontSize = 11;
+static CGFloat _widthSpacingMultiplier = 0.1;
+static CGFloat _spacing = 0.05;
+static CGFloat _widthMultiplier = 0.25;
+
+@implementation ReactionCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self createProperties];
-        _fontSize = 11;
-        _widthMultiplier = 0.25;
-        _widthSpacingMultiplier = 0.1;
-        _spacing = 0.05;
     }
     return self;
 }
@@ -69,7 +66,7 @@
     self.usernameLabel = [[UILabel alloc] init];
     self.reactionImage = [[UIImageView alloc] init];
     self.dateLabel = [[UILabel alloc] init];
-    self.backgroundColor = [UIColor colorWithRed:0.91 green:1.0 blue:0.91 alpha:1.0];
+    self.backgroundColor = [UIColor colorWithRed:[[ColorManager sharedManager] getCellColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getCellColor] alpha:1.0];
 }
 
 -(void)setupFont {
