@@ -13,6 +13,7 @@
 #import "Post.h"
 #import "APIManager.h"
 #import "CacheManager.h"
+#import "AVKit/AVKit.h"
 
 @interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
 @end
@@ -64,6 +65,7 @@
     _calendarView.appearance.headerTitleColor = [UIColor systemBrownColor];
     _calendarView.calendarHeaderView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.2];
     _calendarView.calendarWeekdayView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.05];
+    _calendarView.placeholderType = FSCalendarPlaceholderTypeNone;
     [_calendarView registerClass:[CalendarCell class] forCellReuseIdentifier:@"CalendarCell"];
 }
 
@@ -71,7 +73,7 @@
     [_calendarView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:_borderSpace].active = YES;
     [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:_borderSpace * -1].active = YES;
-    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * -6].active = YES;
+    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:self.view.frame.size.height * -0.1].active = YES;
     [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:_borderSpace * 10].active = YES;
 }
 
@@ -84,16 +86,16 @@
     CalendarCell *cell = [_calendarView dequeueReusableCellWithIdentifier:@"CalendarCell" forDate:date atMonthPosition:monthPosition];
     NSDate *newDate = [[NSDate alloc] initWithTimeInterval:0 sinceDate:date];
     [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&newDate interval:NULL forDate:newDate];
-    Post *post;
+    Post *currPost;
     if (_isCurMonth) {
-        post = [[CacheManager sharedManager] getCachedPostForKey:newDate];
+        currPost = [[CacheManager sharedManager] getCachedPostForKey:newDate];
     } else {
-        post = _dictOfPosts[newDate];
+        currPost = _dictOfPosts[newDate];
     }
-    if (post) {
-        NSString *stringImage = post.Image.url;
+    if (currPost) {
+        NSString *stringImage = currPost.Image.url;
         NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: stringImage]];
-        [cell setupCell:[UIImage imageWithData: imageData]];
+        [cell setupCell:[UIImage imageWithData: imageData] withVideo:currPost.Video];
     }
     return cell;
 }
@@ -106,6 +108,7 @@
     NSDate *currMonth = _calendarView.currentPage;
     if ([self isSameMonth:currMonth otherDay:[NSDate date]]) {
         _isCurMonth = YES;
+        [_calendarView reloadData];
     } else {
         [[APIManager sharedManager] fetchCalendarDataWithCompletion:[PFUser currentUser] date:currMonth completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
             for (Post *post in posts) {
@@ -114,9 +117,9 @@
                 self->_dictOfPosts[startDay] = post;
             }
             self->_isCurMonth = NO;
+            [self->_calendarView reloadData];
         }];
     }
-    [_calendarView reloadData];
 }
 
 - (NSArray<UIColor *> *)calendar:(FSCalendar *)calendar appearance:(FSCalendarAppearance *)appearance eventDefaultColorsForDate:(NSDate *)date {
@@ -151,9 +154,16 @@
 }
 
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
-}
-
--(void)calendar:(FSCalendar *)calendar didDeselectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
+    CalendarCell *cell = [self calendar:_calendarView cellForDate:date atMonthPosition:monthPosition];
+    PFFileObject *pffile = cell.video;
+    NSString *stringUrl = pffile.url;
+    NSURL *url = [NSURL URLWithString: stringUrl];
+    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+    playerViewController.player = [AVPlayer playerWithURL:url];
+    [self presentViewController:playerViewController animated:YES completion:^{
+        //Start Playback
+        [playerViewController.player play];
+    }];
 }
 
 - (BOOL)isSameMonth:(NSDate*)date1 otherDay:(NSDate*)date2 {

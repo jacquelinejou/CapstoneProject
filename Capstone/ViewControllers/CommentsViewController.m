@@ -9,26 +9,28 @@
 #import "CommentCell.h"
 #import "APIManager.h"
 #import "DateTools.h"
+#import "ColorManager.h"
 
 @interface CommentsViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
-@property (nonatomic, strong) UITextView *_commentText;
+@property (nonatomic, strong) UITextField *_commentText;
 @property (nonatomic, strong) UIButton *_postButton;
 @property (nonatomic, strong, retain) UITableView *_tableView;
 @end
 
 @implementation CommentsViewController {
     NSMutableArray *_comments;
+    UIColor *_colorTheme;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self becomeFirstResponder];
-    self.view.backgroundColor = [UIColor whiteColor];
     [self setupTableView];
-    self._commentText = [[UITextView alloc] init];
+    [self setupCommentsText];
     [self setupPostButton];
     _comments = [[NSMutableArray alloc] init];
     [self setupComments];
+    [self setupColor];
     [self setupKeyboard];
 }
 
@@ -42,14 +44,31 @@
     self._tableView = [[UITableView alloc] init];
     self._tableView.dataSource = self;
     self._tableView.delegate = self;
-    self._tableView.backgroundColor = [UIColor whiteColor];
     [self._tableView registerClass:[CommentCell class] forCellReuseIdentifier:@"CommentCell"];
+}
+
+-(void)setupCommentsText {
+    self._commentText = [[UITextField alloc] init];
+    self._commentText.placeholder = @"Comment here.";
+    self._commentText.font = [UIFont fontWithName:@"VirtuousSlabBold" size:17];
+    self._commentText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self._commentText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+}
+
+-(void)setupColor {
+    _colorTheme = [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] colorWithAlphaComponent:0.999];
+    self._postButton.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:_colorTheme];
+    self._tableView.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._postButton.backgroundColor];
+    self.view.backgroundColor = self._tableView.backgroundColor;
+    self._commentText.backgroundColor = [[ColorManager sharedManager] darkerColorForColor:self._tableView.backgroundColor];
 }
 
 -(void)setupPostButton {
     self._postButton = [[UIButton alloc] init];
-    self._postButton.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:13];
-    self._postButton.backgroundColor = [UIColor whiteColor];
+    self._postButton.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:20];
+    self._postButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    self._postButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self._postButton.backgroundColor = [[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0] colorWithAlphaComponent:0.99];;
     [self._postButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self._postButton setTitle:[NSString stringWithFormat:@"%@", @"Send"] forState:UIControlStateNormal];
     [self._postButton addTarget:self action:@selector(didTapPost) forControlEvents:UIControlEventTouchUpInside];
@@ -96,8 +115,8 @@
 }
 
 -(void)commentTextConstraints {
-    [self._commentText.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
-    [self._commentText.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.2].active = YES;
+    [self._commentText.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:self.view.frame.size.height * -0.05].active = YES;
+    [self._commentText.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.15].active = YES;
     [self._commentText.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.8].active = YES;
     [self._commentText.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
 }

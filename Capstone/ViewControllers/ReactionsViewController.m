@@ -9,6 +9,7 @@
 #import "ReactionCell.h"
 #import "APIManager.h"
 #import "DateTools.h"
+#import "ColorManager.h"
 
 @interface ReactionsViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) UIButton *_pictureButton;
@@ -18,14 +19,15 @@
 
 @implementation ReactionsViewController {
     NSMutableArray *_reactions;
+    UIColor *_colorTheme;
 }
 
 - (void)viewDidLoad {
-    self.view.backgroundColor = [UIColor whiteColor];
     [self setupTableView];
     [self setupPicButton];
     _reactions = [[NSMutableArray alloc] init];
     [self setupReactions];
+    [self setupColor];
     self.photoVC = [[PhotoViewController alloc] init];
     self.photoVC.delegate = self;
 }
@@ -49,25 +51,40 @@
     
     [self.view addSubview:self._tableView];
     [self.view addSubview:self._pictureButton];
-    
+
+    [self setupTableViewConstraints];
+    [self setupPictureButtonConstraints];
+}
+
+-(void)setupTableViewConstraints {
     [self._tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self._tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self._tableView.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.7].active = YES;
     [self._tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:self.view.frame.size.height * 0.1].active = YES;
+}
 
+-(void)setupPictureButtonConstraints {
     [self._pictureButton.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.4].active = YES;
     [self._pictureButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-    [self._pictureButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:self.view.frame.size.height * -0.05].active = YES;
-    [self._pictureButton.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.15].active = YES;
+    [self._pictureButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:self.view.frame.size.height * -0.1].active = YES;
+    [self._pictureButton.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.1].active = YES;
 }
 
 -(void)setupPicButton {
     self._pictureButton = [[UIButton alloc] init];
-    self._pictureButton.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:13];
-    self._pictureButton.backgroundColor = [UIColor whiteColor];
+    self._pictureButton.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:20];
+    self._pictureButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    self._pictureButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self._pictureButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self._pictureButton setTitle:[NSString stringWithFormat:@"%@", @"React!"] forState:UIControlStateNormal];
     [self._pictureButton addTarget:self action:@selector(didTapPic) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)setupColor {
+    _colorTheme = [[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.999];
+    self._pictureButton.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:_colorTheme];
+    self._tableView.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._pictureButton.backgroundColor];
+    self.view.backgroundColor = self._tableView.backgroundColor;
 }
 
 -(void)didTapPic {

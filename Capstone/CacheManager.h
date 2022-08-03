@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasCached;
 - (void)cachePost:(Post*)post;
 - (void)cacheMonth:(NSArray *)posts;
-- (nullable Post*)getCachedPostForKey:(NSDate*)key;
+- (Post *)getCachedPostForKey:(NSDate*)key;
 - (void)didlogout;
 
 @end

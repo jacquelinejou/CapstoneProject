@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "Post.h"
 #import "AVKit/AVKit.h"
+#import "ColorManager.h"
 
 @interface PostDetailsViewController ()
 @property (nonatomic, strong) UILabel *_usernameLabel;
@@ -26,6 +27,7 @@
     NSInteger _labelSize;
     CGFloat _heightMultiplier;
     BOOL _moveForward;
+    UIColor *_colorTheme;
 }
 
 - (void)viewDidLoad {
@@ -40,6 +42,7 @@
     _labelSize = 30.0;
     _heightMultiplier = 0.5;
     [self setupVariables];
+    [self setupColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -90,7 +93,7 @@
     NSDate *postTime = self.postDetails.createdAt;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
-    formatter.dateStyle = NSDateFormatterShortStyle;
+    formatter.dateStyle = NSDateFormatterNoStyle;
     formatter.timeStyle = NSDateFormatterShortStyle;
     self._dateLabel.text = [formatter stringFromDate:postTime];
 }
@@ -129,18 +132,37 @@
     [self._usernameLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self._reactionLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self._dateLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self._commentLabel.topAnchor constraintEqualToAnchor:self._usernameLabel.bottomAnchor constant:_borderSpace].active = YES;
+    
+    [self usernameConstraints];
+    [self commentConstraints];
+    [self reactionConstraints];
+    [self dateConstraints];
+}
+
+-(void)commentConstraints {
     [self._commentLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:_borderSpace].active = YES;
-    [self._usernameLabel.leadingAnchor constraintEqualToAnchor:self._commentLabel.leadingAnchor].active = YES;
+    [self._commentLabel.topAnchor constraintEqualToAnchor:self._usernameLabel.bottomAnchor constant:_borderSpace].active = YES;
+    [self._commentLabel.leadingAnchor constraintEqualToAnchor:self._usernameLabel.leadingAnchor].active = YES;
     [self._commentLabel.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * -2].active = YES;
+    [self._commentLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:1.5].active = YES;
+    self._commentLabel.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+}
+
+-(void)reactionConstraints {
     [self._reactionLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:_borderSpace * -1].active = YES;
     [self._reactionLabel.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * -2].active = YES;
+    [self._dateLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor].active = YES;
+    [self._reactionLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:1.5].active = YES;
+    self._reactionLabel.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+}
+
+-(void)usernameConstraints {
+    [self._usernameLabel.heightAnchor constraintEqualToConstant:_labelSize].active = YES;
+}
+
+-(void)dateConstraints {
     [self._dateLabel.trailingAnchor constraintEqualToAnchor:self._reactionLabel.trailingAnchor].active = YES;
     [self._dateLabel.bottomAnchor constraintEqualToAnchor:self._reactionLabel.topAnchor constant:_borderSpace * -1].active = YES;
-    [self._usernameLabel.heightAnchor constraintEqualToConstant:_labelSize].active = YES;
-    [self._dateLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor].active = YES;
-    [self._commentLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:2].active = YES;
-    [self._reactionLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:2].active = YES;
 }
 
 -(void)didTapComment {
@@ -171,6 +193,13 @@
 - (void)didSendReactions:(Post *)post {
     self.postDetails = post;
     [self._reactionLabel setTitle:[[NSString stringWithFormat:@"%lu", [post.Reactions count]] stringByAppendingString:@" Reactions"] forState:UIControlStateNormal];
+}
+
+-(void)setupColor {
+    _colorTheme = [[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.999];
+    self._commentLabel.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:_colorTheme];
+    self._reactionLabel.backgroundColor = self._commentLabel.backgroundColor;
+    self.view.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._commentLabel.backgroundColor];
 }
 
 @end

@@ -69,6 +69,7 @@
     self.usernameLabel = [[UILabel alloc] init];
     self.commentLabel = [[UILabel alloc] init];
     self.dateLabel = [[UILabel alloc] init];
+    self.backgroundColor = [UIColor colorWithRed:0.91 green:0.91 blue:1.0 alpha:1.0];
 }
 
 -(void)setupFont {
