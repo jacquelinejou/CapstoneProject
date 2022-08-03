@@ -7,22 +7,17 @@
 
 #import "PostCell.h"
 
-@implementation PostCell {
-    CGFloat _borderSpace;
-    NSInteger _fontSize;
-    NSInteger _labelSize;
-    CGFloat _widthMultiplier;
-    CGFloat _heightMultiplier;
-}
+static CGFloat _borderSpace = 8.0;
+static NSInteger _fontSize = 10;
+static NSInteger _labelSize = 15;
+static CGFloat _widthMultiplier = 0.5;
+static CGFloat _heightMultiplier = 0.6;
+
+@implementation PostCell
 
 -(id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:CGRectZero];
     self.backgroundColor = [UIColor lightGrayColor];
-    _borderSpace = 8.0;
-    _fontSize = 10;
-    _labelSize = 15;
-    _widthMultiplier = 0.5;
-    _heightMultiplier = 0.6;
     [self createProperties];
     [self setupFont];
     [self updateConstraints];

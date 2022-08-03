@@ -10,7 +10,7 @@
 #import "PhotoViewController.h"
 #import "Post.h"
 #import <UserNotifications/UserNotifications.h>
-#import "APIManager.h"
+#import "ParseConnectionAPIManager.h"
 #import "NotificationManager.h"
 
 @import GoogleMaps;
@@ -35,7 +35,7 @@ NSInteger notificationMinute;
     hourUpperBound = 24;
     minuteLowerBound = 0;
     minuteUpperBound = 60;
-    [[APIManager sharedManager] connectToParse];
+    [[ParseConnectionAPIManager sharedManager] connectToParse];
     [self pushNotification];
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

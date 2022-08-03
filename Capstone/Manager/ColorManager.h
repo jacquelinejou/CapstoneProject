@@ -10,10 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ColorManager : NSObject
+@interface ColorManager : NSObject {
+    CGFloat currColor;
+    CGFloat otherColors;
+    CGFloat cellColor;
+}
+
 + (id)sharedManager;
 - (UIColor *)lighterColorForColor:(UIColor *)c;
 - (UIColor *)darkerColorForColor:(UIColor *)c;
+-(CGFloat)getCurrColor;
+-(CGFloat)getOtherColor;
+-(CGFloat)getCellColor;
 @end
 
 NS_ASSUME_NONNULL_END
