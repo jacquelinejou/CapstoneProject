@@ -8,7 +8,7 @@
 #import "LoginViewController.h"
 #import "WelcomeViewController.h"
 #import <Parse/Parse.h>
-#import "APIManager.h"
+#import "ParseConnectionAPIManager.h"
 #import "NotificationManager.h"
 
 @interface LoginViewController ()<UITextViewDelegate>
@@ -38,15 +38,12 @@
     if ([username isEqualToString:@""] || [password isEqualToString:@""]) {
         [self emptyLoginAttempt];
     } else {
-        [[APIManager sharedManager] loginWithCompletion:username password:password completion:^(NSError * _Nonnull error) {
+        [[ParseConnectionAPIManager sharedManager] loginWithCompletion:username password:password completion:^(NSError * _Nonnull error) {
             if (error == nil) {
                 [self resignFirstResponder];
                 [[NotificationManager sharedManager] isTime:^(BOOL isTime) {
-                    if (isTime) {
-                        [self performSegueWithIdentifier:@"photoSegue" sender:nil];
-                    } else {
-                        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
-                    }
+                    NSString *const segueIdentifier = (isTime ? @"photoSegue" : @"loginSegue");
+                    [self performSegueWithIdentifier:segueIdentifier sender:nil];
                 }];
             } else {
                 [self failedLogin];

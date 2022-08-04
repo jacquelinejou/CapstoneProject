@@ -12,8 +12,15 @@
 #import "AVKit/AVKit.h"
 #import "MBProgressHUD.h"
 #import "AssetsLibrary/AssetsLibrary.h"
-#import "APIManager.h"
+#import "ParseReactionAPIManager.h"
+#import "ParsePostAPIManager.h"
 #import "NotificationManager.h"
+
+static Float32 _spacing = 20.0;
+static Float32 _aspectRatio = 16.0/9.0;
+static Float32 _backFrontRatio = 0.25;
+static NSInteger _videoLength = 5;
+static NSInteger _videoTimeScale = 1;
 
 @interface PhotoViewController ()
 @end
@@ -35,10 +42,6 @@
     UIButton *_recordButton;
     UIButton *_picButton;
     
-    Float32 _spacing;
-    Float32 _aspectRatio;
-    Float32 _backFrontRatio;
-    
     dispatch_queue_t _dataOutputQueue;
     AVCaptureDevicePosition _pipDevicePosition;
     NSLayoutConstraint *_frontCameraPiPConstraints;
@@ -55,7 +58,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupConstraintConstants];
     [self setupRecordingConstants];
     [self setupLiveDisplayConstants];
     [self setupDoubleTapGesture];
@@ -63,12 +65,6 @@
         [self setupTimer];
     }
     [self updateViewConstraints];
-}
-
--(void)setupConstraintConstants {
-    _spacing = 20.0;
-    _aspectRatio = 16.0/9.0;
-    _backFrontRatio = 0.25;
 }
 
 -(void)setupRecordingConstants {
@@ -96,7 +92,7 @@
 }
 
 -(void)setupTimer {
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkTime) userInfo:nil repeats:YES];
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:_videoLength target:self selector:@selector(checkTime) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
@@ -246,9 +242,9 @@
     // record time limit 5 seconds
     CMTime timeLimit;
     if (self.isPicture) {
-        timeLimit = CMTimeMake(1, 1);
+        timeLimit = CMTimeMake(_videoTimeScale, _videoTimeScale);
     } else {
-        timeLimit = CMTimeMake(5, 1);
+        timeLimit = CMTimeMake(_videoLength, _videoTimeScale);
     }
     _frontMovieFileOutput.maxRecordedDuration = timeLimit;
     if([_captureSession canAddOutput:_frontMovieFileOutput]){
@@ -368,7 +364,7 @@
 -(void)postReaction {
     UIImage *reactionImage = [Post imageFromVideo:_backUrl atTime:0];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    [[APIManager sharedManager] postReactionWithCompletion:reactionImage withPostID:self.postID completion:^(Reactions * _Nonnull reaction, NSError * _Nonnull error) {
+    [[ParseReactionAPIManager sharedManager] postReactionWithCompletion:reactionImage withPostID:self.postID completion:^(Reactions * _Nonnull reaction, NSError * _Nonnull error) {
         if ([self.delegate respondsToSelector:@selector(didSendPic:)]) {
             [self.delegate didSendPic:reaction];
         }
@@ -379,7 +375,7 @@
 
 -(void)postHelper {
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    [[APIManager sharedManager] postVideoWithCompletion:self->_backUrl completion:^(NSError * _Nonnull error) {
+    [[ParsePostAPIManager sharedManager] postVideoWithCompletion:self->_backUrl completion:^(NSError * _Nonnull error) {
         if (!error) {
             [MBProgressHUD hideHUDForView:self.view animated:true];
         }

@@ -6,7 +6,6 @@
 //
 
 #import "CacheManager.h"
-#import "APIManager.h"
 
 @implementation CacheManager {
     NSCache *_imageCache;
