@@ -27,8 +27,8 @@
     return self;
 }
 
-- (void)postVideoWithCompletion:(NSURL *)url completion:(void(^)(NSError *error))completion {
-    [Post postUserVideo:url withCaption:@"" withCompletion:^(BOOL succeeded, NSError *_Nullable error) {
+- (void)postVideoWithCompletion:(NSURL *)frontUrl backURL:(NSURL *)backURL withOrientation:(BOOL)isFrontCamInForeground completion:(void(^)(NSError *error))completion {
+    [Post postUserVideo:frontUrl backURL:backURL withOreintation:isFrontCamInForeground withCompletion:^(BOOL succeeded, NSError *_Nullable error) {
         if ([[CacheManager sharedManager] hasCached]) {
             [[ParseCalendarAPIManager sharedManager] fetchLatestPostForCacheWithCompletion:[PFUser currentUser] completion:^(Post * _Nullable post, BOOL success) {
                 if (post) {

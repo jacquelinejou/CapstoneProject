@@ -32,6 +32,7 @@ static CGFloat _widthMultiplier = 0.25;
     [self commentConstraints];
     [self dateConstraints];
     [self createProperties];
+    [self setupCommentLines];
     [self setupFont];
 }
 
@@ -49,7 +50,7 @@ static CGFloat _widthMultiplier = 0.25;
     [self.commentLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.commentLabel.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier * 3].active = YES;
     [self.commentLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.contentView.frame.size.width * _widthSpacingMultiplier].active = YES;
-    [self.commentLabel.heightAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.heightAnchor multiplier:_widthMultiplier * 3].active = YES;
+    [self.commentLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;
     [self.commentLabel.topAnchor constraintEqualToAnchor:self.usernameLabel.bottomAnchor constant:self.contentView.frame.size.height * _spacing].active = YES;
 }
 
@@ -67,6 +68,11 @@ static CGFloat _widthMultiplier = 0.25;
     self.commentLabel = [[UILabel alloc] init];
     self.dateLabel = [[UILabel alloc] init];
     self.backgroundColor = [UIColor colorWithRed:[[ColorManager sharedManager] getCellColor] green:[[ColorManager sharedManager] getCellColor] blue:[[ColorManager sharedManager] getCurrColor] alpha:1.0];
+}
+
+-(void)setupCommentLines {
+    self.commentLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.commentLabel.numberOfLines = 0;
 }
 
 -(void)setupFont {

@@ -23,11 +23,17 @@
 static CGFloat _borderSpace = 50.0;
 static NSInteger _fontSize = 18.0;
 static NSInteger _labelSize = 30.0;
-static CGFloat _heightMultiplier = 0.5;
+static Float32 _backFrontRatio = 0.25;
+static Float32 _aspectRatio = 5.0/4.0;
 
 @implementation PostDetailsViewController {
-    AVPlayerViewController *_postVideo;
+    UIView *_backgroundVideo;
+    UIView *_foregroundVideo;
     BOOL _moveForward;
+    AVPlayerLayer *_backCameraVideoPreviewLayer;
+    AVPlayerLayer *_frontCameraVideoPreviewLayer;
+    NSLayoutConstraint *_frontCameraPiPConstraints;
+    NSLayoutConstraint *_backCameraPiPConstraints;
 }
 
 - (void)viewDidLoad {
@@ -60,7 +66,8 @@ static CGFloat _heightMultiplier = 0.5;
 }
 
 -(void)createVariables {
-    _postVideo = [[AVPlayerViewController alloc] init];
+    _backgroundVideo = [[UIView alloc] init];
+    _foregroundVideo = [[UIView alloc] init];
     self._usernameLabel = [[UILabel alloc] init];
     self._dateLabel = [[UILabel alloc] init];
     self._commentLabel = [[UIButton alloc] init];
@@ -87,17 +94,31 @@ static CGFloat _heightMultiplier = 0.5;
     [self setupReactions];
 }
 
--(void)setupVideo {
-    PFFileObject *pffile = self.postDetails.Video;
-    NSString *stringUrl = pffile.url;
-    NSURL *url = [NSURL URLWithString: stringUrl];
-    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:url];
+-(AVPlayerLayer *)setupLayers:(NSURL *)videoURL withView:(UIView *)view {
+    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:videoURL];
     AVPlayer* playVideo = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-    _postVideo.player = playVideo;
-    _postVideo.player.volume = 0;
-    [self.view addSubview:_postVideo.view];
+    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:playVideo];
+    [playerLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    [playerLayer setFrame:view.bounds];
+    [view.layer addSublayer:playerLayer];
+    return playerLayer;
+}
+
+-(void)setupVideo {
+    [self.view addSubview:_backgroundVideo];
+    [self.view addSubview:_foregroundVideo];
     [self videoConstraints];
-    [playVideo play];
+    if (!self.postDetails.isFrontCamInForeground) {
+        _backCameraVideoPreviewLayer = [self setupLayers:[NSURL URLWithString:self.postDetails.Video2.url] withView:_backgroundVideo];
+        _frontCameraVideoPreviewLayer = [self setupLayers:[NSURL URLWithString:self.postDetails.Video.url] withView:_foregroundVideo];
+    } else {
+        _backCameraVideoPreviewLayer = [self setupLayers:[NSURL URLWithString:self.postDetails.Video.url] withView:_backgroundVideo];
+        _frontCameraVideoPreviewLayer = [self setupLayers:[NSURL URLWithString:self.postDetails.Video2.url] withView:_foregroundVideo];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_backCameraVideoPreviewLayer.player play];
+        [self->_frontCameraVideoPreviewLayer.player play];
+    });
 }
 
 -(void)setupUsername {
@@ -122,11 +143,11 @@ static CGFloat _heightMultiplier = 0.5;
 }
 
 -(void)videoConstraints {
-    [_postVideo.view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_postVideo.view.widthAnchor constraintEqualToAnchor:self.view.widthAnchor].active = YES;
-    [_postVideo.view.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:_borderSpace * 2].active = YES;
-    [_postVideo.view.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-    [_postVideo.view.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:_heightMultiplier].active = YES;
+    [_backgroundVideo setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_foregroundVideo setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self setupAspectRatioConstraints];
+    [self setupBackgroundConstraints];
+    [self setupForegroundConstraints];
 }
 
 -(void)textConstraints {
@@ -138,7 +159,6 @@ static CGFloat _heightMultiplier = 0.5;
     [self._usernameLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self._reactionLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self._dateLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
     [self usernameConstraints];
     [self commentConstraints];
     [self reactionConstraints];
@@ -169,6 +189,25 @@ static CGFloat _heightMultiplier = 0.5;
 -(void)dateConstraints {
     [self._dateLabel.trailingAnchor constraintEqualToAnchor:self._reactionLabel.trailingAnchor].active = YES;
     [self._dateLabel.bottomAnchor constraintEqualToAnchor:self._reactionLabel.topAnchor constant:_borderSpace * -1].active = YES;
+}
+
+-(void)setupAspectRatioConstraints {
+    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foregroundVideo attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foregroundVideo attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_backgroundVideo attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_backgroundVideo attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    [self.view addConstraints:@[_frontCameraPiPConstraints, _backCameraPiPConstraints]];
+}
+
+-(void)setupForegroundConstraints {
+    [_foregroundVideo.widthAnchor constraintEqualToAnchor:_backgroundVideo.widthAnchor multiplier:_backFrontRatio].active = YES;
+    [_foregroundVideo.heightAnchor constraintEqualToAnchor:_backgroundVideo.heightAnchor multiplier:_backFrontRatio].active = YES;
+    [_foregroundVideo.bottomAnchor constraintEqualToAnchor:_backgroundVideo.bottomAnchor constant:_backgroundVideo.bounds.size.height * -0.05].active = YES;
+    [_foregroundVideo.rightAnchor constraintEqualToAnchor:_backgroundVideo.rightAnchor constant:_backgroundVideo.bounds.size.width * -0.05].active = YES;
+}
+
+-(void)setupBackgroundConstraints {
+    [_backgroundVideo.widthAnchor constraintEqualToAnchor:self.view.widthAnchor].active = YES;
+    [_backgroundVideo.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:self.view.frame.size.height * 0.1].active = YES;
+    [_backgroundVideo.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
 }
 
 -(void)didTapComment {

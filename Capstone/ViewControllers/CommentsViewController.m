@@ -19,6 +19,7 @@
 
 @implementation CommentsViewController {
     NSMutableArray *_comments;
+    CGFloat _keyboardSize;
 }
 
 - (void)viewDidLoad {
@@ -50,7 +51,7 @@
     self._commentText = [[UITextField alloc] init];
     self._commentText.placeholder = @"Comment here.";
     self._commentText.font = [UIFont fontWithName:@"VirtuousSlabBold" size:17];
-    self._commentText.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    self._commentText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self._commentText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
 }
 
@@ -174,10 +175,12 @@
 #pragma mark - keyboard movements
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
+    if (_keyboardSize == 0) {
+        _keyboardSize = keyboardSize.height;
+    }
     [UIView animateWithDuration:0.3 animations:^{
         CGRect f = self.view.frame;
-        f.origin.y = -keyboardSize.height;
+        f.origin.y = -self->_keyboardSize;
         self.view.frame = f;
     }];
 }
