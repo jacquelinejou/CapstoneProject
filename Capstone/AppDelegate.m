@@ -22,6 +22,14 @@
     return YES;
 }
 
+-(NSUInteger)application:(UIApplication *)application       supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    if (self.disableRotation) {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    return UIInterfaceOrientationMaskAll;
+}
+
+
 #pragma mark - UISceneSession lifecycle
 
 - (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options {

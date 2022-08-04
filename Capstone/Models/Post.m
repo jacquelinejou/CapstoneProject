@@ -14,27 +14,29 @@
 @dynamic UserID;
 @dynamic author;
 @dynamic date;
-@dynamic caption;
 @dynamic Image;
 @dynamic Video;
+@dynamic Video2;
 @dynamic Reactions;
 @dynamic Comments;
 @dynamic Location;
+@dynamic isFrontCamInForeground;
 
 + (nonnull NSString *)parseClassName {
     return @"Post";
 }
 
-+ (void) postUserVideo: ( NSURL * _Nullable )video withCaption: ( NSString * _Nullable )caption withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void) postUserVideo: (NSURL * _Nullable)frontURL backURL:(NSURL * _Nullable)backURL withOreintation:(BOOL)isFrontCamInForeground withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     Post *newPost = [Post new];
-    UIImage *image = [self imageFromVideo:video atTime:0];
+    UIImage *image = [self imageFromVideo:backURL atTime:0];
     newPost.Image = [self getPFFileFromImage:image];
-    newPost.Video = [self getPFFileFromUrl:video];
+    newPost.Video = [self getPFFileFromUrl:frontURL];
+    newPost.Video2 = [self getPFFileFromUrl:backURL];
     newPost.author = [PFUser currentUser];
-    newPost.caption = caption;
     newPost.Reactions = [[NSMutableArray alloc] init];
     newPost.Comments = [[NSMutableArray alloc] init];
     newPost.UserID = [PFUser currentUser].username;
+    newPost.isFrontCamInForeground = isFrontCamInForeground;
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         if (!error) {
             newPost[@"Location"] = geoPoint;

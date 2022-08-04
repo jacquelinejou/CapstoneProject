@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ParsePostAPIManager : NSObject
 
 + (id)sharedManager;
-- (void)postVideoWithCompletion:(NSURL *)url completion:(void(^)(NSError *error))completion;
+- (void)postVideoWithCompletion:(NSURL *)frontUrl backURL:(NSURL *)backURL withOrientation:(BOOL)isFrontCamInForeground completion:(void(^)(NSError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END
