@@ -16,12 +16,18 @@
 #import "ParseReactionAPIManager.h"
 #import "ParsePostAPIManager.h"
 #import "NotificationManager.h"
+#import "PlayVideoViewController.h"
 
 static Float32 _spacing = 20.0;
 static Float32 _aspectRatio = 16.0/9.0;
+static Float32 _aspectRatioConstant = 0.0;
+static Float32 _buttonWidthMultiplier = 4.0;
+static Float32 _buttonHeightMultiplier = 1.5;
 static Float32 _backFrontRatio = 0.25;
 static NSInteger _videoLength = 5;
 static NSInteger _videoTimeScale = 1;
+static NSInteger _priorityValue = 0;
+static NSInteger _startTime = 0;
 
 @interface PhotoViewController ()
 @end
@@ -69,6 +75,22 @@ static NSInteger _videoTimeScale = 1;
     [self updateViewConstraints];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    _captureSession = [AVCaptureMultiCamSession new];
+    [_captureSession beginConfiguration];
+    [self setupCameras];
+    [self setupMicrophone];
+    [self setupButton];
+    [self setupFileOutput];
+    if (self.isPicture) {
+        [_recordButton removeFromSuperview];
+        [self setupPictureButton];
+    }
+    [_captureSession commitConfiguration];
+    [_captureSession startRunning];
+}
+
 -(void)setupRecordingConstants {
     _isRecording = NO;
     _donePosting = NO;
@@ -101,80 +123,37 @@ static NSInteger _videoTimeScale = 1;
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    _captureSession = [AVCaptureMultiCamSession new];
-    [_captureSession beginConfiguration];
-    [self setupCameras];
-    [self setupBackCamera];
-    [self setupFrontCamera];
-    [self setupButton];
-    [self setupFileOutput];
-    if (self.isPicture) {
-        [_recordButton removeFromSuperview];
-        [self setupPictureButton];
+-(void)connectCameras:(AVCaptureDevice *)camera withOutput:(AVCaptureVideoDataOutput *)output withLayer:(AVCaptureVideoPreviewLayer *)layer isFront:(BOOL)isFront {
+    NSError *error;
+    // add camera input
+    AVCaptureDeviceInput *cameraDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:camera error:&error];
+    if (!error) {
+        output = [AVCaptureVideoDataOutput new];
     }
-    [_captureSession commitConfiguration];
-    [_captureSession startRunning];
-}
-
--(void)setupFrontCamera {
-    NSError *frontError;
-    // add front camera input
-    AVCaptureDeviceInput *frontCameraDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:_frontCamera error:&frontError];
-    if (!frontError) {
-        _frontCameraVideoDataOutput = [AVCaptureVideoDataOutput new];
+    if ([_captureSession canAddInput:cameraDeviceInput]) {
+        [_captureSession addInputWithNoConnections:cameraDeviceInput];
     }
-    if ([_captureSession canAddInput:frontCameraDeviceInput]) {
-        [_captureSession addInputWithNoConnections:frontCameraDeviceInput];
+    // connect camera output
+    AVCaptureInputPort *cameraVideoPort = [[cameraDeviceInput portsWithMediaType:AVMediaTypeVideo sourceDeviceType:camera.deviceType sourceDevicePosition:camera.position] firstObject];
+    if ([_captureSession canAddOutput:output]) {
+        [_captureSession addOutputWithNoConnections:output];
     }
-    // connect front camera output
-    AVCaptureInputPort *frontCameraVideoPort = [[frontCameraDeviceInput portsWithMediaType:AVMediaTypeVideo sourceDeviceType:_frontCamera.deviceType sourceDevicePosition:_frontCamera.position] firstObject];
-    if ([_captureSession canAddOutput:_frontCameraVideoDataOutput]) {
-        [_captureSession addOutputWithNoConnections:_frontCameraVideoDataOutput];
-    }
-    [_frontCameraVideoDataOutput setSampleBufferDelegate:self queue:_dataOutputQueue];
-    // add front camera connections
-    AVCaptureConnection *connection = [AVCaptureConnection connectionWithInputPorts:@[frontCameraVideoPort] output:_frontCameraVideoDataOutput];
+    [output setSampleBufferDelegate:self queue:_dataOutputQueue];
+    // add camera connections
+    AVCaptureConnection *connection = [AVCaptureConnection connectionWithInputPorts:@[cameraVideoPort] output:output];
     if ([_captureSession canAddConnection:connection]) {
         [_captureSession addConnection:connection];
     }
     connection.videoOrientation = AVCaptureVideoOrientationPortrait;
-    [self setupFrontLivePreview];
-    // connect front camera to layer
-    AVCaptureConnection *frontCameraVideoPreviewLayerConnection = [AVCaptureConnection connectionWithInputPort:frontCameraVideoPort videoPreviewLayer:_frontCameraVideoPreviewLayer];
-    if ([_captureSession canAddConnection:frontCameraVideoPreviewLayerConnection]) {
-        [_captureSession addConnection:frontCameraVideoPreviewLayerConnection];
+    if (isFront) {
+        [self setupFrontLivePreview];
+    } else {
+        [self setupBackLivePreview];
     }
-}
-
--(void)setupBackCamera {
-    NSError *backError;
-    // add back camera input
-    AVCaptureDeviceInput *backCameraDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:_backCamera error:&backError];
-    if (!backError) {
-        _backCameraVideoDataOutput = [AVCaptureVideoDataOutput new];
-    }
-    if ([_captureSession canAddInput:backCameraDeviceInput]) {
-        [_captureSession addInputWithNoConnections:backCameraDeviceInput];
-    }
-    // connect back camera output
-    AVCaptureInputPort *backCameraVideoPort = [[backCameraDeviceInput portsWithMediaType:AVMediaTypeVideo sourceDeviceType:_backCamera.deviceType sourceDevicePosition:_backCamera.position] firstObject];
-    if ([_captureSession canAddOutput:_backCameraVideoDataOutput]) {
-        [_captureSession addOutputWithNoConnections:_backCameraVideoDataOutput];
-    }
-    [_backCameraVideoDataOutput setSampleBufferDelegate:self queue:_dataOutputQueue];
-    // add back camera connections
-    AVCaptureConnection *connection = [AVCaptureConnection connectionWithInputPorts:@[backCameraVideoPort] output:_backCameraVideoDataOutput];
-    if ([_captureSession canAddConnection:connection]) {
-        [_captureSession addConnection:connection];
-    }
-    connection.videoOrientation = AVCaptureVideoOrientationPortrait;
-    [self setupBackLivePreview];
-    // connect back camera to layer
-    AVCaptureConnection *backCameraVideoPreviewLayerConnection = [AVCaptureConnection connectionWithInputPort:backCameraVideoPort videoPreviewLayer:_backCameraVideoPreviewLayer];
-    if ([_captureSession canAddConnection:backCameraVideoPreviewLayerConnection]) {
-        [_captureSession addConnection:backCameraVideoPreviewLayerConnection];
+    // connect camera to layer
+    AVCaptureConnection *cameraVideoPreviewLayerConnection = [AVCaptureConnection connectionWithInputPort:cameraVideoPort videoPreviewLayer:layer];
+    if ([_captureSession canAddConnection:cameraVideoPreviewLayerConnection]) {
+        [_captureSession addConnection:cameraVideoPreviewLayerConnection];
     }
 }
 
@@ -299,16 +278,24 @@ static NSInteger _videoTimeScale = 1;
             _backCamera = device;
         }
     }
+    [self connectCameras:_frontCamera withOutput:_frontCameraVideoDataOutput withLayer:_frontCameraVideoPreviewLayer isFront:YES];
+    [self connectCameras:_backCamera withOutput:_backCameraVideoDataOutput withLayer:_backCameraVideoPreviewLayer isFront:NO];
+}
+
+-(AVCaptureVideoPreviewLayer *)setupPreviewLayers {
+    AVCaptureVideoPreviewLayer *layer = [AVCaptureVideoPreviewLayer layerWithSession:_captureSession];
+    if (layer) {
+        layer.videoGravity = AVLayerVideoGravityResizeAspect;
+        layer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+    }
+    return layer;
 }
 
 - (void)setupFrontLivePreview {
-    _frontCameraVideoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:_captureSession];
+    _frontCameraVideoPreviewLayer = [self setupPreviewLayers];
     if (_frontCameraVideoPreviewLayer) {
-        _frontCameraVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-        _frontCameraVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
         [_foreground.layer addSublayer:_frontCameraVideoPreviewLayer];
-        
-        dispatch_queue_t globalQueue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+        dispatch_queue_t globalQueue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, _priorityValue);
         dispatch_async(globalQueue, ^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (self.isPicture) {
@@ -323,13 +310,10 @@ static NSInteger _videoTimeScale = 1;
 }
 
 - (void)setupBackLivePreview {
-    _backCameraVideoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:_captureSession];
+    _backCameraVideoPreviewLayer = [self setupPreviewLayers];
     if (_backCameraVideoPreviewLayer) {
-        _backCameraVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-        _backCameraVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
         [_background.layer addSublayer:_backCameraVideoPreviewLayer];
-        
-        dispatch_queue_t globalQueue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+        dispatch_queue_t globalQueue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, _priorityValue);
         dispatch_async(globalQueue, ^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 self->_backCameraVideoPreviewLayer.frame = self->_background.bounds;
@@ -357,27 +341,20 @@ static NSInteger _videoTimeScale = 1;
     }];
     [alert addAction:cancelAction];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"YES!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self postHelper];
-        AVPlayerLayer *frontPlayerLayer;
-        AVPlayerLayer *backPlayerLayer;
-        if (!self->_frontCamInForeground) {
-            backPlayerLayer = [self setupLayers:self->_backUrl withLayer:self->_frontCameraVideoPreviewLayer withView:_background];
-            frontPlayerLayer = [self setupLayers:self->_frontUrl withLayer:self->_backCameraVideoPreviewLayer withView:_foreground];
-        } else {
-            frontPlayerLayer = [self setupLayers:self->_frontUrl withLayer:self->_backCameraVideoPreviewLayer withView:_background];
-            backPlayerLayer = [self setupLayers:self->_backUrl withLayer:self->_frontCameraVideoPreviewLayer withView:_foreground];
-        }
-        frontPlayerLayer.player.volume = 1.0;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [frontPlayerLayer.player play];
-            [backPlayerLayer.player play];
-            [self dismissViewTimer];
-        });
+        [self postVideoToParse:^(NSError *error) {
+            // finish posting before switching view controllers
+            [self->_recordButton setEnabled:NO];
+            self->_donePosting = YES;
+        }];
     }];
     [alert addAction:okAction];
     
     UIAlertAction *saveAction = [UIAlertAction actionWithTitle:@"Save & Post" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self postHelper];
+        [self postVideoToParse:^(NSError *error) {
+            // whichever video finishes posting first, prepare switching view controllers
+            [self->_recordButton setEnabled:NO];
+            self->_donePosting = YES;
+        }];
         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
             PHAssetChangeRequest *frontRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:self->_frontUrl];
             PHAssetChangeRequest *backRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:self->_backUrl];
@@ -390,17 +367,8 @@ static NSInteger _videoTimeScale = 1;
     }];
 }
 
--(void)dismissViewTimer {
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:_videoLength target:self selector:@selector(donePosting) userInfo:nil repeats:NO];
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-}
-
--(void)donePosting {
-    self -> _donePosting = YES;
-}
-
 -(void)postReaction {
-    UIImage *reactionImage = [Post imageFromVideo:_backUrl atTime:0];
+    UIImage *reactionImage = [Post imageFromVideo:_frontUrl atTime:_startTime];
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [[ParseReactionAPIManager sharedManager] postReactionWithCompletion:reactionImage withPostID:self.postID completion:^(Reactions * _Nonnull reaction, NSError * _Nonnull error) {
         if ([self.delegate respondsToSelector:@selector(didSendPic:)]) {
@@ -411,11 +379,17 @@ static NSInteger _videoTimeScale = 1;
     }];
 }
 
--(void)postHelper {
+-(void)postVideoToParse:(void(^)(NSError *error))completion {
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     [[ParsePostAPIManager sharedManager] postVideoWithCompletion:self->_frontUrl backURL:self->_backUrl withOrientation:_frontCamInForeground completion:^(NSError * _Nonnull error) {
         if (!error) {
             [MBProgressHUD hideHUDForView:self.view animated:true];
+            PlayVideoViewController *playVideoVC = [[PlayVideoViewController alloc] init];
+            playVideoVC.vid1 = self->_frontUrl;
+            playVideoVC.vid2 = self->_backUrl;
+            playVideoVC.isFrontCamInForeground = self->_frontCamInForeground;
+            [self presentViewController:playVideoVC animated:YES completion:nil];
+            completion(error);
         }
     }];
 }
@@ -443,16 +417,6 @@ static NSInteger _videoTimeScale = 1;
             }
         });
     }
-}
-
--(AVPlayerLayer *)setupLayers:(NSURL *)videoURL withLayer:(AVCaptureVideoPreviewLayer *)previewLayer withView:(UIView *)view {
-    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:videoURL];
-    AVPlayer* playVideo = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:playVideo];
-    [playerLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    [playerLayer setFrame: previewLayer.frame];
-    [view.layer addSublayer:playerLayer];
-    return playerLayer;
 }
 
 -(NSURL *)tempURL {
@@ -522,8 +486,8 @@ static NSInteger _videoTimeScale = 1;
 }
 
 -(void)setupAspectRatioConstraints {
-    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foreground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foreground attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
-    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_background attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foreground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foreground attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:_aspectRatioConstant];
+    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_background attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_background attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:_aspectRatioConstant];
     [self.view addConstraints:@[_frontCameraPiPConstraints, _backCameraPiPConstraints]];
 }
 
@@ -546,19 +510,18 @@ static NSInteger _videoTimeScale = 1;
     [_background.bottomAnchor constraintEqualToAnchor:_recordButton.bottomAnchor constant:_spacing].active = YES;
     [_background.heightAnchor constraintEqualToAnchor:self.view.heightAnchor].active = YES;
     [_background.heightAnchor constraintLessThanOrEqualToAnchor:self.view.heightAnchor].active = YES;
-    
 }
 
 -(void)setupRecordButtonConstraints {
-    [_recordButton.widthAnchor constraintGreaterThanOrEqualToConstant:4 * _spacing].active = YES;
-    [_recordButton.heightAnchor constraintEqualToConstant:1.5 * _spacing].active = YES;
+    [_recordButton.widthAnchor constraintGreaterThanOrEqualToConstant:_buttonWidthMultiplier * _spacing].active = YES;
+    [_recordButton.heightAnchor constraintEqualToConstant:_buttonHeightMultiplier * _spacing].active = YES;
     [_recordButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
 }
 
 -(void)setupPictureButtonConstraints {
     [_picButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_picButton.widthAnchor constraintGreaterThanOrEqualToConstant:4 * _spacing].active = YES;
-    [_picButton.heightAnchor constraintEqualToConstant:1.5 * _spacing].active = YES;
+    [_picButton.widthAnchor constraintGreaterThanOrEqualToConstant:_buttonWidthMultiplier * _spacing].active = YES;
+    [_picButton.heightAnchor constraintEqualToConstant:_buttonHeightMultiplier * _spacing].active = YES;
     [_picButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     [_background.bottomAnchor constraintEqualToAnchor:_picButton.bottomAnchor constant:_spacing].active = YES;
 }
@@ -569,11 +532,6 @@ static NSInteger _videoTimeScale = 1;
             [self performSegueWithIdentifier:@"postSegue" sender:nil];
         }
     }];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    AppDelegate *shared = [UIApplication sharedApplication].delegate;
-    shared.disableRotation = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

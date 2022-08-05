@@ -12,6 +12,9 @@ static NSInteger _fontSize = 11;
 static CGFloat _widthSpacingMultiplier = 0.1;
 static CGFloat _spacing = 0.05;
 static CGFloat _widthMultiplier = 0.25;
+static CGFloat _usernameHeightMultiplier = 0.2;
+static CGFloat _imageHeightMultiplier = 0.625;
+static CGFloat _imageWidthMultiplier = 0.375;
 
 @implementation ReactionCell
 
@@ -40,16 +43,16 @@ static CGFloat _widthMultiplier = 0.25;
     [self.usernameLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.usernameLabel.widthAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier].active = YES;
     [self.usernameLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.contentView.frame.size.width * _widthSpacingMultiplier].active = YES;
-    [self.usernameLabel.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:0.2].active = YES;
+    [self.usernameLabel.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:_usernameHeightMultiplier].active = YES;
     [self.usernameLabel.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:self.contentView.frame.size.height * _spacing].active = YES;
 }
 
 -(void)reactionConstraints {
     [self.contentView addSubview:self.reactionImage];
     [self.reactionImage setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.reactionImage.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier * 1.5].active = YES;
+    [self.reactionImage.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_imageWidthMultiplier].active = YES;
     [self.reactionImage.centerXAnchor constraintEqualToAnchor:self.contentView.centerXAnchor].active = YES;
-    [self.reactionImage.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:_widthMultiplier * 2.5].active = YES;
+    [self.reactionImage.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:_imageHeightMultiplier].active = YES;
     [self.reactionImage.topAnchor constraintEqualToAnchor:self.usernameLabel.bottomAnchor constant:self.contentView.frame.size.height * _spacing].active = YES;
 }
 
@@ -66,7 +69,7 @@ static CGFloat _widthMultiplier = 0.25;
     self.usernameLabel = [[UILabel alloc] init];
     self.reactionImage = [[UIImageView alloc] init];
     self.dateLabel = [[UILabel alloc] init];
-    self.backgroundColor = [UIColor colorWithRed:[[ColorManager sharedManager] getCellColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getCellColor] alpha:1.0];
+    self.backgroundColor = [UIColor colorWithRed:[[ColorManager sharedManager] getCellColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getCellColor] alpha:[[ColorManager sharedManager] getCurrColor]];
 }
 
 -(void)setupFont {

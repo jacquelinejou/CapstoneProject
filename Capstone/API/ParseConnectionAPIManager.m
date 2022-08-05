@@ -40,7 +40,6 @@
         configuration.applicationId = ID;
         configuration.clientKey = key;
         configuration.server = self->_parseURL;
-        
         [GMSServices provideAPIKey:kMapsAPIKey];
     }];
     [Parse initializeWithConfiguration:config];

@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NotificationManager : NSObject {
     NSInteger notificationHour;
     NSInteger notificationMinute;
-    NSInteger timeLimit;
 }
 
 + (id)sharedManager;

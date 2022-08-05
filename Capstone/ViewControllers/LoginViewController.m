@@ -14,15 +14,19 @@
 @interface LoginViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *usernameText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
-
 @end
+
+static NSInteger _fontSize = 15;
+static CGFloat _keyboardAnimationDuration = 0.3;
+static CGFloat _startingKeyboardPostion = 0.0;
 
 @implementation LoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.usernameText.font = [UIFont fontWithName:@"VirtuousSlabThin" size:15];
-    self.passwordText.font = [UIFont fontWithName:@"VirtuousSlabThin" size:15];
+    self.usernameText.font = [UIFont fontWithName:@"VirtuousSlabThin" size:_fontSize];
+    self.passwordText.font = [UIFont fontWithName:@"VirtuousSlabThin" size:_fontSize];
+    self.passwordText.secureTextEntry = YES;
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:gestureRecognizer];
     gestureRecognizer.cancelsTouchesInView = NO;
@@ -59,9 +63,7 @@
     }];
     [alert addAction:cancelAction];
     
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                     handler:^(UIAlertAction * _Nonnull action) {
-    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
     }];
@@ -100,7 +102,7 @@
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:_keyboardAnimationDuration animations:^{
         CGRect f = self.view.frame;
         f.origin.y = -keyboardSize.height;
         self.view.frame = f;
@@ -108,9 +110,9 @@
 }
 
 -(void)keyboardWillHide:(NSNotification *)notification {
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:_keyboardAnimationDuration animations:^{
         CGRect f = self.view.frame;
-        f.origin.y = 0.0f;
+        f.origin.y = _startingKeyboardPostion;
         self.view.frame = f;
     }];
 }

@@ -7,6 +7,9 @@
 
 #import "NotificationManager.h"
 
+static NSInteger _timeLimit = 5;
+static NSInteger _minutesInHour = 60;
+
 @implementation NotificationManager
 
 + (id)sharedManager {
@@ -19,19 +22,17 @@
 }
 
 -(id)init {
-    if (self = [super init]) {
-        timeLimit = 5;
-    }
+    self = [super init];
     return self;
 }
 
 -(void)setNotificationTime:(int)hour minute:(int)minute {
-    if (minute + timeLimit >= 60) {
+    if (minute + _timeLimit >= _minutesInHour) {
         notificationHour = hour + 1;
-        notificationMinute = minute + timeLimit - 60;
+        notificationMinute = minute + _timeLimit - _minutesInHour;
     } else {
         notificationHour = hour;
-        notificationMinute = minute + timeLimit;
+        notificationMinute = minute + _timeLimit;
     }
 }
 

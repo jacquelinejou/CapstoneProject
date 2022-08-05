@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol PhotoViewControllerDelegate <NSObject>
 - (void)didSendPic:(Reactions *)pic;
 @end
+
 @interface PhotoViewController : UIViewController <AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureFileOutputRecordingDelegate, AVCapturePhotoCaptureDelegate>
 @property (nonatomic) BOOL isPicture;
 @property (nonatomic, strong) NSString *postID;

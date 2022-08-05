@@ -14,12 +14,20 @@
 #import "ParseConnectionAPIManager.h"
 #import "ParseCalendarAPIManager.h"
 #import "CacheManager.h"
-#import "AVKit/AVKit.h"
+#import "ColorManager.h"
+#import "PlayVideoViewController.h"
 
 @interface CalendarViewController () <FSCalendarDataSource, FSCalendarDelegate, UITabBarControllerDelegate>
 @end
 
 static CGFloat _borderSpace = 10.0;
+static NSInteger _titleFont = 15;
+static NSInteger _headerFont = 20;
+static NSInteger _weekdayFont = 16;
+static CGFloat _headerAlphaColor = 0.2;
+static CGFloat _weekdayAlphaColor = 0.05;
+static NSInteger _calendarTopMultiplier = 10;
+static CGFloat _calendarBottomMultiplier = -0.1;
 
 @implementation CalendarViewController {
     NSCalendar *_gregorian;
@@ -31,17 +39,11 @@ static CGFloat _borderSpace = 10.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupCache];
-    _isCurMonth = YES;
-    _dictOfPosts = [[NSMutableDictionary alloc] init];
     self.tabBarController.delegate = self;
-    _gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    _calendarView.adjustsBoundingRectWhenChangingMonths = YES;
-    _calendarView = [[FSCalendar alloc] initWithFrame:CGRectZero];
-    _calendarView.dataSource = self;
-    _calendarView.delegate = self;
-    [self.view addSubview:_calendarView];
+    [self initializeFields];
+    [self setupCalendarView];
     [self setupCalendarImage];
-    [self _setConstraints];
+    [self setConstraints];
 }
 
 -(void)setupCache {
@@ -55,31 +57,44 @@ static CGFloat _borderSpace = 10.0;
     }
 }
 
+-(void)initializeFields {
+    _isCurMonth = YES;
+    _dictOfPosts = [[NSMutableDictionary alloc] init];
+    _gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+}
+
+-(void)setupCalendarView {
+    _calendarView.adjustsBoundingRectWhenChangingMonths = YES;
+    _calendarView = [[FSCalendar alloc] initWithFrame:CGRectZero];
+    _calendarView.dataSource = self;
+    _calendarView.delegate = self;
+    [self.view addSubview:_calendarView];
+}
+
 -(void)setupCalendarImage{
-    _calendarView.appearance.titleFont = [UIFont fontWithName:@"VirtuousSlabRegular" size:15];
-    _calendarView.appearance.headerTitleFont = [UIFont fontWithName:@"VirtuousSlabBold" size:20];
-    _calendarView.appearance.weekdayFont = [UIFont fontWithName:@"VirtuousSlabBold" size:16];
+    _calendarView.appearance.titleFont = [UIFont fontWithName:@"VirtuousSlabRegular" size:_titleFont];
+    _calendarView.appearance.headerTitleFont = [UIFont fontWithName:@"VirtuousSlabBold" size:_headerFont];
+    _calendarView.appearance.weekdayFont = [UIFont fontWithName:@"VirtuousSlabBold" size:_weekdayFont];
     _calendarView.appearance.todayColor = [UIColor systemBrownColor];
     _calendarView.appearance.titleTodayColor = [UIColor whiteColor];
     _calendarView.appearance.titleDefaultColor = [UIColor systemBrownColor];
     _calendarView.appearance.weekdayTextColor = [UIColor systemBrownColor];
     _calendarView.appearance.headerTitleColor = [UIColor systemBrownColor];
-    _calendarView.calendarHeaderView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.2];
-    _calendarView.calendarWeekdayView.backgroundColor = [[UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:1.0] colorWithAlphaComponent:0.05];
+    _calendarView.calendarHeaderView.backgroundColor = [[UIColor colorWithRed:[[ColorManager sharedManager] getCurrColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:[[ColorManager sharedManager] getCurrColor]] colorWithAlphaComponent:_headerAlphaColor];
+    _calendarView.calendarWeekdayView.backgroundColor = [[UIColor colorWithRed:[[ColorManager sharedManager] getCurrColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:[[ColorManager sharedManager] getCurrColor]] colorWithAlphaComponent:_weekdayAlphaColor];
     _calendarView.placeholderType = FSCalendarPlaceholderTypeNone;
     [_calendarView registerClass:[CalendarCell class] forCellReuseIdentifier:@"CalendarCell"];
 }
 
--(void)_setConstraints {
+-(void)setConstraints {
     [_calendarView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_calendarView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor constant:_borderSpace].active = YES;
-    [_calendarView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor constant:_borderSpace * -1].active = YES;
-    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:self.view.frame.size.height * -0.1].active = YES;
-    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:_borderSpace * 10].active = YES;
+    [self.view.rightAnchor constraintEqualToAnchor:_calendarView.rightAnchor constant:_borderSpace].active = YES;
+    [_calendarView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor  constant:self.view.frame.size.height * -_calendarBottomMultiplier].active = YES;
+    [_calendarView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:_borderSpace * _calendarTopMultiplier].active = YES;
 }
 
 - (void)calendar:(FSCalendar *)calendar boundingRectWillChange:(CGRect)bounds animated:(BOOL)animated {
-    // Do other updates here
     [self.view layoutIfNeeded];
 }
 
@@ -96,7 +111,7 @@ static CGFloat _borderSpace = 10.0;
     if (currPost) {
         NSString *stringImage = currPost.Image.url;
         NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: stringImage]];
-        [cell setupCell:[UIImage imageWithData: imageData] withVideo:currPost.Video];
+        [cell setupCell:[UIImage imageWithData: imageData] withVideo1:currPost.Video withVideo2:currPost.Video2 withBool:currPost.isFrontCamInForeground];
     }
     return cell;
 }
@@ -156,15 +171,19 @@ static CGFloat _borderSpace = 10.0;
 
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
     CalendarCell *cell = [self calendar:_calendarView cellForDate:date atMonthPosition:monthPosition];
-    PFFileObject *pffile = cell.video;
-    NSString *stringUrl = pffile.url;
-    NSURL *url = [NSURL URLWithString: stringUrl];
-    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
-    playerViewController.player = [AVPlayer playerWithURL:url];
-    [self presentViewController:playerViewController animated:YES completion:^{
-        //Start Playback
-        [playerViewController.player play];
-    }];
+    PFFileObject *video1 = cell.video1;
+    PFFileObject *video2 = cell.video2;
+    if (video1) {
+        NSString *vid1StringUrl = video1.url;
+        NSString *vid2StringUrl = video2.url;
+        NSURL *vid1Url = [NSURL URLWithString: vid1StringUrl];
+        NSURL *vid2Url = [NSURL URLWithString: vid2StringUrl];
+        PlayVideoViewController *playVideoVC = [[PlayVideoViewController alloc] init];
+        playVideoVC.vid1 = vid1Url;
+        playVideoVC.vid2 = vid2Url;
+        playVideoVC.isFrontCamInForeground = cell.isFrontCamInForeground;
+        [[self navigationController] pushViewController:playVideoVC animated:YES];
+    }
 }
 
 - (BOOL)isSameMonth:(NSDate*)date1 otherDay:(NSDate*)date2 {

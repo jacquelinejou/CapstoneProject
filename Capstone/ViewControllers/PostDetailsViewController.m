@@ -21,10 +21,18 @@
 @end
 
 static CGFloat _borderSpace = 50.0;
-static NSInteger _fontSize = 18.0;
-static NSInteger _labelSize = 30.0;
+static NSInteger _fontSize = 18;
+static NSInteger _labelSize = 30;
 static Float32 _backFrontRatio = 0.25;
 static Float32 _aspectRatio = 5.0/4.0;
+static CGFloat _playerVolume = 1.0;
+static CGFloat _bottomMultiplier = -2.0;
+static CGFloat _heightMultiplier = 1.5;
+static Float32 _aspectRatioConstant = 0.0;
+static Float32 _foregroundMultplier = -0.05;
+static Float32 _backgroundTopMultiplier = 0.1;
+static NSInteger _startTime = 0;
+static NSInteger _stopTime = 1;
 
 @implementation PostDetailsViewController {
     UIView *_backgroundVideo;
@@ -84,6 +92,7 @@ static Float32 _aspectRatio = 5.0/4.0;
     self._reactionLabel.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabRegular" size:_fontSize];
     [self._reactionLabel sendActionsForControlEvents:UIControlEventTouchUpInside];
     [self._reactionLabel addTarget:self action:@selector(didTapReaction) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 -(void)assignVariables {
@@ -108,7 +117,7 @@ static Float32 _aspectRatio = 5.0/4.0;
     [self.view addSubview:_backgroundVideo];
     [self.view addSubview:_foregroundVideo];
     [self videoConstraints];
-    if (!self.postDetails.isFrontCamInForeground) {
+    if (self.postDetails.isFrontCamInForeground) {
         _backCameraVideoPreviewLayer = [self setupLayers:[NSURL URLWithString:self.postDetails.Video2.url] withView:_backgroundVideo];
         _frontCameraVideoPreviewLayer = [self setupLayers:[NSURL URLWithString:self.postDetails.Video.url] withView:_foregroundVideo];
     } else {
@@ -116,6 +125,8 @@ static Float32 _aspectRatio = 5.0/4.0;
         _frontCameraVideoPreviewLayer = [self setupLayers:[NSURL URLWithString:self.postDetails.Video2.url] withView:_foregroundVideo];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
+        self->_frontCameraVideoPreviewLayer.player.volume = _playerVolume;
+        self->_backCameraVideoPreviewLayer.player.muted = YES;
         [self->_backCameraVideoPreviewLayer.player play];
         [self->_frontCameraVideoPreviewLayer.player play];
     });
@@ -169,16 +180,16 @@ static Float32 _aspectRatio = 5.0/4.0;
     [self._commentLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:_borderSpace].active = YES;
     [self._commentLabel.topAnchor constraintEqualToAnchor:self._usernameLabel.bottomAnchor constant:_borderSpace].active = YES;
     [self._commentLabel.leadingAnchor constraintEqualToAnchor:self._usernameLabel.leadingAnchor].active = YES;
-    [self._commentLabel.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * -2].active = YES;
-    [self._commentLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:1.5].active = YES;
+    [self._commentLabel.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * _bottomMultiplier].active = YES;
+    [self._commentLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:_heightMultiplier].active = YES;
     self._commentLabel.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
 }
 
 -(void)reactionConstraints {
-    [self._reactionLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:_borderSpace * -1].active = YES;
-    [self._reactionLabel.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * -2].active = YES;
+    [self.view.trailingAnchor constraintEqualToAnchor:self._reactionLabel.trailingAnchor constant:_borderSpace].active = YES;
+    [self._reactionLabel.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:_borderSpace * _bottomMultiplier].active = YES;
     [self._dateLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor].active = YES;
-    [self._reactionLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:1.5].active = YES;
+    [self._reactionLabel.heightAnchor constraintEqualToAnchor:self._usernameLabel.heightAnchor multiplier:_heightMultiplier].active = YES;
     self._reactionLabel.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
 }
 
@@ -188,25 +199,25 @@ static Float32 _aspectRatio = 5.0/4.0;
 
 -(void)dateConstraints {
     [self._dateLabel.trailingAnchor constraintEqualToAnchor:self._reactionLabel.trailingAnchor].active = YES;
-    [self._dateLabel.bottomAnchor constraintEqualToAnchor:self._reactionLabel.topAnchor constant:_borderSpace * -1].active = YES;
+    [self._reactionLabel.topAnchor constraintEqualToAnchor:self._dateLabel.bottomAnchor  constant:_borderSpace].active = YES;
 }
 
 -(void)setupAspectRatioConstraints {
-    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foregroundVideo attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foregroundVideo attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
-    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_backgroundVideo attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_backgroundVideo attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:0.0];
+    _frontCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_foregroundVideo attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_foregroundVideo attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:_aspectRatioConstant];
+    _backCameraPiPConstraints = [NSLayoutConstraint constraintWithItem:_backgroundVideo attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_backgroundVideo attribute:NSLayoutAttributeWidth multiplier:_aspectRatio constant:_aspectRatioConstant];
     [self.view addConstraints:@[_frontCameraPiPConstraints, _backCameraPiPConstraints]];
 }
 
 -(void)setupForegroundConstraints {
     [_foregroundVideo.widthAnchor constraintEqualToAnchor:_backgroundVideo.widthAnchor multiplier:_backFrontRatio].active = YES;
     [_foregroundVideo.heightAnchor constraintEqualToAnchor:_backgroundVideo.heightAnchor multiplier:_backFrontRatio].active = YES;
-    [_foregroundVideo.bottomAnchor constraintEqualToAnchor:_backgroundVideo.bottomAnchor constant:_backgroundVideo.bounds.size.height * -0.05].active = YES;
-    [_foregroundVideo.rightAnchor constraintEqualToAnchor:_backgroundVideo.rightAnchor constant:_backgroundVideo.bounds.size.width * -0.05].active = YES;
+    [_foregroundVideo.bottomAnchor constraintEqualToAnchor:_backgroundVideo.bottomAnchor constant:_backgroundVideo.bounds.size.height * _foregroundMultplier].active = YES;
+    [_foregroundVideo.rightAnchor constraintEqualToAnchor:_backgroundVideo.rightAnchor constant:_backgroundVideo.bounds.size.width * _foregroundMultplier].active = YES;
 }
 
 -(void)setupBackgroundConstraints {
     [_backgroundVideo.widthAnchor constraintEqualToAnchor:self.view.widthAnchor].active = YES;
-    [_backgroundVideo.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:self.view.frame.size.height * 0.1].active = YES;
+    [_backgroundVideo.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:self.view.frame.size.height * _backgroundTopMultiplier].active = YES;
     [_backgroundVideo.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
 }
 
@@ -228,6 +239,10 @@ static Float32 _aspectRatio = 5.0/4.0;
             [self.delegate didSendBackPost:self.postDetails withIndex:self.postIndex];
         }
     }
+    [_backCameraVideoPreviewLayer.player seekToTime:CMTimeMake(_startTime, _stopTime)];
+    [_backCameraVideoPreviewLayer.player pause];
+    [_frontCameraVideoPreviewLayer.player seekToTime:CMTimeMake(_startTime, _stopTime)];
+    [_frontCameraVideoPreviewLayer.player pause];
 }
 
 - (void)didSendPost:(nonnull Post *)post {
@@ -241,7 +256,7 @@ static Float32 _aspectRatio = 5.0/4.0;
 }
 
 -(void)setupColor {
-    self._commentLabel.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:[[UIColor colorWithRed:[[ColorManager sharedManager] getCurrColor] green:[[ColorManager sharedManager] getOtherColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:1.0] colorWithAlphaComponent:1.0]];
+    self._commentLabel.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:[[UIColor colorWithRed:[[ColorManager sharedManager] getCurrColor] green:[[ColorManager sharedManager] getOtherColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:[[ColorManager sharedManager] getCurrColor]] colorWithAlphaComponent:[[ColorManager sharedManager] getCurrColor]]];
     self._reactionLabel.backgroundColor = self._commentLabel.backgroundColor;
     self.view.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._commentLabel.backgroundColor];
 }

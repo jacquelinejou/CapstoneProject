@@ -12,6 +12,8 @@ static NSInteger _fontSize = 10;
 static NSInteger _labelSize = 15;
 static CGFloat _widthMultiplier = 0.5;
 static CGFloat _heightMultiplier = 0.6;
+static NSInteger _negativeMultiplier = -1;
+static NSInteger _imageTopMultiplier = 2;
 
 @implementation PostCell
 
@@ -53,7 +55,7 @@ static CGFloat _heightMultiplier = 0.6;
     [self.contentView addSubview:self.postImage];
     [self.postImage setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.postImage.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier].active = YES;
-    [self.postImage.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:_borderSpace / 2].active = YES;
+    [self.postImage.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:_borderSpace / _imageTopMultiplier].active = YES;
     [self.postImage.centerXAnchor constraintEqualToAnchor:self.contentView.centerXAnchor].active = YES;
     [self.postImage.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:_heightMultiplier].active = YES;
 }
@@ -70,11 +72,11 @@ static CGFloat _heightMultiplier = 0.6;
     [self.commentLabel.topAnchor constraintEqualToAnchor:self.usernameLabel.bottomAnchor constant:_borderSpace].active = YES;
     [self.commentLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:_borderSpace].active = YES;
     [self.usernameLabel.leadingAnchor constraintEqualToAnchor:self.commentLabel.leadingAnchor].active = YES;
-    [self.commentLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:_borderSpace * -1].active = YES;
-    [self.reactionLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:_borderSpace * -1].active = YES;
-    [self.reactionLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:_borderSpace * -1].active = YES;
+    [self.commentLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:_borderSpace * _negativeMultiplier].active = YES;
+    [self.reactionLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:_borderSpace * _negativeMultiplier].active = YES;
+    [self.reactionLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:_borderSpace * _negativeMultiplier].active = YES;
     [self.dateLabel.trailingAnchor constraintEqualToAnchor:self.reactionLabel.trailingAnchor].active = YES;
-    [self.dateLabel.bottomAnchor constraintEqualToAnchor:self.reactionLabel.topAnchor constant:_borderSpace * -1].active = YES;
+    [self.dateLabel.bottomAnchor constraintEqualToAnchor:self.reactionLabel.topAnchor constant:_borderSpace * _negativeMultiplier].active = YES;
     [self.usernameLabel.heightAnchor constraintEqualToConstant:_labelSize].active = YES;
     [self.dateLabel.heightAnchor constraintEqualToAnchor:self.usernameLabel.heightAnchor].active = YES;
     [self.commentLabel.heightAnchor constraintEqualToAnchor:self.usernameLabel.heightAnchor].active = YES;

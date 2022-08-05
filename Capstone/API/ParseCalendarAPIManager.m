@@ -7,6 +7,11 @@
 
 #import "ParseCalendarAPIManager.h"
 
+static NSInteger _increment = 1;
+static NSInteger _minutesInHour = 60;
+static NSInteger _hoursInDay = 24;
+static NSInteger _firstDayOfMonth = 0;
+
 @implementation ParseCalendarAPIManager
 
 + (id)sharedManager {
@@ -27,12 +32,12 @@
     NSCalendar* calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
     NSDateComponents* comps = [calendar components:unitFlags fromDate:date];
-    [comps setMonth:[comps month]+1];
-    [comps setDay:0];
+    [comps setMonth:[comps month] + _increment];
+    [comps setDay:_firstDayOfMonth];
     NSDate *lastDateMonth = [calendar dateFromComponents:comps];
-    lastDateMonth = [lastDateMonth dateByAddingTimeInterval:(60*60*24)];
-    [comps setMonth:[comps month]-1];
-    [comps setDay:1];
+    lastDateMonth = [lastDateMonth dateByAddingTimeInterval:(_minutesInHour * _minutesInHour * _hoursInDay)];
+    [comps setMonth:[comps month] - _increment];
+    [comps setDay:_increment];
     NSDate *firstDateMonth = [calendar dateFromComponents:comps];
     [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&firstDateMonth interval:NULL forDate:firstDateMonth];
     PFQuery *query = [PFQuery queryWithClassName:@"Post"];
@@ -55,7 +60,7 @@
     [query whereKey:@"UserID" equalTo:user.username];
     [query whereKey:@"createdAt" greaterThanOrEqualTo:today];
     [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
-        if ([parsePosts count] == 1) {
+        if ([parsePosts count] == _increment) {
             completion([parsePosts firstObject], YES);
         } else {
             completion(nil, NO);

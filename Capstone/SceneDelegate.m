@@ -16,35 +16,27 @@
 @import GoogleMaps;
 
 @interface SceneDelegate () <UNUserNotificationCenterDelegate>
-
 @end
 
-bool isGrantedNotificationAccess;
-NSInteger notificationHour;
-NSInteger notificationMinute;
+bool _isGrantedNotificationAccess;
+NSInteger _hourLowerBound = 6;
+NSInteger _hourUpperBound = 24;
+NSInteger _minuteLowerBound = 0;
+NSInteger _minuteUpperBound = 60;
 
-@implementation SceneDelegate {
-    NSInteger hourLowerBound;
-    NSInteger hourUpperBound;
-    NSInteger minuteLowerBound;
-    NSInteger minuteUpperBound;
-}
+@implementation SceneDelegate
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
-    hourLowerBound = 6;
-    hourUpperBound = 24;
-    minuteLowerBound = 0;
-    minuteUpperBound = 60;
     [[ParseConnectionAPIManager sharedManager] connectToParse];
     [self pushNotification];
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
+        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapViewController"];
     }
 }
 
 -(void)pushNotification {
-    isGrantedNotificationAccess = NO;
+    _isGrantedNotificationAccess = NO;
     // Register the notification categories.
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
@@ -52,7 +44,7 @@ NSInteger notificationMinute;
     UNNotificationCategory* generalCategory = [UNNotificationCategory categoryWithIdentifier:@"GENERAL" actions:@[] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction];
     [center setNotificationCategories:[NSSet setWithObjects:generalCategory, nil]];
     [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        isGrantedNotificationAccess = granted;
+        _isGrantedNotificationAccess = granted;
     }];
     
     // setup notification content
@@ -63,8 +55,8 @@ NSInteger notificationMinute;
     content.sound = [UNNotificationSound defaultSound];
     
     // Configure the trigger for a random time between 6am - 12am.
-    int hourRndValue = (int) (hourLowerBound + arc4random_uniform(hourUpperBound - hourLowerBound));
-    int minuteRndValue = (uint32_t) arc4random_uniform(minuteUpperBound - minuteLowerBound);
+    int hourRndValue = (int) (_hourLowerBound + arc4random_uniform(_hourUpperBound - _hourLowerBound));
+    int minuteRndValue = (uint32_t) arc4random_uniform(_minuteUpperBound - _minuteLowerBound);
     
     NSDateComponents* date = [[NSDateComponents alloc] init];
     date.hour = hourRndValue;
@@ -86,16 +78,18 @@ NSInteger notificationMinute;
     UNNotificationPresentationOptions presentationOptions = UNNotificationPresentationOptionSound+UNNotificationPresentationOptionList | UNNotificationPresentationOptionBanner;
     // Play a sound.
     completionHandler(presentationOptions);
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
-    [self.window makeKeyAndVisible];
+    if (PFUser.currentUser) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
+        [self.window makeKeyAndVisible];
+    }
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler {
     if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
         [[NotificationManager sharedManager] isTime:^(BOOL isTime) {
-            if (isTime) {
+            if (isTime && [PFUser currentUser]) {
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"PhotoViewController"];
                 [self.window makeKeyAndVisible];
