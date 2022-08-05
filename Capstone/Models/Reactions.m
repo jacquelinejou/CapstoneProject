@@ -21,7 +21,7 @@
     Reactions *newReaction = [Reactions new];
     newReaction.postID = postID;
     newReaction.reaction = [self getPFFileFromImage:image];
-    newReaction.username =[PFUser currentUser].username;
+    newReaction.username = [PFUser currentUser].username;
     [newReaction saveInBackgroundWithBlock: completion];
 }
 

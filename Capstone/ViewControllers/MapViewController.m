@@ -14,17 +14,24 @@
 #import <Parse/PFObject+Subclass.h>
 #import "ParseMapAPIManager.h"
 #import "ParseConnectionAPIManager.h"
+#import "AppDelegate.h"
 @import GoogleMaps;
 @import GoogleMapsUtils;
 
 @interface MapViewController ()<GMUClusterManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITabBarControllerDelegate>
-@property (strong,nonatomic) PostDetailsViewController* postDetailsVC;
+@property (strong,nonatomic) PostDetailsViewController* _postDetailsVC;
 @end
 
 static CGFloat _borderSpace = 10.0;
+static CGFloat _scrollBarHeightMultiplier = 0.25;
+static CGFloat _scrollBarBottomMultiplier = 0.11;
+static CGFloat _startLocationLongitude = -122.2;
+static CGFloat _startLocationLatitude = 47.6;
 static NSInteger _insets = 2;
+static NSInteger _startInsets = 0;
 static NSInteger _zoom = 10;
 static NSInteger _fontSize = 10;
+static NSInteger _startIndex = 0;
 
 @implementation MapViewController {
     UICollectionView *_collectionView;
@@ -32,8 +39,8 @@ static NSInteger _fontSize = 10;
     GMUClusterManager *_clusterManager;
     GMSCircle *_circ;
     UIView *_contentView;
-    BOOL isMoved;
-    BOOL windowShowing;
+    BOOL _isMoved;
+    BOOL _windowShowing;
     CLLocationCoordinate2D _currLocation;
     PFGeoPoint *_northEast;
     PFGeoPoint *_northWest;
@@ -46,20 +53,29 @@ static NSInteger _fontSize = 10;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tabBarController.delegate = self;
-    self.postDetailsVC = [[PostDetailsViewController alloc] init];
-    self.postDetailsVC.delegate = self;
-    isMoved = YES;
-    windowShowing = NO;
-    _posts = [[NSMutableArray alloc] init];
-    _markers = [[NSMutableArray alloc] init];
+    [self setupPostDetails];
+    [self initializeFields];
     [self setupMapView];
     [self setupScrollBar];
     [self setupClustering];
+    [self disableScreenRotation];
+}
+
+-(void)initializeFields {
+    _isMoved = YES;
+    _windowShowing = NO;
+    _posts = [[NSMutableArray alloc] init];
+    _markers = [[NSMutableArray alloc] init];
+}
+
+-(void)setupPostDetails {
+    self._postDetailsVC = [[PostDetailsViewController alloc] init];
+    self._postDetailsVC.delegate = self;
 }
 
 -(void)setupMapView {
     // open map on bellevue with my location enabled to center on current location
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:47.6 longitude:-122.2 zoom:_zoom];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:_startLocationLatitude longitude:_startLocationLongitude zoom:_zoom];
     _mapView = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
     _mapView.delegate = self;
     _mapView.mapType = kGMSTypeNormal;
@@ -69,7 +85,11 @@ static NSInteger _fontSize = 10;
     dispatch_async(dispatch_get_main_queue(), ^{
         self->_mapView.myLocationEnabled = YES;
     });
+}
 
+-(void)disableScreenRotation {
+    AppDelegate *shared = [UIApplication sharedApplication].delegate;
+    shared.disableRotation = YES;
 }
 
 -(void)setupScrollBar {
@@ -92,21 +112,17 @@ static NSInteger _fontSize = 10;
 }
 
 - (void)mapView:(GMSMapView *)mapView willMove:(BOOL)gesture {
-    isMoved = YES;
+    _isMoved = YES;
 }
 
 - (void)mapView:(GMSMapView *)mapView idleAtCameraPosition:(GMSCameraPosition *)position {
-    if (isMoved) {
-        isMoved = NO;
+    if (_isMoved) {
+        _isMoved = NO;
         // don't refetch data when recentering on marker tap
-        if (!windowShowing) {
+        if (!_windowShowing) {
             [self fetchData];
         }
-        windowShowing = NO;
-        // hide scroll bar if empty
-        if ([_posts count] == 0) {
-            [_collectionView setHidden:YES];
-        }
+        _windowShowing = NO;
     }
 }
 
@@ -114,15 +130,19 @@ static NSInteger _fontSize = 10;
     [self findDisplayDimensions];
     NSArray *coordinates = @[_northWest, _northEast, _southEast, _southWest];
     [[ParseMapAPIManager sharedManager] fetchMapDataWithCompletion:coordinates completion:^(NSArray * _Nonnull posts, NSError * _Nonnull error) {
-            if (posts != nil) {
-                self->_posts = (NSMutableArray *)posts;
-                [self loadMarkers];
+        if (posts != nil) {
+            self->_posts = (NSMutableArray *)posts;
+            [self loadMarkers];
 
-                // reset cluster manager
-                [self->_clusterManager clearItems];
-                [self->_clusterManager addItems:self->_markers];
-                [self->_clusterManager cluster];
-            }
+            // reset cluster manager
+            [self->_clusterManager clearItems];
+            [self->_clusterManager addItems:self->_markers];
+            [self->_clusterManager cluster];
+        }
+        // hide scroll bar if empty
+        if ([posts count] == _startIndex) {
+            [self->_collectionView setHidden:YES];
+        }
     }];
 }
 
@@ -152,9 +172,9 @@ static NSInteger _fontSize = 10;
 -(void)updateScrollBarConstraints {
     [_collectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_collectionView.leftAnchor constraintEqualToAnchor:_mapView.leftAnchor constant:_borderSpace].active = YES;
-    [_collectionView.rightAnchor constraintEqualToAnchor:_mapView.rightAnchor constant:_borderSpace * -1].active = YES;
-    [_collectionView.bottomAnchor constraintEqualToAnchor:_mapView.bottomAnchor constant:self.view.frame.size.height * -0.11].active = YES;
-    [_collectionView.heightAnchor constraintEqualToConstant:0.25 * self.view.frame.size.height].active = YES;
+    [_mapView.rightAnchor constraintEqualToAnchor:_collectionView.rightAnchor constant:_borderSpace].active = YES;
+    [_collectionView.bottomAnchor constraintEqualToAnchor:_mapView.bottomAnchor constant:self.view.frame.size.height * -_scrollBarBottomMultiplier].active = YES;
+    [_collectionView.heightAnchor constraintEqualToConstant:_scrollBarHeightMultiplier * self.view.frame.size.height].active = YES;
 }
 
 -(void)setupMapConstraints{
@@ -225,23 +245,25 @@ static NSInteger _fontSize = 10;
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinates.latitude longitude:coordinates.longitude zoom:_zoom];
     [_mapView animateToLocation:CLLocationCoordinate2DMake(camera.target.latitude, camera.target.longitude)];
     // send post to postdetailsviewcontroller
-    self.postDetailsVC.postDetails = post;
-    self.postDetailsVC.postIndex = indexPath.row;
-    windowShowing = YES;
-    [[self navigationController] pushViewController:self.postDetailsVC animated:YES];
+    self._postDetailsVC.postDetails = post;
+    self._postDetailsVC.postIndex = indexPath.row;
+    _windowShowing = YES;
+    [[self navigationController] pushViewController:self._postDetailsVC animated:YES];
 }
 
 - (void)didSendBackPost:(Post *)post withIndex:(NSInteger)postIndex {
     Post *oldPost = _posts[postIndex];
-    [_posts removeObject:oldPost];
-    [_posts addObject:post];
+    GMSMarker *oldMarker = _markers[postIndex];
+    [_markers removeObject:oldMarker];
+    [oldMarker setMap:nil];
+    [self loadMarker:post];
     [_collectionView reloadData];
 }
 
 // display marker window above marker and scroll bar when tapped
 - (BOOL)mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker {
     _circ.map = nil;
-    windowShowing = YES;
+    _windowShowing = YES;
     [_mapView animateToLocation:marker.position];
     
     if ([marker.userData conformsToProtocol:@protocol(GMUCluster)]) {
@@ -262,7 +284,7 @@ static NSInteger _fontSize = 10;
 
 // close marker window and scroll bar when tap anywhere other than a marker
 - (void) mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
-    windowShowing = NO;
+    _windowShowing = NO;
     _mapView.selectedMarker = nil;
     [_collectionView setHidden:YES];
 }
@@ -278,12 +300,12 @@ static NSInteger _fontSize = 10;
 // Layout: Set Edges
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0,_insets,0,_insets);
+    return UIEdgeInsetsMake(_startInsets,_insets,_startInsets,_insets);
 }
 
 // setup marker window
 -(UIView *) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker {
-    CustomInfoWindow *infoWindow = [[[NSBundle mainBundle] loadNibNamed:@"InfoWindow" owner:self options:nil] objectAtIndex:0];
+    CustomInfoWindow *infoWindow = [[[NSBundle mainBundle] loadNibNamed:@"InfoWindow" owner:self options:nil] objectAtIndex:_startIndex];
     Post *post = marker.userData;
     infoWindow.usernameLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:_fontSize];
     infoWindow.usernameLabel.text = post.UserID;

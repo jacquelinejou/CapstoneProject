@@ -12,6 +12,9 @@ static NSInteger _fontSize = 11;
 static CGFloat _widthSpacingMultiplier = 0.1;
 static CGFloat _spacing = 0.05;
 static CGFloat _widthMultiplier = 0.25;
+static CGFloat _commentWidthMultiplier = 0.75;
+static CGFloat _usernameHeightMultiplier = 0.2;
+static NSInteger _numberOfLines = 0;
 
 @implementation CommentCell
 
@@ -41,14 +44,14 @@ static CGFloat _widthMultiplier = 0.25;
     [self.usernameLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.usernameLabel.widthAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier].active = YES;
     [self.usernameLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.contentView.frame.size.width * _widthSpacingMultiplier].active = YES;
-    [self.usernameLabel.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:0.2].active = YES;
+    [self.usernameLabel.heightAnchor constraintEqualToAnchor:self.contentView.heightAnchor multiplier:_usernameHeightMultiplier].active = YES;
     [self.usernameLabel.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:self.contentView.frame.size.height * _spacing].active = YES;
 }
 
 -(void)commentConstraints {
     [self.contentView addSubview:self.commentLabel];
     [self.commentLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.commentLabel.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_widthMultiplier * 3].active = YES;
+    [self.commentLabel.widthAnchor constraintEqualToAnchor:self.contentView.widthAnchor multiplier:_commentWidthMultiplier].active = YES;
     [self.commentLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.contentView.frame.size.width * _widthSpacingMultiplier].active = YES;
     [self.commentLabel.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;
     [self.commentLabel.topAnchor constraintEqualToAnchor:self.usernameLabel.bottomAnchor constant:self.contentView.frame.size.height * _spacing].active = YES;
@@ -67,12 +70,12 @@ static CGFloat _widthMultiplier = 0.25;
     self.usernameLabel = [[UILabel alloc] init];
     self.commentLabel = [[UILabel alloc] init];
     self.dateLabel = [[UILabel alloc] init];
-    self.backgroundColor = [UIColor colorWithRed:[[ColorManager sharedManager] getCellColor] green:[[ColorManager sharedManager] getCellColor] blue:[[ColorManager sharedManager] getCurrColor] alpha:1.0];
+    self.backgroundColor = [UIColor colorWithRed:[[ColorManager sharedManager] getCellColor] green:[[ColorManager sharedManager] getCellColor] blue:[[ColorManager sharedManager] getCurrColor] alpha:[[ColorManager sharedManager] getCurrColor]];
 }
 
 -(void)setupCommentLines {
     self.commentLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.commentLabel.numberOfLines = 0;
+    self.commentLabel.numberOfLines = _commentWidthMultiplier;
 }
 
 -(void)setupFont {

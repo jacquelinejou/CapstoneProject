@@ -14,8 +14,15 @@
 @interface ReactionsViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) UIButton *_pictureButton;
 @property (nonatomic, strong, retain) UITableView *_tableView;
-@property (strong,nonatomic) PhotoViewController* photoVC;
+@property (strong,nonatomic) PhotoViewController* _photoVC;
 @end
+
+static CGFloat _tableViewTopMultiplier = 0.1;
+static CGFloat _tableViewHeightMultiplier = 0.7;
+static CGFloat _pictureButtonWidthMultiplier = 0.4;
+static CGFloat _pictureButtonHeightMultiplier = 0.1;
+static NSInteger _postButtonFontSize = 20;
+static CGFloat _cellHeightDivisor = 5.0;
 
 @implementation ReactionsViewController {
     NSMutableArray *_reactions;
@@ -27,8 +34,12 @@
     _reactions = [[NSMutableArray alloc] init];
     [self setupReactions];
     [self setupColor];
-    self.photoVC = [[PhotoViewController alloc] init];
-    self.photoVC.delegate = self;
+    self._photoVC = [[PhotoViewController alloc] init];
+    self._photoVC.delegate = self;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [self setupReactions];
 }
 
 -(void)setupTableView {
@@ -50,7 +61,7 @@
     
     [self.view addSubview:self._tableView];
     [self.view addSubview:self._pictureButton];
-
+    
     [self setupTableViewConstraints];
     [self setupPictureButtonConstraints];
 }
@@ -58,20 +69,20 @@
 -(void)setupTableViewConstraints {
     [self._tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self._tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
-    [self._tableView.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.7].active = YES;
-    [self._tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:self.view.frame.size.height * 0.1].active = YES;
+    [self._tableView.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:_tableViewHeightMultiplier].active = YES;
+    [self._tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:self.view.frame.size.height * _tableViewTopMultiplier].active = YES;
 }
 
 -(void)setupPictureButtonConstraints {
-    [self._pictureButton.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.4].active = YES;
+    [self._pictureButton.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:_pictureButtonWidthMultiplier].active = YES;
     [self._pictureButton.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-    [self._pictureButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:self.view.frame.size.height * -0.1].active = YES;
-    [self._pictureButton.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:0.1].active = YES;
+    [self.view.bottomAnchor constraintEqualToAnchor:self._pictureButton.bottomAnchor  constant:self.view.frame.size.height * _pictureButtonHeightMultiplier].active = YES;
+    [self._pictureButton.heightAnchor constraintEqualToAnchor:self.view.heightAnchor multiplier:_pictureButtonHeightMultiplier].active = YES;
 }
 
 -(void)setupPicButton {
     self._pictureButton = [[UIButton alloc] init];
-    self._pictureButton.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:20];
+    self._pictureButton.titleLabel.font = [UIFont fontWithName:@"VirtuousSlabBold" size:_postButtonFontSize];
     self._pictureButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     self._pictureButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self._pictureButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -80,15 +91,15 @@
 }
 
 -(void)setupColor {
-    self._pictureButton.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:[[UIColor colorWithRed:[[ColorManager sharedManager] getOtherColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:1.0] colorWithAlphaComponent:1.0]];
+    self._pictureButton.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:[[UIColor colorWithRed:[[ColorManager sharedManager] getOtherColor] green:[[ColorManager sharedManager] getCurrColor] blue:[[ColorManager sharedManager] getOtherColor] alpha:[[ColorManager sharedManager] getCurrColor]] colorWithAlphaComponent:[[ColorManager sharedManager] getCurrColor]]];
     self._tableView.backgroundColor = [[ColorManager sharedManager] lighterColorForColor:self._pictureButton.backgroundColor];
     self.view.backgroundColor = self._tableView.backgroundColor;
 }
 
 -(void)didTapPic {
-    self.photoVC.isPicture = YES;
-    self.photoVC.postID = self.postDetails.objectId;
-    [[self navigationController] pushViewController:self.photoVC animated:YES];
+    self._photoVC.isPicture = YES;
+    self._photoVC.postID = self.postDetails.objectId;
+    [[self navigationController] pushViewController:self._photoVC animated:YES];
 }
 
 - (void)didSendPic:(Reactions *)pic {
@@ -102,8 +113,8 @@
 
 -(void)setupReactions {
     [[ParseReactionAPIManager sharedManager] fetchReactionWithCompletion:self.postDetails.objectId completion:^(NSArray * _Nullable reactions, NSError * _Nonnull error) {
-            self->_reactions = (NSMutableArray *) reactions;
-            [self._tableView reloadData];
+        self->_reactions = (NSMutableArray *) reactions;
+        [self._tableView reloadData];
     }];
 }
 
@@ -126,7 +137,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self._tableView.frame.size.height / 5.0;
+    return self._tableView.frame.size.height / _cellHeightDivisor;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

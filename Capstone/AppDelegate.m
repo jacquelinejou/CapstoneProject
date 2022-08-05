@@ -6,13 +6,8 @@
 //
 
 #import "AppDelegate.h"
-#import "Parse/Parse.h"
-#import "PhotoViewController.h"
-#import "Post.h"
-#import <UserNotifications/UserNotifications.h>
-@import GoogleMaps;
 
-@interface AppDelegate () <UNUserNotificationCenterDelegate>
+@interface AppDelegate ()
 
 @end
 
@@ -22,7 +17,7 @@
     return YES;
 }
 
--(NSUInteger)application:(UIApplication *)application       supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     if (self.disableRotation) {
         return UIInterfaceOrientationMaskPortrait;
     }

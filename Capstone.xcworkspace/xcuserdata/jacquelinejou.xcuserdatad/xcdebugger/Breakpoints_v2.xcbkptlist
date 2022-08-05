@@ -30,9 +30,9 @@
             filePath = "Capstone/Models/Post.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14"
-            endingLineNumber = "14"
-            landmarkName = "UserID"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "author"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
@@ -46,8 +46,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "-updateConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
             landmarkName = "-initWithFrame:"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "Capstone/SceneDelegate.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "-pushNotification"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "-configureCell:forDate:atMonthPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "-configureVisibleCells"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "-calendar:appearance:eventDefaultColorsForDate:"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "-calendar:willDisplayCell:forDate:atMonthPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "-calendar:cellForDate:atMonthPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "-calendar:boundingRectWillChange:animated:"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,9 +190,9 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-_setConstraints"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "-setConstraints"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -206,8 +206,8 @@
             filePath = "Capstone/Cells/CalendarCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "-setSelectionType:"
             landmarkType = "7">
          </BreakpointContent>
@@ -222,8 +222,8 @@
             filePath = "Capstone/Cells/CalendarCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "-configureAppearance"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,10 +238,10 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "7">
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "CalendarViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -254,8 +254,8 @@
             filePath = "Capstone/SceneDelegate.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "-userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:"
             landmarkType = "7">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "-isSameDay:otherDay:"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "Capstone/Cells/CalendarCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-layoutSubviews"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "-calendarCurrentPageDidChange:"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,42 +318,10 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "PhotoViewController"
             landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4B72CE41-5F19-477E-9F4F-F595BF73CB62"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-viewDidAppear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D9EE684F-96E0-49EB-A0C7-079F258CE1A5"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "-setupFrontCamera"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -366,8 +334,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "342"
-            endingLineNumber = "342"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
             landmarkName = "-didTapRecord:"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +350,8 @@
             filePath = "Capstone/Models/Post.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "+postUserVideo:backURL:withOreintation:withCompletion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -398,8 +366,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "464"
-            endingLineNumber = "464"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
             landmarkName = "-tempURL"
             landmarkType = "7">
             <Locations>
@@ -446,8 +414,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "460"
-            endingLineNumber = "460"
+            startingLineNumber = "424"
+            endingLineNumber = "424"
             landmarkName = "-tempURL"
             landmarkType = "7">
          </BreakpointContent>
@@ -494,8 +462,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
             landmarkName = "-captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -510,8 +478,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "338"
+            endingLineNumber = "338"
             landmarkName = "-postVideo"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,8 +494,8 @@
             filePath = "Capstone/Models/Post.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "+getPFFileFromUrl:"
             landmarkType = "7">
          </BreakpointContent>
@@ -542,8 +510,8 @@
             filePath = "Capstone/Models/Post.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "+getPFFileFromUrl:"
             landmarkType = "7">
          </BreakpointContent>
@@ -558,8 +526,8 @@
             filePath = "Capstone/Models/Post.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "+imageFromVideo:atTime:"
             landmarkType = "7">
          </BreakpointContent>
@@ -574,8 +542,8 @@
             filePath = "Capstone/Models/Post.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "+rotateImage:"
             landmarkType = "7">
          </BreakpointContent>
@@ -590,8 +558,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "-initWithFrame:"
             landmarkType = "7">
          </BreakpointContent>
@@ -606,8 +574,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "-findDisplayDimensions"
             landmarkType = "7">
          </BreakpointContent>
@@ -622,8 +590,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "-loadMarker:"
             landmarkType = "7">
          </BreakpointContent>
@@ -638,8 +606,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
@@ -654,8 +622,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "243"
-            endingLineNumber = "243"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "-mapView:didTapMarker:"
             landmarkType = "7">
          </BreakpointContent>
@@ -670,8 +638,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "-mapView:idleAtCameraPosition:"
             landmarkType = "7">
          </BreakpointContent>
@@ -686,8 +654,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "-mapView:willMove:"
             landmarkType = "7">
          </BreakpointContent>
@@ -702,8 +670,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "-mapView:didTapMarker:"
             landmarkType = "7">
          </BreakpointContent>
@@ -718,8 +686,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "-setupScrollBar"
             landmarkType = "7">
          </BreakpointContent>
@@ -734,8 +702,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "-updateViewConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -750,8 +718,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "-loadMarkers"
             landmarkType = "7">
          </BreakpointContent>
@@ -766,8 +734,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "-textConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -782,8 +750,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-imageConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -798,8 +766,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "-updateScrollBarConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -814,8 +782,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "-setupMapConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -830,8 +798,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "-textConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -846,8 +814,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -862,8 +830,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -878,8 +846,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "-setupFont"
             landmarkType = "7">
          </BreakpointContent>
@@ -894,8 +862,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -910,8 +878,8 @@
             filePath = "Capstone/Cells/PostCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "-imageConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -926,8 +894,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
@@ -942,8 +910,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "-videoConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -990,8 +958,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1022,41 +990,9 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
             landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A4439F9B-C21D-4BBE-B3B8-AAAB592A1F84"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/CalendarViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "-setupCache"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "61395A54-CFC7-4253-86AC-CB42C3FA618D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/CalendarViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "-setupCache"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1150,8 +1086,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-setupDoubleTapGesture"
             landmarkType = "7">
          </BreakpointContent>
@@ -1166,8 +1102,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "-setupComments"
             landmarkType = "7">
          </BreakpointContent>
@@ -1182,8 +1118,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "-updateViewConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1303,22 +1239,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B1C85466-6232-4082-9BE8-8B8C62340BDF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/CommentsViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "-didTapPost"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "2488124D-81DE-4D7E-A620-E541935F8470"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1326,8 +1246,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "-setupComments"
             landmarkType = "7">
          </BreakpointContent>
@@ -1342,8 +1262,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1358,8 +1278,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1374,8 +1294,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "-setupTableView"
             landmarkType = "7">
          </BreakpointContent>
@@ -1390,8 +1310,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "-setupComments"
             landmarkType = "7">
          </BreakpointContent>
@@ -1422,8 +1342,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1438,8 +1358,8 @@
             filePath = "Capstone/Cells/CommentCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "-usernameConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1454,8 +1374,8 @@
             filePath = "Capstone/Cells/CommentCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "-initWithFrame:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1470,8 +1390,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1486,8 +1406,8 @@
             filePath = "Capstone/Cells/CommentCell.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
             landmarkName = "-initWithFrame:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1502,8 +1422,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "-keyboardWillShow:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1534,25 +1454,9 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "71FCA533-5345-4EED-98DE-03F9F36525DF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/CommentsViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "-didTapPost"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1566,25 +1470,9 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "-didSendPost:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "697DF8DF-CD1C-4109-801C-B98DF8D5DC83"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/CommentsViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "-didTapPost"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1614,8 +1502,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "-didSendBackPost:withIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1630,8 +1518,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "-viewWillDisappear:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1646,8 +1534,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "-viewDidAppear:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1662,8 +1550,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "-fetchData"
             landmarkType = "7">
          </BreakpointContent>
@@ -1678,8 +1566,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1694,8 +1582,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
@@ -1710,8 +1598,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
             landmarkName = "-didSendReactions:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1726,8 +1614,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "-setupPictureButton"
             landmarkType = "7">
          </BreakpointContent>
@@ -1742,8 +1630,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "560"
-            endingLineNumber = "560"
+            startingLineNumber = "523"
+            endingLineNumber = "523"
             landmarkName = "-setupPictureButtonConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -1854,8 +1742,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
             landmarkName = "-postReaction"
             landmarkType = "7">
          </BreakpointContent>
@@ -1870,8 +1758,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "430"
-            endingLineNumber = "430"
+            startingLineNumber = "404"
+            endingLineNumber = "404"
             landmarkName = "-captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1886,8 +1774,8 @@
             filePath = "Capstone/ViewControllers/ReactionsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-setupReactions"
             landmarkType = "7">
          </BreakpointContent>
@@ -1902,8 +1790,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
             landmarkName = "-postReaction"
             landmarkType = "7">
          </BreakpointContent>
@@ -1934,8 +1822,8 @@
             filePath = "Capstone/ViewControllers/ReactionsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "-didSendPic:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1950,8 +1838,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "424"
-            endingLineNumber = "424"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
             landmarkName = "-captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1966,8 +1854,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "-captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1982,8 +1870,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "-setupReactions"
             landmarkType = "7">
          </BreakpointContent>
@@ -1998,25 +1886,9 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "-calendar:cellForDate:atMonthPosition:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7FCE0D1C-27A3-4F3A-9F67-AD1284D9078A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/CalendarViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "-setupCache"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2030,8 +1902,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "-calendarCurrentPageDidChange:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2062,8 +1934,8 @@
             filePath = "Capstone/ViewControllers/CalendarViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
             landmarkName = "-isSameMonth:otherDay:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2078,8 +1950,8 @@
             filePath = "Capstone/ViewControllers/LoginViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "-didLogin:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2094,8 +1966,8 @@
             filePath = "Capstone/ViewControllers/LoginViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "-didLogin:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2110,8 +1982,8 @@
             filePath = "Capstone/SceneDelegate.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "-pushNotification"
             landmarkType = "7">
          </BreakpointContent>
@@ -2126,8 +1998,8 @@
             filePath = "Capstone/ViewControllers/MapViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "-collectionView:didSelectItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2142,8 +2014,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
@@ -2158,8 +2030,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "-textConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -2174,8 +2046,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "-didTapReaction"
             landmarkType = "7">
          </BreakpointContent>
@@ -2190,89 +2062,9 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "417"
-            endingLineNumber = "417"
-            landmarkName = "-postHelper"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1242D252-F6CF-4518-B6D3-4C104FA092EF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
-            landmarkName = "-postVideo"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A76459D9-0895-41ED-A730-9A16DE3EFEEC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
-            landmarkName = "-postVideo"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BEF634E1-A79B-42CA-93CE-3129B57FE593"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
-            landmarkName = "-postVideo"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "51F07AF7-BB14-4573-8B34-F83126A9686D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "448"
-            endingLineNumber = "448"
-            landmarkName = "-setupLayers:withLayer:withView:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D2BC4975-D045-49AC-B747-C831C94001B4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "449"
-            endingLineNumber = "449"
-            landmarkName = "-setupLayers:withLayer:withView:"
+            startingLineNumber = "385"
+            endingLineNumber = "385"
+            landmarkName = "-postVideoToParse:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2286,8 +2078,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "-setupVideo"
             landmarkType = "7">
          </BreakpointContent>
@@ -2302,8 +2094,8 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "-setupLayers:withView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2318,25 +2110,9 @@
             filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "-setupForegroundConstraints"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A1727317-7CB0-4300-9411-9FAD27310869"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "453"
-            endingLineNumber = "453"
-            landmarkName = "-setupLayers:withLayer:withView:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2350,8 +2126,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
             landmarkName = "-togglePiP"
             landmarkType = "7">
          </BreakpointContent>
@@ -2366,8 +2142,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
+            startingLineNumber = "476"
+            endingLineNumber = "476"
             landmarkName = "-updateViewConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -2382,8 +2158,8 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
             landmarkName = "-setupBackgroundConstraints"
             landmarkType = "7">
          </BreakpointContent>
@@ -2398,25 +2174,9 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "42105AB8-F37C-4EB9-BEFC-C10E29A7B59B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "-viewDidAppear:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2430,25 +2190,9 @@
             filePath = "Capstone/ViewControllers/PhotoViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
+            startingLineNumber = "463"
+            endingLineNumber = "463"
             landmarkName = "-shouldAutorotate"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6CF6FD38-74A4-4FE8-9549-E0191771BDA1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ViewControllers/PhotoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "-viewDidAppear:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2462,8 +2206,8 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "-keyboardWillShow:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2478,9 +2222,265 @@
             filePath = "Capstone/ViewControllers/CommentsViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "-keyboardWillHide:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3F142D11-077F-47C1-8626-208A15C2296C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PhotoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "-setupMicrophone"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "405F868A-084B-406F-BBCC-164D960F8987"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/CalendarViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "-calendar:didSelectDate:atMonthPosition:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "98A1FCAE-E8BD-4853-AEDA-3C4D9B603224"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PlayVideoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "-connectVideoToView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D985A0B2-C544-4206-B83E-ECB3E66ECB59"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PlayVideoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "-setupBackgroundConstraints"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4CDBE359-B5E0-441F-AFFD-E2AEDC44D9D8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "-viewWillDisappear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "30D3EB1F-25D3-4F6F-A0A7-E6739E123A55"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "-setupVideo"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "827139D8-6AAF-45C3-8A91-680D57CB8ED3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PlayVideoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-connectVideoToView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EF8E34A0-CAA3-4E41-850B-14AB1E119F08"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PlayVideoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1E64C93A-E34B-45F4-9B96-A8C4BE02F45B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PhotoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "387"
+            endingLineNumber = "387"
+            landmarkName = "-postVideoToParse:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F7C54D75-6D32-46E1-AF1E-E67FD4D04FC4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PhotoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
+            landmarkName = "-setupPreviewLayers"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F05A3DA2-9E94-45B0-AC4A-A3D3788CD519"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PlayVideoViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-connectVideoToView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "15485C32-C706-4309-97A9-5BC111230F39"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/CalendarViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
+            landmarkName = "-calendar:didSelectDate:atMonthPosition:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0589F3F0-334E-4C62-A727-F959CAF182B7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/LoginViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "-keyboardWillShow:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6EE55641-B60F-4871-8EC4-4CDAB2BC259C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/PostDetailsViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "-didTapComment"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84B9CDAF-D43E-40A1-ABA2-D79BDAA80080"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/CommentsViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D2B1A96-6FF9-40E6-BEA9-99D1D66EBA02"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Capstone/ViewControllers/CommentsViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-viewWillAppear:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

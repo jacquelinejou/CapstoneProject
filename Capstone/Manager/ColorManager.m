@@ -7,6 +7,15 @@
 
 #import "ColorManager.h"
 
+static CGFloat _currColor = 1.0;
+static CGFloat _otherColors = 0.0;
+static CGFloat _cellColor = 0.91;
+static CGFloat _lighterIncrement = 0.45;
+static CGFloat _lighterMinValue = 1.0;
+static CGFloat _darkerIncrement = 0.05;
+static CGFloat _darkerMaxValue = 0.0;
+static CGFloat _alphaComponent = 0.025;
+
 @implementation ColorManager
 
 +(id)sharedManager {
@@ -19,30 +28,30 @@
 }
 
 -(id)init {
-    if (self = [super init]) {
-        currColor = 1.0;
-        otherColors = 0.0;
-        cellColor = 0.91;
-    }
+    self = [super init];
     return self;
 }
 
 -(CGFloat)getCurrColor {
-    return currColor;
+    return _currColor;
 }
 
 -(CGFloat)getOtherColor {
-    return otherColors;
+    return _otherColors;
+}
+
+-(CGFloat)getAlphaComponent {
+    return _alphaComponent;
 }
 
 -(CGFloat)getCellColor {
-    return cellColor;
+    return _cellColor;
 }
 
 - (UIColor *)lighterColorForColor:(UIColor *)c {
     CGFloat r, g, b, a;
     if ([c getRed:&r green:&g blue:&b alpha:&a]) {
-        return [UIColor colorWithRed:MIN(r + 0.45, 1.0) green:MIN(g + 0.45, 1.0) blue:MIN(b + 0.45, 1.0) alpha:a];
+        return [UIColor colorWithRed:MIN(r + _lighterIncrement, _lighterMinValue) green:MIN(g + _lighterIncrement, _lighterMinValue) blue:MIN(b + _lighterIncrement, _lighterMinValue) alpha:a];
     }
     return nil;
 }
@@ -50,7 +59,7 @@
 - (UIColor *)darkerColorForColor:(UIColor *)c {
     CGFloat r, g, b, a;
     if ([c getRed:&r green:&g blue:&b alpha:&a]) {
-        return [UIColor colorWithRed:MAX(r - 0.05, 0.0) green:MAX(g - 0.05, 0.0) blue:MAX(b - 0.05, 0.0) alpha:a];
+        return [UIColor colorWithRed:MAX(r - _darkerIncrement, _darkerMaxValue) green:MAX(g - _darkerIncrement, _darkerMaxValue) blue:MAX(b - _darkerIncrement, _darkerMaxValue) alpha:a];
     }
     return nil;
 }

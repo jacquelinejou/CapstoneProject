@@ -23,8 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIImageView *postImageView;
 @property (weak, nonatomic) CAShapeLayer *selectionLayer;
 @property (assign, nonatomic) SelectionType selectionType;
-@property (assign, nonatomic) PFFileObject *video;
--(CalendarCell *)setupCell:(UIImage *)image withVideo:(NSURL *)video;
+@property (assign, nonatomic) PFFileObject *video1;
+@property (assign, nonatomic) PFFileObject *video2;
+@property (assign, nonatomic) BOOL isFrontCamInForeground;
+-(CalendarCell *)setupCell:(UIImage *)image withVideo1:(PFFileObject *)video1 withVideo2:(PFFileObject *)video2 withBool:(BOOL)isFrontCamInForeground;
 @end
 
 NS_ASSUME_NONNULL_END

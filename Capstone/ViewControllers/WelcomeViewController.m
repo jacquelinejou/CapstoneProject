@@ -6,6 +6,7 @@
 //
 
 #import "WelcomeViewController.h"
+#import "AppDelegate.h"
 
 @interface WelcomeViewController ()
 
@@ -15,6 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self disableScreenRotation];
 }
 
 - (IBAction)registerUser:(id)sender {
@@ -25,6 +27,11 @@
 - (IBAction)loginUser:(id)sender {
     [self resignFirstResponder];
     [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+}
+
+-(void)disableScreenRotation {
+    AppDelegate *shared = [UIApplication sharedApplication].delegate;
+    shared.disableRotation = YES;
 }
 
 @end

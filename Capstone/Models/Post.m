@@ -8,6 +8,12 @@
 #import "Post.h"
 #import <AVFoundation/AVFoundation.h>
 
+static CGFloat _imageRotationDivider = 2.0;
+static NSInteger _startTime = 0;
+static NSInteger _endTime = 1;
+static NSInteger _startScale = 1;
+static NSInteger _endScale = -1;
+
 @implementation Post
 
 @dynamic postID;
@@ -28,7 +34,7 @@
 
 + (void) postUserVideo: (NSURL * _Nullable)frontURL backURL:(NSURL * _Nullable)backURL withOreintation:(BOOL)isFrontCamInForeground withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     Post *newPost = [Post new];
-    UIImage *image = [self imageFromVideo:backURL atTime:0];
+    UIImage *image = [self imageFromVideo:backURL atTime:_startTime];
     newPost.Image = [self getPFFileFromImage:image];
     newPost.Video = [self getPFFileFromUrl:frontURL];
     newPost.Video2 = [self getPFFileFromUrl:backURL];
@@ -51,7 +57,6 @@
     }
     NSString *sendStr = [[url absoluteString] stringByReplacingOccurrencesOfString:@"file:///private" withString:@""];
     NSData *data = [NSData dataWithContentsOfFile:sendStr];
-    // get image data and check if that is not nil
     if (!data) {
         return nil;
     }
@@ -72,18 +77,15 @@
 + (UIImage *)imageFromVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time {
     AVAsset* asset = [AVAsset assetWithURL:videoURL];
     AVAssetImageGenerator* imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
-    UIImage* image = [UIImage imageWithCGImage:[imageGenerator copyCGImageAtTime:CMTimeMake(0, 1) actualTime:nil error:nil]];
-    UIImage* flippedImage = [UIImage imageWithCGImage:image.CGImage
-                                                scale:image.scale
-                                          orientation:UIImageOrientationUpMirrored];
+    UIImage* image = [UIImage imageWithCGImage:[imageGenerator copyCGImageAtTime:CMTimeMake(_startTime, _endTime) actualTime:nil error:nil]];
+    UIImage* flippedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationUpMirrored];
     return [self rotateImage:flippedImage];
 }
 
 + (UIImage *)rotateImage:(UIImage *)image {
   BOOL sameOrientationType = YES;
-  CGFloat radians = M_PI / 2.0;
+  CGFloat radians = M_PI / _imageRotationDivider;
   CGSize newSize = sameOrientationType ? image.size : CGSizeMake(image.size.height, image.size.width);
-
   UIGraphicsBeginImageContext(newSize);
   CGContextRef ctx = UIGraphicsGetCurrentContext();
   CGImageRef cgImage = image.CGImage;
@@ -91,11 +93,10 @@
     UIGraphicsEndImageContext();
     return nil;
   }
-
-  CGContextTranslateCTM(ctx, newSize.width / 2.0, newSize.height / 2.0);
+  CGContextTranslateCTM(ctx, newSize.width / _imageRotationDivider, newSize.height / _imageRotationDivider);
   CGContextRotateCTM(ctx, radians);
-  CGContextScaleCTM(ctx, 1, -1);
-  CGPoint origin = CGPointMake(-(image.size.width / 2.0), -(image.size.height / 2.0));
+  CGContextScaleCTM(ctx, _startScale, _endScale);
+  CGPoint origin = CGPointMake(-(image.size.width / _imageRotationDivider), -(image.size.height / _imageRotationDivider));
   CGRect rect = CGRectZero;
   rect.origin = origin;
   rect.size = image.size;
