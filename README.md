@@ -11,7 +11,7 @@
 
 ## Overview
 ### Description
-Take5 is a social media app that sends out a daily notification to users, gives them a 5 minute window to take and upload a picture post, and then can view all the daily posts on a map and all their personal posts on a calendar.
+Take5 is a social media app that sends out a daily notification to users, gives them a 5 minute window to take and upload a front and back camera video post, and then can view all the daily posts on a map and all their personal posts on a calendar.
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]
@@ -53,15 +53,26 @@ Take5 is a social media app that sends out a daily notification to users, gives 
     * If username already taken, popup message to tell user. Can cancel and return to welcome page or okay and try again.
 * Map Screen
     * Shows a user a map with markers in the location of each post of the day.
-        * When click on a marker, will recenter with marker in the center of the screen and a popup window will appear above the marker with the post image, username, date, number of comments and reactions.
-        * A scroll bar will also appear at the bottom of the screen that can horizontally scroll and see all the posts on the map. As the user scrolls, the map will shift to the current post in the tab bar.
-        * When the user taps on the map where there is not a marker, the popup window and scroll bar will close.
+      * When click on a marker, will recenter with marker in the center of the screen and a popup window will appear above the marker with the post image, username, date, number of comments and reactions.
+      * A scroll bar will also appear at the bottom of the screen that can horizontally scroll and see all the posts on the map.
+      * When the user taps on the map where there is not a marker, the popup window and scroll bar will close.
+      * When user taps on a post in scroll bar, will recenter on that post's location and popup with a post details page.
+* Post Details Screen
+    * Shows user's post details, including their video, username, post date/time, number of comments and reactions
+    * User can tap on the number of comments or reactions to see all the comments/reactions and add their own.
+* Comments Screen 
+    * Users can see all the comments, which user commented, and the comment time.
+    * Users can add their own comment.
+* Reactions Screen
+    * Users can see all the reactions, who reacted, and the reaction time.
+    * Users can add their own reaction, using the front camera to take a photo.
 * Calendar Screen
     * Shows the users previous posts on a calendar
         * For each day that the user posted, their post image will appear on the calendar
+        * When users click on the calendar cell, their video will popup and be played
 * Picture Taking Screen
-    * Allows the user to take a photo for 5 minutes after a notification is sent out.
-    * Can take a photo and post it, using both the front and back camera.
+    * Allows the user to take a 5-second video for 5 minutes after a notification is sent out.
+    * Can take a video and post it, using both the front and back camera.
 
 ### 3. Navigation
 
@@ -74,9 +85,15 @@ Take5 is a social media app that sends out a daily notification to users, gives 
 
 * Forced Welcome -> Account creation or login if no user is logged in
 * Register User -> To welcome page if user cancels, and to login page if user successfully creates an account.
-* Forced take picture -> For 5 minutes after a notification, if the user taps on the notification or already has the app running in foreground while notification goes off, the photo taking page appears.
+* Forced take picture -> For 5 minutes after a notification, if the user taps on the notification or already has the app running in foreground while notification goes off, the video taking page appears.
 * Login -> Map Screen
-* Photo Taking Screen -> Map screen after posting or after 5 minute window after notification
+* Video Taking Screen -> Video Playing screen to play the user's video
+* Video Playing screen -> Map screen after posting or after 5 minute window after notification
+* Map Screen -> Post details screen when a user taps on a post in the scroll bar.
+* Post details screen -> Comments screen when a user taps on the number of comments.
+* Post details screen -> Reactions screen when a user taps on the number of reactions.
+* Reactions screen -> Video Taking Screen appears with settings changed to take a photo reaction
+* Calendar Screen -> Video playing screen with the tapped cell's video
 
 ## Wireframes
 <img src="https://github.com/jacquelinejou/CapstoneProject/blob/main/Screen%20Shot%202022-07-19%20at%2010.24.42%20AM.png" width=600>
@@ -92,49 +109,221 @@ Take5 is a social media app that sends out a daily notification to users, gives 
 | Property | Type | Description |
 | -------- | -------- | -------- |
 | postID | String | unique ID of post |
-| userID | String | unique ID of post's user |
+| UserID | String | unique ID of post's user |
 | author | PFUser | post's author |
 | date | Date | date of post |
-| caption | String | caption of post (if any) |
-| image | PFFileObject | image of post as stored in database |
+| Image | PFFileObject | image of post as stored in database |
+| Video | PFFileObject | foreground video of post |
+| Video2 | PFFileObject | background video of post |
 | imageData | UIImage | usable image of post |
-| reactions | Array<UIImage> | all reactions on this post |
-| comments | Array<String> | all comments on this post |
-| loaction | PFGeoLocation | location of post |
+| Reactions | Array<UIImage> | all reactions on this post |
+| Comments | Array<String> | all comments on this post |
+| Location | PFGeoLocation | location of post |
+| isFrontCamInForeground | BOOL | records which camera was in foreground for playback |
+
+#### Comments
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| postID | String | unique ID of post associated with the comment |
+| comment | String | the text of the comment |
+| user | PFUser | post's author |
+| username | String | username of comment's user |
+
+#### Reactions
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| postID | String | unique ID of post associated with the comment |
+| reaction | PFFileObject | the image of the reaction |
+| username | String | username of comment's user |
   
 ### Networking
 #### List of network requests by screen
+- SceneDelegate Screen
+    - (Read/GET) Get connection to Parse database
+      ```objective-c
+      ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+        NSString *ID = [dict objectForKey: @"App ID"];
+        NSString *key = [dict objectForKey: @"Client Key"];
+        NSString *kMapsAPIKey = [dict objectForKey: @"API Key"];
+        configuration.applicationId = ID;
+        configuration.clientKey = key;
+        configuration.server = self->_parseURL;
+        [GMSServices provideAPIKey:kMapsAPIKey];
+    }];
+    [Parse initializeWithConfiguration:config];
+      ```
 - Register Screen
     - (Create/POST) Create a new User
       ```objective-c
-      PFUser *newUser = [PFUser user];
-      // set user properties
-      newUser.username = self.usernameText.text;
-      newUser.password = self.passwordText.text;
-      if ([self.usernameText.text isEqualToString:@""] || [self.passwordText.text isEqualToString:@""]) {
-          [self registrationHelper];
-      } else {
-         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
-             if (error == nil) {
-                 [self resignFirstResponder];
-                 [self performSegueWithIdentifier:@"createdSegue" sender:nil];
-             } else {
-                 [self failedRegister];
-             }
-         }];
-      }
+      [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
+        completion(error);
+    }];
       ```
 - Login Screen
     - (Read/GET) Login User
       ```objective-c
-      [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
-           if (error == nil) {
-               [self resignFirstResponder];
-               [self performSegueWithIdentifier:@"loginSegue" sender:nil];
-           } else {
-               [self failedLogin];
-           }
-       }];
+      [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+        completion(error);
+    }];
+      ```
+- Map Screen
+   - (Read/GET) logout of user's account
+   ```objective-c
+   [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        SceneDelegate *mySceneDelegate = (SceneDelegate * ) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        WelcomeViewController *welcomeViewController = [storyboard instantiateViewControllerWithIdentifier:@"WelcomeView"];
+        mySceneDelegate.window.rootViewController = welcomeViewController;
+        [[CacheManager sharedManager] didlogout];
+    }];
+      ```
+    - (Read/GET) fetch all posts from the day
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"createdAt" greaterThanOrEqualTo:today];
+    [query whereKey:@"Location" withinPolygon:coordinates];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
+        if (parsePosts != nil) {
+            completion(parsePosts, error);
+        }
+    }];
       ```
 - Photo Screen
     - (Create/POST) Create a new post
+    ```objective-c
+    Post *newPost = [Post new];
+    UIImage *image = [self imageFromVideo:backURL atTime:_startTime];
+    newPost.Image = [self getPFFileFromImage:image];
+    newPost.Video = [self getPFFileFromUrl:frontURL];
+    newPost.Video2 = [self getPFFileFromUrl:backURL];
+    newPost.author = [PFUser currentUser];
+    newPost.Reactions = [[NSMutableArray alloc] init];
+    newPost.Comments = [[NSMutableArray alloc] init];
+    newPost.UserID = [PFUser currentUser].username;
+    newPost.isFrontCamInForeground = isFrontCamInForeground;
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+        if (!error) {
+            newPost[@"Location"] = geoPoint;
+            [newPost saveInBackgroundWithBlock: completion];
+        }
+    }];
+      ```
+- Calendar Screen
+    - (Read/GET) fetch all current month's posts
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"UserID" equalTo:user.username];
+    [query whereKey:@"createdAt" greaterThanOrEqualTo:firstDateMonth];
+    [query whereKey:@"createdAt" lessThan:lastDateMonth];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
+        if (parsePosts != nil) {
+            completion(parsePosts, error);
+        }
+    }];
+      ```
+    - (Read/GET) fetch latest post from user after they posted
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"UserID" equalTo:user.username];
+    [query whereKey:@"createdAt" greaterThanOrEqualTo:today];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parsePosts, NSError *error) {
+        if ([parsePosts count] == _increment) {
+            completion([parsePosts firstObject], YES);
+        } else {
+            completion(nil, NO);
+        }
+    }];
+      ```
+- Comments Screen
+    - (Read/GET) fetch all comments for given post
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"postID" equalTo:postID];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parseComments, NSError *error) {
+        completion(parseComments, error);
+    }];
+      ```
+    - (Read/GET) fetch latest comment for given post after current user commented
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Comments"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"postID" equalTo:postID];
+    query.limit = 1;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parseComments, NSError *error) {
+        if (parseComments.count == 1) {
+            completion([parseComments firstObject], error);
+        } else {
+            completion(nil, error);
+        }
+    }];
+      ```
+    - (Read/GET) post comment
+    ```objective-c
+    [Comments postComment:comment withPostID:postID withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        [self updateNumberCommentsWithCompletion:postID comment:comment];
+        [self fetchLastCommentWithCompletion:postID completion:^(Comments *comment, NSError *error) {
+            completion(comment, error);
+        }];
+    }];
+      ```
+    - (Read/GET) update number of reactions after the user reacted for other screens
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query getObjectInBackgroundWithId:postID block:^(PFObject *post, NSError *error) {
+        NSMutableArray *newComments = (NSMutableArray *)post[@"Comments"];
+        [newComments addObject:comment];
+        post[@"Comments"] = newComments;
+        [post saveInBackground];
+    }];
+      ```
+- Reactions Screen
+    - (Read/GET) fetch all reactions for given post
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Reactions"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"postID" equalTo:postID];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parseReactions, NSError *error) {
+        completion(parseReactions, error);
+    }];
+      ```
+    - (Read/GET) fetch latest reaction for given post after current user reacted
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Reactions"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"postID" equalTo:postID];
+    query.limit = 1;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *parseReactions, NSError *error) {
+        if (parseReactions.count == 1) {
+            completion([parseReactions firstObject], error);
+        } else {
+            completion(nil, error);
+        }
+    }];
+      ```
+    - (Read/GET) post reaction
+    ```objective-c
+    [Reactions postReaction:reaction withPostID:postID withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        [self updateNumberReactionsWithCompletion:postID reaction:reaction];
+        [self fetchLastReactionWithCompletion:postID completion:^(Reactions *reaction, NSError *error) {
+            completion(reaction, error);
+        }];
+    }];
+      ```
+    - (Read/GET) fetch latest reaction for given post after current user reacted
+    ```objective-c
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query getObjectInBackgroundWithId:postID block:^(PFObject *post, NSError *error) {
+        NSMutableArray *newReactions = (NSMutableArray *)post[@"Reactions"];
+        PFFileObject *image = [Post getPFFileFromImage:reaction];
+        [newReactions addObject:image];
+        post[@"Reactions"] = newReactions;
+        [post saveInBackground];
+    }];
+      ```
