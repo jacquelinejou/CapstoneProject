@@ -96,7 +96,7 @@ Take5 is a social media app that sends out a daily notification to users, gives 
 * Calendar Screen -> Video playing screen with the tapped cell's video
 
 ## Wireframes
-<img src="https://github.com/jacquelinejou/CapstoneProject/blob/main/Screen%20Shot%202022-07-19%20at%2010.24.42%20AM.png" width=600>
+<img src="https://github.com/jacquelinejou/CapstoneProject/blob/main/Screen%20Shot%202022-08-05%20at%205.02.24%20PM.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
