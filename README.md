@@ -100,25 +100,25 @@ Take5 is a social media app that sends out a daily notification to users, gives 
 
 ### [BONUS] Interactive Prototype
 
-** Map Scroll Bar & markers **
+# Map Scroll Bar & markers
 https://user-images.githubusercontent.com/73207898/183226089-d62957b1-c40a-492f-af89-30c2ef9d6473.mp4
 
-** Map fetching data as it comes into frame **
+# Map fetching data as it comes into frame
 https://user-images.githubusercontent.com/73207898/183226125-51fa2154-5435-427c-8e79-551a309adaf2.mp4
 
-** Tapping cell in Map scroll bar to show post details **
+# Tapping cell in Map scroll bar to show post details
 https://user-images.githubusercontent.com/73207898/183226147-c07e3457-cacd-4cf2-afef-441f9cdad571.mp4
 
-** Tapping number of comments in post details to see comments and add comment **
+# Tapping number of comments in post details to see comments and add comment
 https://user-images.githubusercontent.com/73207898/183226162-ed070d0e-5841-47c2-9e00-8c6228c52b47.mp4
 
-** Tapping number of reactions in post details to see reactions and add reaction **
+# Tapping number of reactions in post details to see reactions and add reaction
 https://user-images.githubusercontent.com/73207898/183226178-1a265e94-7d9c-44eb-8f48-15574f0012df.mp4
 
-** Tapping a cell in calendar to see video of the day **
+# Tapping a cell in calendar to see video of the day
 https://user-images.githubusercontent.com/73207898/183226193-8965b90b-4f08-4dae-806b-7062dd5f06e0.mp4
 
-** Getting post notification and posting a video. Watch it play back and go back to map. **
+# Getting post notification and posting a video. Watch it play back and go back to map.
 https://user-images.githubusercontent.com/73207898/183226494-1e8941d8-6bbc-4c1e-905b-1ff81b2b6a37.mp4
 
 ## Schema
